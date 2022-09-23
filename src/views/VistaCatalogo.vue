@@ -5,28 +5,44 @@ const zapatillas = [
     {
         nombre: 'Jordan 1',
         tipo: 'Anashe',
+<<<<<<< HEAD
         imagen: require("../assets/zapatillaDefault.png"),
+=======
+        imagen: require("../assets/zapatillas/zapatillaDefault.png"),
+>>>>>>> PaulQuezada
         precio: '125.000',
         descripcion: 'Ta wena la jordan oe',
     },
     {
         nombre: 'Jordan 2',
         tipo: 'Anashe',
+<<<<<<< HEAD
         imagen: require("../assets/zapatillaDefault.png"),
+=======
+        imagen: require("../assets/zapatillas/zapatillaDefault.png"),
+>>>>>>> PaulQuezada
         precio: '200.000',
         descripcion: 'Si el 1 es weno, el 2 es mejor',
     },
     {
         nombre: 'Jordan 3',
         tipo: 'Anashe',
+<<<<<<< HEAD
         imagen: require("../assets/zapatillaDefault.png"),
+=======
+        imagen: require("../assets/zapatillas/zapatillaDefault.png"),
+>>>>>>> PaulQuezada
         precio: '250.000',
         descripcion: 'Es una breve descripcion de la zapatilla 3',
     },
     {
         nombre: 'Jordan 4',
         tipo: 'Anashe',
+<<<<<<< HEAD
         imagen: require("../assets/zapatillaDefault.png"),
+=======
+        imagen: require("../assets/zapatillas/zapatillaDefault.png"),
+>>>>>>> PaulQuezada
         precio: '1.000.000',
         descripcion: 'Descripcion zapatilla 4',
     },

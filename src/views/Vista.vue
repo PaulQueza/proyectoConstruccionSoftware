@@ -98,7 +98,11 @@ export default {
                 nombre: 'Jordan 1',
                 marca: 'Nike',
                 talla: '12 US',
+<<<<<<< HEAD
                 imagen: require("../assets/zapatillaDefault.png"),
+=======
+                imagen: require("../assets/zapatillas/zapatillaDefault.png"),
+>>>>>>> PaulQuezada
                 precio: '125.000',
                 descripcion: 'Ta wena la jordan oe',
             },
@@ -107,7 +111,11 @@ export default {
                 nombre: 'Jordan 2',
                 talla: '11 US',
                 marca: 'Adidas',
+<<<<<<< HEAD
                 imagen: require("../assets/zapatillaDefault.png"),
+=======
+                imagen: require("../assets/zapatillas/zapatillaDefault.png"),
+>>>>>>> PaulQuezada
                 precio: '200.000',
                 descripcion: 'Si el 1 es weno, el 2 es mejor',
             },
@@ -116,7 +124,11 @@ export default {
                 nombre: 'Jordan 3',
                 talla: '23 EUR',
                 marca: 'Adidas',
+<<<<<<< HEAD
                 imagen: require("../assets/zapatillaDefault.png"),
+=======
+                imagen: require("../assets/zapatillas/zapatillaDefault.png"),
+>>>>>>> PaulQuezada
                 precio: '250.000',
                 descripcion: 'Es una breve descripcion de la zapatilla 3',
             },
@@ -125,7 +137,11 @@ export default {
                 nombre: 'Jordan 4',
                 talla: '24 EUR',
                 marca: 'Lol',
+<<<<<<< HEAD
                 imagen: require("../assets/zapatillaDefault.png"),
+=======
+                imagen: require("../assets/zapatillas/zapatillaDefault.png"),
+>>>>>>> PaulQuezada
                 precio: '1.000.000',
                 descripcion: 'Descripcion zapatilla 4',
             },
