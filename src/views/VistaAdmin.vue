@@ -13,7 +13,11 @@
                             </v-text-field>
 
 
+<<<<<<< HEAD
                             <v-textarea v-model="descripcion"
+=======
+                            <v-textarea v-model="descripción"
+>>>>>>> AlvaroHerrera
                                 :rules="[() => !!descripcion || 'Este campo no puede estar vacio']" label="Descripcion"
                                 required>
                             </v-textarea>

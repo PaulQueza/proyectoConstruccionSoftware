@@ -99,10 +99,14 @@ export default {
                 marca: 'Nike',
                 talla: '12 US',
 <<<<<<< HEAD
+<<<<<<< HEAD
                 imagen: require("../assets/zapatillaDefault.png"),
 =======
                 imagen: require("../assets/zapatillas/zapatillaDefault.png"),
 >>>>>>> PaulQuezada
+=======
+                imagen: require("../assets/zapatillaDefault.png"),
+>>>>>>> AlvaroHerrera
                 precio: '125.000',
                 descripcion: 'Ta wena la jordan oe',
             },
@@ -112,10 +116,14 @@ export default {
                 talla: '11 US',
                 marca: 'Adidas',
 <<<<<<< HEAD
+<<<<<<< HEAD
                 imagen: require("../assets/zapatillaDefault.png"),
 =======
                 imagen: require("../assets/zapatillas/zapatillaDefault.png"),
 >>>>>>> PaulQuezada
+=======
+                imagen: require("../assets/zapatillaDefault.png"),
+>>>>>>> AlvaroHerrera
                 precio: '200.000',
                 descripcion: 'Si el 1 es weno, el 2 es mejor',
             },
@@ -125,10 +133,14 @@ export default {
                 talla: '23 EUR',
                 marca: 'Adidas',
 <<<<<<< HEAD
+<<<<<<< HEAD
                 imagen: require("../assets/zapatillaDefault.png"),
 =======
                 imagen: require("../assets/zapatillas/zapatillaDefault.png"),
 >>>>>>> PaulQuezada
+=======
+                imagen: require("../assets/zapatillaDefault.png"),
+>>>>>>> AlvaroHerrera
                 precio: '250.000',
                 descripcion: 'Es una breve descripcion de la zapatilla 3',
             },
@@ -138,10 +150,14 @@ export default {
                 talla: '24 EUR',
                 marca: 'Lol',
 <<<<<<< HEAD
+<<<<<<< HEAD
                 imagen: require("../assets/zapatillaDefault.png"),
 =======
                 imagen: require("../assets/zapatillas/zapatillaDefault.png"),
 >>>>>>> PaulQuezada
+=======
+                imagen: require("../assets/zapatillaDefault.png"),
+>>>>>>> AlvaroHerrera
                 precio: '1.000.000',
                 descripcion: 'Descripcion zapatilla 4',
             },
