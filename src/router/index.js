@@ -8,55 +8,37 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: () => import('../views/VistaCatalogo.vue')
   },
   {
     path: '/about',
     name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    component: () => import('../views/AboutView.vue')
   },
   {
     path: '/catalogoHombre',
     name: 'catalogoHombre',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/VistaCatalogo.vue')
+    component: () => import('../views/VistaCatalogo.vue')
   },
   {
     path: '/login',
     name: 'login',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/VistaLogin.vue')
+    component: () => import('../views/VistaLogin.vue')
   },
   {
     path: '/crearcuenta',
     name: 'crearcuenta',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/VistaCrearCuenta.vue')
+    component: () => import('../views/VistaCrearCuenta.vue')
   },
   {
-    path: '/viejoscachondosa2cuadras',
-    name: 'adminPrueba',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/VistaAdmin.vue')
+    path: '/catalogoMarca',
+    name: 'catalogomarca',
+    component: () => import('../views/VistaMarca.vue')
   },
   {
     path: '/login/admin',
     name: 'admin',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Vista.vue')
+    component: () => import('../views/Vista.vue')
   },
 ]
 
