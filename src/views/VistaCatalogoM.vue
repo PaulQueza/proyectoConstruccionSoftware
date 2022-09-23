@@ -130,7 +130,6 @@ const zapatillasM = [
     <v-main>
         <v-container>
             <v-row>
-
                 <v-col v-for="ArrayZapatillas in zapatillasM" :key="ArrayZapatillas.nombre" cols="3">
                     <v-card height="500" width="500" outlined center>
                         <v-img height="200" width="300" :src="ArrayZapatillas.imagen">
