@@ -8,17 +8,22 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => import('../views/VistaCatalogo.vue')
+    component: () => import('../views/VistaCatalogoM.vue')
   },
   {
     path: '/about',
-    name: 'about',
+    name: 'About',
     component: () => import('../views/AboutView.vue')
   },
   {
     path: '/catalogoHombre',
     name: 'catalogoHombre',
-    component: () => import('../views/VistaCatalogo.vue')
+    component: () => import('../views/VistaCatalogoM.vue')
+  },
+  {
+    path: '/catalogoMujer',
+    name: 'catalogoMujer',
+    component: () => import('../views/VistaCatalogoF.vue')
   },
   {
     path: '/login',
@@ -27,8 +32,12 @@ const routes = [
   },
   {
     path: '/crearcuenta',
-    name: 'crearcuenta',
     component: () => import('../views/VistaCrearCuenta.vue')
+  },
+  {
+    path: '/inventario/admin ',
+    name: 'adminPrueba',
+    component: () => import('../views/VistaAdmin.vue')
   },
   {
     path: '/catalogoMarca',
