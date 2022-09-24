@@ -150,11 +150,5 @@ const zapatillasF = [
                 </v-col>
             </v-row>
         </v-container>
-
-        <v-container>
-            <div class="text-center">
-                <v-pagination :length="4" prev-icon="mdi-menu-left" next-icon="mdi-menu-right" circle></v-pagination>
-            </div>
-        </v-container>
     </v-main>
 </template>
