@@ -35,7 +35,7 @@ const routes = [
     component: () => import('../views/VistaCrearCuenta.vue')
   },
   {
-    path: '/inventario/admin ',
+    path: '/inventario/admin',
     name: 'adminPrueba',
     component: () => import('../views/VistaAdmin.vue')
   },

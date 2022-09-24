@@ -1,68 +1,72 @@
 <template>
     <v-app>
         <v-row class="mx-2 mt-3">
-            <v-navigation-drawer v-model="drawer" width="300">
-                
-                    <v-form @submit.prevent="agregarProducto">
-                        <h1>
-                            Añadir productos
-                        </h1>
-                        <v-col cols="12" sm="10" md="10">
+            <v-dialog v-model="drawer" width="300">    
+            <v-card>
+                <v-card-title>
+                    <span class="text-h5">Agregar productos</span>
+                </v-card-title>
+                <v-card-text>
+                    <v-container    >
+                        <v-row justify = "center">
+                            <v-form @submit.prevent="agregarProducto">
+                            <v-col cols="12" sm="10" md="10">
                             <v-text-field v-model="name" :rules="[() => !!name || 'Este campo no puede estar vacio']"
                                 label="Nombre" required>
-                            </v-text-field>
-
-
-<<<<<<< HEAD
-                            <v-textarea v-model="descripcion"
-=======
-                            <v-textarea v-model="descripción"
->>>>>>> AlvaroHerrera
-                                :rules="[() => !!descripcion || 'Este campo no puede estar vacio']" label="Descripcion"
+                             </v-text-field>
+                             <v-text-field v-model="marca"
+                                :rules="[() => !!marca || 'Este campo no puede estar vacio']" label="Marca"
                                 required>
-                            </v-textarea>
-
-
-                            <v-text-field v-model="precio"
+                             </v-text-field>
+                             <v-text-field v-model="precio"
                                 :rules="[() => !!precio || 'Este campo no puede estar vacio']" label="Precio" required>
                             </v-text-field>
-
-
                             <v-file-input v-model="imagen" :rules="rules" accept="image/png, image/jpeg"
-                                placeholder=" Busca la
-                                imagen" prepend-icon="mdi-camera" label="Imagen">
+                                placeholder=" Busca la imagen" prepend-icon="mdi-camera" label="Imagen">
                             </v-file-input>
-
-
                             <v-btn class="white--text" color="teal lighten-2" type="submit">
                                 Agregar
                             </v-btn>
                         </v-col>
-                    </v-form>
-                
-            </v-navigation-drawer>
-            <v-row class="mx-12 mt-11">
-                <container>
-                    <v-row class="mb-10" v-for="zapatilla in zapatillas" :key="zapatilla.nombre">
-                        <img :src="zapatilla.imagen" width="150" height="100" />
+                        </v-form>
+                        </v-row>
+                    </v-container>
+                </v-card-text>
+            </v-card>
+            </v-dialog>
+            
+            <v-row class="mx-12 mt-4"  justify="center">
+                <v-container fluid style="margin: 0px; padding: 0px; width: 40%">
+                    <v-row class="mb-12" v-for="zapatilla in zapatillas" :key="zapatilla.id">
+                        <img :src="zapatilla.imagen" width="160" height="150" />
                         <v-col>
-                            <h1>{{zapatilla.nombre}}</h1>
-                            <p>{{zapatilla.descripcion}}</p>
+                            <h1 style="font-size:170%" >{{zapatilla.nombre}}</h1>
+                            <p style="font-size:90%"> 
+                                Marca: {{zapatilla.marca}}<br>
+                                Tipo: {{zapatilla.tipo}} <br>
+                                Precio: {{zapatilla.precio}}<br>
+                                Tallas: {{zapatilla.talla}}<br>
+                                Color: {{zapatilla.color}}<br>
+                            </p>
+                           
                         </v-col>
                         <v-btn class="mx-3" color="teal lighten-2" fab @click="eliminarProducto(zapatilla.id)">
                             <Icon icon="fluent:delete-16-regular" width="30" height="30" />
                         </v-btn>
-                        <v-btn color="teal lighten-2" fab>
+                        <v-btn color="teal lighten-2" fab @click="editarProducto(zapatilla.id)">
                             <Icon icon="clarity:edit-solid" width="30" height="30" />
                         </v-btn>
 
                     </v-row>
-                </container>
-                <v-spacer></v-spacer>
-                <v-btn @click="drawer = !drawer" fab>
-                    <Icon @click="drawer = !drawer" icon="carbon:add-filled" color="#4db6ac" width="66" height="66" />
-                </v-btn>
+                </v-container>
             </v-row>
+            <div style: width="30px">
+                <v-row no-gutters justify = "end" >
+                    <v-btn @click="drawer = !drawer" fab>
+                        <Icon @click="drawer = !drawer" icon="carbon:add-filled" color="#4db6ac" width="66" height="66" />
+                    </v-btn>                
+                </v-row>
+            </div>
         </v-row>
     </v-app>
 
@@ -72,42 +76,52 @@ import { Icon } from "@iconify/vue2";
 export default {
     data: () => ({
         name: null,
-        descripcion: null,
+        marca: null,
+        tipo: null,
         precio: null,
         imagen: null,
         drawer: false,
+        dialog: false,
         zapatillas: [
             {
                 id: 1,
-                nombre: 'Jordan 1',
-                tipo: 'Anashe',
-                imagen: require("../assets/zapatillaDefault.png"),
-                precio: '125.000',
-                descripcion: 'Ta wena la jordan oe',
+                nombre: 'Adidas Forum Low',
+                marca: 'Adidas',
+                tipo: 'Urbana',
+                imagen: require("../assets/Adidas2.jpg"),
+                precio: '$84.990',
+                talla: '41 43 44',
+                color: 'Blanco',
             },
             {
                 id: 2,
-                nombre: 'Jordan 2',
-                tipo: 'Anashe',
-                imagen: require("../assets/zapatillaDefault.png"),
-                precio: '200.000',
-                descripcion: 'Si el 1 es weno, el 2 es mejor',
+                nombre: 'Nike Blazer Mid 77',
+                marca: 'Nike',
+                tipo: 'Urbana',
+                imagen: require("../assets/Nike1.jpg"),
+                precio: '$106.990',
+                talla: '42 43 44',
+                color: 'Blanco',
             },
             {
                 id: 3,
-                nombre: 'Jordan 3',
-                tipo: 'Anashe',
-                imagen: require("../assets/zapatillaDefault.png"),
-                precio: '250.000',
-                descripcion: 'Es una breve descripcion de la zapatilla 3',
+                nombre: 'Puma MAYZE STACK',
+                marca: 'Puma',
+                tipo: 'Casual',
+                imagen: require("../assets/Puma3.jpg"),
+                precio: '$94.990',
+                talla: '35 36',
+                color: 'Negro',
             },
             {
                 id: 4,
-                nombre: 'Jordan 4',
-                tipo: 'Anashe',
-                imagen: require("../assets/zapatillaDefault.png"),
-                precio: '1.000.000',
-                descripcion: 'Descripcion zapatilla 4',
+                nombre: 'On Cloud 5',
+                marca: 'On cloud',
+                tipo: 'Deportiva',
+                imagen: require("../assets/OnCloud3.jpg"),
+                precio: '$139.990',
+                talla: '35 36 37',
+                color: 'Rosado',
             },
         ],
         rules: [
@@ -119,7 +133,7 @@ export default {
     },
     methods: {
         agregarProducto() {
-            if (this.name === '' || this.descripcion === '' || this.precio === '' || this.imagen === '') {
+            if (this.name == '' || this.descripcion == '' || this.precio == '' || this.imagen == '') {
                 console.log("Datos vacios")
             } else {
                 this.zapatillas.push({
@@ -136,6 +150,9 @@ export default {
         eliminarProducto(id) {
             console.log(id)
             this.zapatillas = this.zapatillas.filter(e => e.id != id)
+        },
+        editarProducto(id){
+            
         }
     }
 }

@@ -1,10 +1,7 @@
 <template>
     <v-app>
-
         <v-spacer></v-spacer>
-
         <v-card class="ml-12 mr-12 mb-12">
-            
             <v-container class="mx-12 mb-12">
                 <h1>
                     Gestion de catálogo
@@ -63,7 +60,7 @@
                 </v-card>
                 <v-spacer></v-spacer>
                 <v-col>
-                    <v-btn class="mb-12 white--text" color="teal lighten-2">
+                    <v-btn class="mb-12 white--text" color="teal lighten-2" @click="dialog = !dialog">
                         Agregar
                     </v-btn>
                     <v-spacer></v-spacer>
@@ -76,10 +73,31 @@
                     </v-btn>
                 </v-col>
             </v-row>
-            
         </v-card>
         <v-spacer></v-spacer>
+        <v-dialog
+          v-model="dialog"
+          max-width="500px"
+        >
+          <v-card>
+            <v-card-text>
+              <v-text-field label="File name"></v-text-field>
 
+              <small class="grey--text">* This doesn't actually save.</small>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                text
+                color="primary"
+                @click="dialog = false"
+              >
+                Submit
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
     </v-app>
 </template>
 <script>
@@ -92,6 +110,7 @@ export default {
         imagen: null,
         drawer: false,
         singleSelect: null,
+        dialog: false,
         zapatillas: [
             {
                 id: 1,
