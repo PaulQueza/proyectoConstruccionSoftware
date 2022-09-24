@@ -1,8 +1,9 @@
 <template>
   <v-app>
-    <v-app-bar color="teal lighten-2" app
-    height="100">
-      <v-img class="mx-12" max-height="100" max-width="100" src="./assets/icono/logo.png"></v-img>
+    <v-app-bar color="teal lighten-2" app height="100">
+      <router-link to="/">
+        <v-img class="mx-12" max-height="100" max-width="100" src="./assets/icono/logo.png"></v-img>
+      </router-link>
       <v-tabs centered class="ml-n9" color="white" light>
         <v-tab to="/catalogoHombre">
           Hombre
@@ -26,7 +27,7 @@
               <Icon icon="ant-design:user-outlined" />
             </v-btn>
             <v-btn color="teal lighten-5" rounded class="mx-1" to="/carritocompras">
-              <Icon icon="maki:shop"/>
+              <Icon icon="maki:shop" />
             </v-btn>
           </div>
         </v-row>
@@ -63,6 +64,12 @@ export default {
   }),
   components: {
     Icon
+  },
+  methods: {
+    evento() {
+      console.log("SSS")
+
+    },
   }
 };
 </script>

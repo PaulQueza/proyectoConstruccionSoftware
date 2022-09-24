@@ -8,7 +8,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => import('../views/VistaCatalogoM.vue')
+    component: () => import('../views/VistaCatalogo.vue')
   },
   {
     path: '/about',
@@ -43,11 +43,6 @@ const routes = [
     path: '/catalogoMarca',
     name: 'catalogomarca',
     component: () => import('../views/VistaMarca.vue')
-  },
-  {
-    path: '/login/admin',
-    name: 'admin',
-    component: () => import('../views/Vista.vue')
   },
 ]
 
