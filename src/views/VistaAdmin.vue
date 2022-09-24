@@ -81,6 +81,7 @@ export default {
         precio: null,
         imagen: null,
         drawer: false,
+        dialog: false,
         zapatillas: [
             {
                 id: 1,
