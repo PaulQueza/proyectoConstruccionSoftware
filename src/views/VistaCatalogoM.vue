@@ -1,7 +1,19 @@
 <script setup>
 import { ref } from 'vue'
+import { Icon } from "@iconify/vue2";
+
 const cambiarNombre = ref('')
-const zapatillasM = [
+const hidden = ref(false)
+const nombre = ref('')
+const metodo1 = (parametro)=>{
+    hidden.value=true
+    nombre.value = parametro
+}
+const metodo2 = (parametro)=>{
+    hidden.value=false
+    nombre.value = parametro
+}
+const zapatillas = [
     {
         nombre: 'Adidas TRACEFINDER ',
         marca: 'Adidas',
@@ -11,7 +23,7 @@ const zapatillasM = [
         color: 'Negro',
         talla: '38 40 42 43',
         sexo: "M",
-        
+
     },
     {
         nombre: 'Under Armour Mojo 2',
@@ -124,31 +136,47 @@ const zapatillasM = [
         sexo: "M",
     },
 ]
-
 </script>
 <template>
     <v-main>
         <v-container>
             <v-row>
-                <v-col v-for="ArrayZapatillas in zapatillasM" :key="ArrayZapatillas.nombre" cols="3">
-                    <v-card height="500" width="500" outlined center>
+                <v-col v-for="ArrayZapatillas in zapatillas" :key="ArrayZapatillas.nombre" cols="3">
+                    <v-card height="400" width="500" outlined center @mouseover="metodo1(ArrayZapatillas.nombre)" @mouseleave="metodo2(ArrayZapatillas.nombre)">
+                        <v-container>
+                            <v-row>
+                                <v-spacer></v-spacer>
+                                <v-fab-transition v-if="nombre == ArrayZapatillas.nombre">
+                                    <v-btn
+                                    v-show="hidden"
+                                    color="teal lighten-2"
+                                    dark
+                                    absolute
+                                    top
+                                    right
+                                    fab
+                                >
+                                    <Icon icon="ep:shopping-trolley" width="20" height="20" />
+                                </v-btn>
+                                </v-fab-transition>
+                            </v-row>
+                        </v-container>
                         <v-img height="200" width="300" :src="ArrayZapatillas.imagen">
                         </v-img>
                         <h3>
-                            {{ArrayZapatillas.nombre}}
+                            Nombre: {{ArrayZapatillas.nombre}}
                         </h3>
                         <p>
-                            {{ArrayZapatillas.tipo}}
-                        </p>
-                        <p>
-                            {{ArrayZapatillas.talla}}
+                            descripcion: {{ArrayZapatillas.descripcion}}
                         </p>
                         <span>
                             Precio: ${{ArrayZapatillas.precio}} CLP
-                        </span>                
+                        </span>
+                        <v-spacer></v-spacer>
                     </v-card>
                 </v-col>
             </v-row>
-        </v-container>   
+        </v-container>
+        
     </v-main>
 </template>

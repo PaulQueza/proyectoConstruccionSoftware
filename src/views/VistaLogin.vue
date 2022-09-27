@@ -29,7 +29,7 @@
                                 Crear Cuenta
                             </v-btn>
                             <v-spacer></v-spacer>
-                            <v-btn color="teal lighten-2" class="white--text">
+                            <v-btn color="teal lighten-2" class="white--text" :class="visibilidadBotonCrear" :disabled="visivilidadBton">
                                 Ingresar
                             </v-btn>
                         </v-card-actions>
@@ -50,10 +50,21 @@ export default {
         name: null,
         show1: false,
         password: '',
+        visivilidadBton:true,
         rules: {
             min: v => v.length >= 8 || 'Minimo 8 caracteres',
         },
     }),
+    computed: {
+
+        visibilidadBotonCrear() {
+            if(this.name=='' || this.email=='' || this.verifyemail==''||  this.password=='' || this.verifypassword==''){
+                this.visivilidadBton = true
+            }else{
+                this.visivilidadBton = false
+            }
+        },
+    },
     watch: {
         name() {
             this.errorMessages = ''
