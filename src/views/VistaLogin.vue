@@ -29,7 +29,7 @@
                                 Crear Cuenta
                             </v-btn>
                             <v-spacer></v-spacer>
-                            <v-btn color="teal lighten-2" class="white--text" :class="visibilidadBotonCrear" :disabled="visivilidadBton">
+                            <v-btn color="teal lighten-2" class="white--text" :class="visibilidadBotonCrear" :disabled="visivilidadBton" @click="verificarUsuario(name,password)">
                                 Ingresar
                             </v-btn>
                         </v-card-actions>
@@ -44,6 +44,19 @@
 </template>
 
 <script>
+    const usuarios = [
+        {
+            nombre: 'Matias',
+            correo: 'Matias@gmail.com',
+            contraseña: 'matias111',
+
+        },
+        {
+            nombre: 'Cristian',
+            correo: 'Cristian@gmail.com',
+            contraseña: 'cris1234567',
+        },
+    ]   
 export default {
     data: () => ({
         errorMessages: '',
@@ -53,13 +66,13 @@ export default {
         visivilidadBton:true,
         rules: {
             min: v => v.length >= 8 || 'Minimo 8 caracteres',
+            
         },
     }),
     computed: {
-
         visibilidadBotonCrear() {
             if(this.name=='' || this.email=='' || this.verifyemail==''||  this.password=='' || this.verifypassword==''){
-                this.visivilidadBton = true
+                this.visivilidadBton = true  
             }else{
                 this.visivilidadBton = false
             }
@@ -69,6 +82,36 @@ export default {
         name() {
             this.errorMessages = ''
         },
+    },
+
+
+    methods: {
+        verificarUsuario(name,password){
+            var estado=false
+            if(password == '' || name==''){               
+                console.log("error") 
+            }else{
+                this.visivilidadBton=false 
+                for(var i=0;i<usuarios.length;i++){
+                    //console.log("NAME: "+name+" == "+"guarado "+usuarios[i].nombre)
+                    //console.log("contraseña: "+password+" == "+"guarado "+usuarios[i].contraseña)
+                    if(name==usuarios[i].nombre&&password==usuarios[i].contraseña){
+                        console.log("Ingreso como el  usuario "+name)
+                        estado=true
+                    }
+                    else{
+                        //console.log("error usuario o contraseña")
+                    } 
+                }
+                if(estado){
+                    console.log("Ingreso corecto")
+                }else{
+                    console.log("error usuario o contraseña")
+                }
+                
+                
+            }
+        }
     },
 }
 </script>
