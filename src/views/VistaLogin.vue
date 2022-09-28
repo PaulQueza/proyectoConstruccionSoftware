@@ -29,7 +29,7 @@
                                 Crear Cuenta
                             </v-btn>
                             <v-spacer></v-spacer>
-                            <v-btn color="teal lighten-2" class="white--text">
+                            <v-btn color="teal lighten-2" class="white--text" :class="visibilidadBotonCrear" :disabled="visivilidadBton" @click="verificarUsuario(name,password)" :to="cambiar">
                                 Ingresar
                             </v-btn>
                         </v-card-actions>
@@ -44,20 +44,69 @@
 </template>
 
 <script>
+    const usuarios = [
+        {
+            nombre: 'Matias',
+            correo: 'Matias@gmail.com',
+            contraseña: 'matias111',
+
+        },
+        {
+            nombre: 'Cristian',
+            correo: 'Cristian@gmail.com',
+            contraseña: 'cris1234567',
+        },
+    ]   
 export default {
     data: () => ({
         errorMessages: '',
         name: null,
         show1: false,
         password: '',
+        visivilidadBton:true,
+        cambiar:'',
         rules: {
             min: v => v.length >= 8 || 'Minimo 8 caracteres',
+            
         },
     }),
+    computed: {
+        visibilidadBotonCrear() {
+            if(this.name=='' || this.email=='' || this.verifyemail==''||  this.password=='' || this.verifypassword==''){
+                this.visivilidadBton = true  
+            }else{
+                this.visivilidadBton = false
+            }
+        },
+    },
     watch: {
         name() {
             this.errorMessages = ''
         },
+    },
+
+
+    methods: {
+        verificarUsuario(name,password){
+            if(password == '' || name==''){               
+                console.log("error") 
+            }else{
+                this.visivilidadBton=false 
+                for(var i=0;i<usuarios.length;i++){
+                    console.log("NAME: "+name+" == "+"guarado "+usuarios[i].nombre)
+                    console.log("contraseña: "+password+" == "+"guarado "+usuarios[i].contraseña)
+                    if(name==usuarios[i].nombre&&password==usuarios[i].contraseña){
+                        console.log("Ingreso como el  usuario "+name)
+                        this.cambiar="/"
+                    }
+                    else{
+                        console.log("error usuario o contraseña")
+                        this.cambiar='/login'
+                    } 
+                }
+                
+            }
+        }
     },
 }
 </script>
