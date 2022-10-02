@@ -46,7 +46,11 @@
 </template>
 <script>
 import { Icon } from "@iconify/vue2";
+import VistaMarca from '../views/VistaMarca.vue'
 export default {
+    props:{
+
+    },
     data() {
         return {
             hidden: null,
@@ -55,14 +59,68 @@ export default {
         };
     },
     created() {
-        this.listarZapatillas();
+        
+        console.log(this.$store.state.vistaMarcaAdidas);
+        if(this.$store.state.vistaMarcaAdidas===true){
+            console.log("ADIDAS")
+            this.listarZapatillasAdidas();
+        }else if(this.$store.state.vistaMarcaFila===true){
+            console.log("FILA")
+            this.listarZapatillasFila();
+        }else if(this.$store.state.vistaMarcaPuma===true){
+            console.log("PUMA")
+            this.listarZapatillasPuma();
+        }else if(this.$store.state.vistaMarcaNike===true){
+            console.log("NIKE")
+            this.listarZapatillasNike();
+        }else{
+            console.log("NO FILTER MARCA")
+            this.listarZapatillas();
+        }
     },
     components: {
         Icon,
+        VistaMarca
     },
     methods: {
         listarZapatillas() {
             this.axios.get('EZ-Producto')
+                .then((response) => {
+                    this.zapatillas = response.data;
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                })
+        },
+        listarZapatillasNike() {
+            this.axios.get('Productos-Nike')
+                .then((response) => {
+                    this.zapatillas = response.data;
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                })
+        },
+        listarZapatillasPuma() {
+            this.axios.get('Productos-Puma')
+                .then((response) => {
+                    this.zapatillas = response.data;
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                })
+        },
+        listarZapatillasAdidas() {
+            this.axios.get('Productos-Adidas')
+                .then((response) => {
+                    this.zapatillas = response.data;
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                })
+        },
+        listarZapatillasFila() {
+            this.axios.get('Productos-Fila')
                 .then((response) => {
                     this.zapatillas = response.data;
                 })
