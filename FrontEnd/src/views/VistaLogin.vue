@@ -44,19 +44,6 @@
 </template>
 
 <script>
-    const usuarios = [
-        {
-            nombre: 'Matias',
-            correo: 'Matias@gmail.com',
-            contraseña: 'matias111',
-
-        },
-        {
-            nombre: 'Cristian',
-            correo: 'Cristian@gmail.com',
-            contraseña: 'cris1234567',
-        },
-    ]   
 export default {
     data: () => ({
         errorMessages: '',
@@ -64,11 +51,15 @@ export default {
         show1: false,
         password: '',
         visivilidadBton:true,
+        usuarios:[],
         rules: {
             min: v => v.length >= 8 || 'Minimo 8 caracteres',
             
         },
     }),
+    created() {
+        this.listarCuentas();
+    },
     computed: {
         visibilidadBotonCrear() {
             if(this.name=='' || this.email=='' || this.verifyemail==''||  this.password=='' || this.verifypassword==''){
@@ -86,16 +77,26 @@ export default {
 
 
     methods: {
+        listarCuentas(){
+            this.axios.get("EZ-Usuario")
+                .then((response) => {
+                    this.usuarios = response.data;
+                    console.log("Usuarios Cargados")
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                })
+        },
         verificarUsuario(name,password){
             var estado=false
             if(password == '' || name==''){               
                 console.log("error") 
             }else{
                 this.visivilidadBton=false 
-                for(var i=0;i<usuarios.length;i++){
-                    //console.log("NAME: "+name+" == "+"guarado "+usuarios[i].nombre)
+                for(var i=0;i<this.usuarios.length;i++){
+                    //console.log("NAME: "+name+" == "+"guarado "+usuarios[i].xnombre)
                     //console.log("contraseña: "+password+" == "+"guarado "+usuarios[i].contraseña)
-                    if(name==usuarios[i].nombre&&password==usuarios[i].contraseña){
+                    if(name==this.usuarios[i].nombreUsuario && password==this.usuarios[i].contrasena){
                         console.log("Ingreso como el  usuario "+name)
                         estado=true
                     }
