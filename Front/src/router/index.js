@@ -44,6 +44,11 @@ const routes = [
     name: 'catalogomarca',
     component: () => import('../views/VistaMarca.vue')
   },
+  {
+    path: '/notas123',
+    name: 'notas',
+    component: () => import('../views/Notas.vue')
+  },
 ]
 
 const router = new VueRouter({
