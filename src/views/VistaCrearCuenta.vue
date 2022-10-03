@@ -44,7 +44,7 @@
                         </v-container>
                         <v-spacer></v-spacer>
                         <v-container class="text-center" >
-                            <v-btn v-model="visivilidadBton" :class="visibilidadBotonCrear" :disabled="visivilidadBton" @click="verificarEmail(email,verifyemail )" color="primary"  >
+                            <v-btn v-model="visivilidadBton" :class="visibilidadBotonCrear" :disabled="visivilidadBton" @click="verificarEmail(email,verifyemail,password,verifypassword, name )" color="primary"  >
                                 Crear cuenta
                             </v-btn>
                         </v-container>
@@ -74,6 +74,7 @@ export default {
         show1: false,
         show2: false,
         visivilidadBton:true,
+        usuarios:[],
         emailRules: [
             v => !!v || 'Correo ingresado invalido',
             v => /^[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(v) || 'Correo ingresado invalido',
@@ -85,7 +86,9 @@ export default {
             min: v => v.length >= 5 || 'Minimo 5 caracteres',
         },
     }),
-
+    created() {
+        this.listarCuentas();
+    },
     computed: {
         
         form() {
@@ -113,6 +116,16 @@ export default {
     },
 
     methods: {
+        listarCuentas(){
+            this.axios.get("EZ-Usuario")
+                .then((response) => {
+                    this.usuarios = response.data;
+                    console.log("Usuarios Cargados")
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                })
+        },
         addressCheck() {
             this.errorMessages = this.address && !this.name
                 ? `Hey! I'm required`
@@ -121,12 +134,22 @@ export default {
             return true
         },
         verificarEmail(email,emailVerificar,password,verifypassword,name){
+            
             if(email== ''|| emailVerificar== '' || password == '' || verifypassword=='' || name==''){               
                 console.log("error") 
             }else{
                 this.visivilidadBton=false
-                if(password==verifypassword && email==emailVerificar) {
-                console.log("pasa todillo")
+                if(password==verifypassword && email==emailVerificar ) {
+                    for(var i=0;i<this.usuarios.length;i++){
+                        if(name==this.usuarios[i].nombreUsuario){
+                            console.log("Usuario ya existe "+name)
+                        }
+                        //if(name==usuarios[i].nombre && email==usuarios[i].correo){
+                        //    console.log("correo ya existe "+correo)
+                       //}
+                    }
+                }else{
+                    console.log("email o contraseña incorrecta")
                 }
             }
         }

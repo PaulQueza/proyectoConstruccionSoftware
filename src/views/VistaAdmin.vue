@@ -38,7 +38,7 @@
                                     <v-file-input v-model="imagen" :rules="rules" accept="image/png, image/jpeg"
                                         placeholder=" Busca la imagen" prepend-icon="mdi-camera" label="Imagen">
                                     </v-file-input>
-                                    <v-btn @click="agregarProducto()" class="white--text" color="teal lighten-2"
+                                    <v-btn @click="agregarProducto(false)" class="white--text" color="teal lighten-2"
                                         type="submit">
                                         Agregar
                                     </v-btn>
@@ -98,8 +98,15 @@
             <!-- Mostrar los datos de las zapatillas del inventario -->
             <v-row class="mx-12 mt-4" justify="center">
                 <v-container fluid style="margin: 0px; padding: 0px; width: 40%">
-                    <v-row class="mb-12" v-for="zapatilla in zapatillas" :key="zapatilla.id">
-                        <img :src="zapatilla.imagen" width="160" height="150" />
+                    <v-row class="mb-12" v-for="zapatilla in zapatillas" :key="zapatilla._id">
+                        <v-img height="160" width="150"
+                            :src="zapatilla.imagen">
+                            <template v-slot:placeholder>
+                                <v-row class="fill-height ma-0" align="center" justify="center">
+                                    <v-progress-circular indeterminate color="teal lighten-2"></v-progress-circular>
+                                </v-row>
+                            </template>
+                        </v-img>
                         <v-col>
                             <h1 style="font-size:170%">{{zapatilla.nombre}}</h1>
                             <p style="font-size:90%">
@@ -108,9 +115,10 @@
                                 Precio: {{zapatilla.precio}}<br>
                                 Tallas: {{zapatilla.talla}}<br>
                                 Color: {{zapatilla.color}}<br>
+                                Id: {{zapatilla._id}}<br>
                             </p>
                         </v-col>
-                        <v-btn class="mx-3" color="teal lighten-2" fab @click="eliminarProducto(zapatilla.id)">
+                        <v-btn class="mx-3" color="teal lighten-2" fab @click="eliminarProducto(zapatilla.__id)">
                             <Icon icon="fluent:delete-16-regular" width="30" height="30" />
                         </v-btn>
                         <v-btn color="teal lighten-2" fab
@@ -123,7 +131,7 @@
             <!-- Boton agregar -->
             <div style: width="30px">
                 <v-row no-gutters justify="end">
-                    <v-btn @click="drawerAgregar = !drawerAgregar" fab>
+                    <v-btn @click="agregarProducto(true)" fab>
                         <Icon icon="carbon:add-filled" color="#4db6ac" width="66" height="66" />
                     </v-btn>
                 </v-row>
@@ -145,78 +153,39 @@ export default {
         imagen: null,
         drawerAgregar: false,
         drawerEditar: false,
-        zapatillas: [
-            {
-                id: 1,
-                nombre: 'Adidas Forum Low',
-                marca: 'Adidas',
-                tipo: 'Urbana',
-                imagen: require("../assets/Adidas2.jpg"),
-                precio: '$84.990',
-                talla: '41 43 44',
-                color: 'Blanco',
-            },
-            {
-                id: 2,
-                nombre: 'Nike Blazer Mid 77',
-                marca: 'Nike',
-                tipo: 'Urbana',
-                imagen: require("../assets/Nike1.jpg"),
-                precio: '$106.990',
-                talla: '42 43 44',
-                color: 'Blanco',
-            },
-            {
-                id: 3,
-                nombre: 'Puma MAYZE STACK',
-                marca: 'Puma',
-                tipo: 'Casual',
-                imagen: require("../assets/Puma3.jpg"),
-                precio: '$94.990',
-                talla: '35 36',
-                color: 'Negro',
-            },
-            {
-                id: 4,
-                nombre: 'On Cloud 5',
-                marca: 'On cloud',
-                tipo: 'Deportiva',
-                imagen: require("../assets/OnCloud3.jpg"),
-                precio: '$139.990',
-                talla: '35 36 37',
-                color: 'Rosado',
-            },
-        ],
+        zapatillas: [],
         rules: [
             value => !value || value.size < 2000000 || '¡La imagen no puede pesar mas de 2MB!',
         ],
     }),
+    created() {
+        this.listarZapatillas();
+    },
     components: {
         Icon,
     },
     methods: {
-        agregarProducto() {
-            if (this.name == '' || this.tipo == '' || this.marca == '' || this.talla == '' || this.color == '' || this.precio == '' || this.imagen == '') {
-                console.log("Datos vacios")
-            } else {
-                this.zapatillas.push({
-                    id: Date.now(),
-                    nombre: this.name,
-                    marca: this.marca,
-                    tipo: this.tipo,
-                    talla: this.talla,
-                    color: this.color,
-                    precio: this.precio,
+        listarZapatillas() {
+            this.axios.get('EZ-Producto')
+                .then((response) => {
+                    this.zapatillas = response.data;
                 })
-                this.name = null
-                this.marca = null
-                this.talla = null
-                this.color = null
-                this.imagen = null
-                this.precio = null
-                this.tipo = null
+                .catch((e) => {
+                    console.log('error' + e);
+                })
+        },
+        agregarProducto(consulta) {
+            if(consulta===true){
+                this.drawerAgregar=true;
+                this.name = ''
+                this.marca = ''
+                this.talla = ''
+                this.tipo = ''
+                this.color = ''
+                this.precio = ''
+            }else{
+                this.drawerAgregar=false;
             }
-            this.drawerAgregar = false;
         },
         eliminarProducto(id) {
             console.log(id)

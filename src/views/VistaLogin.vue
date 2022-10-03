@@ -29,7 +29,7 @@
                                 Crear Cuenta
                             </v-btn>
                             <v-spacer></v-spacer>
-                            <v-btn color="teal lighten-2" class="white--text" :class="visibilidadBotonCrear" :disabled="visivilidadBton" @click="verificarUsuario(name,password)" :to="cambiar">
+                            <v-btn color="teal lighten-2" class="white--text" :class="visibilidadBotonCrear" :disabled="visivilidadBton" @click="verificarUsuario(name,password)">
                                 Ingresar
                             </v-btn>
                         </v-card-actions>
@@ -64,12 +64,15 @@ export default {
         show1: false,
         password: '',
         visivilidadBton:true,
-        cambiar:'',
+        usuarios:[],
         rules: {
             min: v => v.length >= 8 || 'Minimo 8 caracteres',
             
         },
     }),
+    created() {
+        this.listarCuentas();
+    },
     computed: {
         visibilidadBotonCrear() {
             if(this.name=='' || this.email=='' || this.verifyemail==''||  this.password=='' || this.verifypassword==''){
@@ -87,23 +90,39 @@ export default {
 
 
     methods: {
+        listarCuentas(){
+            this.axios.get("EZ-Usuario")
+                .then((response) => {
+                    this.usuarios = response.data;
+                    console.log("Usuarios Cargados")
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                })
+        },
         verificarUsuario(name,password){
+            var estado=false
             if(password == '' || name==''){               
                 console.log("error") 
             }else{
                 this.visivilidadBton=false 
-                for(var i=0;i<usuarios.length;i++){
-                    console.log("NAME: "+name+" == "+"guarado "+usuarios[i].nombre)
-                    console.log("contraseña: "+password+" == "+"guarado "+usuarios[i].contraseña)
-                    if(name==usuarios[i].nombre&&password==usuarios[i].contraseña){
+                for(var i=0;i<this.usuarios.length;i++){
+                    //console.log("NAME: "+name+" == "+"guarado "+usuarios[i].xnombre)
+                    //console.log("contraseña: "+password+" == "+"guarado "+usuarios[i].contraseña)
+                    if(name==this.usuarios[i].nombreUsuario && password==this.usuarios[i].contrasena){
                         console.log("Ingreso como el  usuario "+name)
-                        this.cambiar="/"
+                        estado=true
                     }
                     else{
-                        console.log("error usuario o contraseña")
-                        this.cambiar='/login'
+                        //console.log("error usuario o contraseña")
                     } 
                 }
+                if(estado){
+                    console.log("Ingreso corecto")
+                }else{
+                    console.log("error usuario o contraseña")
+                }
+                
                 
             }
         }

@@ -5,6 +5,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    vistaMarcaAdidas:false,
+    vistaMarcaFila:false,
+    vistaMarcaPuma: false,
+    vistaMarcaNike:false,
   },
   getters: {
   },
