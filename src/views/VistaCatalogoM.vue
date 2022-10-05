@@ -1,7 +1,9 @@
 <template>
     <v-app>
         <v-container>
-                <v-btn @click="drawer = true" rounded fab > Filtrar</v-btn>
+            <v-btn @click="drawer = true" rounded fab color="teal lighten-2">
+                <Icon icon="bi:filter" color="white" width="40" height="40"/>
+            </v-btn>
         </v-container>
         <div align="center" >
             <v-navigation-drawer
@@ -104,6 +106,11 @@ export default {
             zapatillas: [],
             drawer: false,
             group: null,
+            Deportiva:null,
+            Casual:null,
+            Urbana:null,
+            Preciocheck: null,
+            Precio: null
         };
     },
     created() {

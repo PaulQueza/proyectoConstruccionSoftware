@@ -44,7 +44,7 @@
                         </v-container>
                         <v-spacer></v-spacer>
                         <v-container class="text-center" >
-                            <v-btn v-model="visivilidadBton" :class="visibilidadBotonCrear" :disabled="visivilidadBton" @click="verificarEmail(email,verifyemail,password,verifypassword, name )" color="primary"  >
+                            <v-btn v-model="invisivilidadBton" :class="visibilidadBotonCrear" :disabled="invisivilidadBton" @click="verificarEmail(email,verifyemail,password,verifypassword, name )" color="primary"  >
                                 Crear cuenta
                             </v-btn>
                         </v-container>
@@ -73,7 +73,7 @@ export default {
         verifypassword: '',
         show1: false,
         show2: false,
-        visivilidadBton:true,
+        invisivilidadBton:true,
         usuarios:[],
         emailRules: [
             v => !!v || 'Correo ingresado invalido',
@@ -102,9 +102,9 @@ export default {
         },
         visibilidadBotonCrear() {
             if(this.name=='' || this.email=='' || this.verifyemail==''||  this.password=='' || this.verifypassword==''){
-                this.visivilidadBton = true
+                this.invisivilidadBton = true
             }else{
-                this.visivilidadBton = false
+                this.invisivilidadBton = false
             }
         },
     },
@@ -134,22 +134,31 @@ export default {
             return true
         },
         verificarEmail(email,emailVerificar,password,verifypassword,name){
-            
+            var estadoCrearCuenta = true;
             if(email== ''|| emailVerificar== '' || password == '' || verifypassword=='' || name==''){               
                 console.log("error") 
+                estadoCrearCuenta=false;
             }else{
                 this.visivilidadBton=false
                 if(password==verifypassword && email==emailVerificar ) {
                     for(var i=0;i<this.usuarios.length;i++){
                         if(name==this.usuarios[i].nombreUsuario){
                             console.log("Usuario ya existe "+name)
+                            estadoCrearCuenta=false;
                         }
-                        //if(name==usuarios[i].nombre && email==usuarios[i].correo){
-                        //    console.log("correo ya existe "+correo)
-                       //}
+                        if(email==this.usuarios[i].correo){
+                            console.log("Correo ya existe "+email)
+                            estadoCrearCuenta=false;
+                        }
                     }
                 }else{
                     console.log("email o contraseña incorrecta")
+                    estadoCrearCuenta=false;
+                }
+                if(estadoCrearCuenta){
+                    console.log("CREAR CUENTA")
+                }else{
+                    console.log("ERROR AL CREAR LA CUENTA")
                 }
             }
         }
