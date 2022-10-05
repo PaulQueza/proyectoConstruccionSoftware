@@ -120,7 +120,24 @@ export default {
         };
     },
     created() {
-        this.listarZapatillas();
+        
+        console.log(this.$store.state.vistaMarcaAdidas);
+        if(this.$store.state.vistaMarcaAdidas===true){
+            console.log("ADIDAS")
+            this.listarZapatillasAdidas();
+        }else if(this.$store.state.vistaMarcaFila===true){
+            console.log("FILA")
+            this.listarZapatillasFila();
+        }else if(this.$store.state.vistaMarcaPuma===true){
+            console.log("PUMA")
+            this.listarZapatillasPuma();
+        }else if(this.$store.state.vistaMarcaNike===true){
+            console.log("NIKE")
+            this.listarZapatillasNike();
+        }else{
+            console.log("NO FILTER MARCA")
+            this.listarZapatillas();
+        }
     },
     components: {
         Icon,

@@ -1,6 +1,8 @@
 <template>
     <v-app >
         <v-spacer></v-spacer>
+        <!-- <v-alert :v-model="mostrarIncio" type="success">
+       I'm a success alert.</v-alert> -->
         <v-row justify="center">
             <v-col cols="2" sm="10" md="8" lg="5">
                 <div color="teal lighten-2">
@@ -64,6 +66,7 @@ export default {
         show1: false,
         password: '',
         visivilidadBton:true,
+        mostrarInicio: null,
         usuarios:[],
         rules: {
             min: v => v.length >= 8 || 'Minimo 8 caracteres',
@@ -119,6 +122,7 @@ export default {
                 }
                 if(estado){
                     console.log("Ingreso corecto")
+                    
                 }else{
                     console.log("error usuario o contraseña")
                 }

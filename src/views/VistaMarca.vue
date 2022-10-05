@@ -1,17 +1,6 @@
 <template>
 
     <v-main>
-        <!-- <v-carousel hide-delimiter-background cycle>
-            <v-container class="mt-12">
-                <v-row v-for="marca in marcas" :key="marca.id" align="center" justify="center">
-                    <v-carousel-item he>
-                        <v-btn color="black" text rounded height="300" width="300" @click="redirigirCatalogo(marca.nombre)" to="/">
-                            <Icon :icon="marca.icono" width="300" height="300" />
-                        </v-btn>
-                    </v-carousel-item>
-                </v-row>
-            </v-container>
-        </v-carousel> -->
         <v-carousel hide-delimiter-background cycle>
             <v-container class="mt-12">
                 <v-row align="center" justify="center">
@@ -100,7 +89,7 @@ export default {
             } else {
                 console.log("ERROR MARCA")
             }
-            this.$router.push({ name: "home"})
+            this.$router.push({ name: "filterMarca"})
         },
 
     },

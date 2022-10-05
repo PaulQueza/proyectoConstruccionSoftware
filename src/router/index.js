@@ -44,9 +44,9 @@ const routes = [
     component: () => import('../views/VistaMarca.vue')
   },
   {
-    path: '/notas123',
-    name: 'notas',
-    component: () => import('../views/Notas.vue')
+    path: '/filterMarca',
+    name: 'filterMarca',
+    component: () => import('../views/VistaCatalogoMarcas.vue')
   },
 ]
 
