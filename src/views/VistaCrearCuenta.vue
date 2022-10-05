@@ -90,6 +90,7 @@ export default {
         this.listarCuentas();
     },
     computed: {
+        
         form() {
             return {
                 name: this.name,

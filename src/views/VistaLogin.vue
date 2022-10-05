@@ -44,6 +44,19 @@
 </template>
 
 <script>
+    const usuarios = [
+        {
+            nombre: 'Matias',
+            correo: 'Matias@gmail.com',
+            contraseña: 'matias111',
+
+        },
+        {
+            nombre: 'Cristian',
+            correo: 'Cristian@gmail.com',
+            contraseña: 'cris1234567',
+        },
+    ]   
 export default {
     data: () => ({
         errorMessages: '',
