@@ -1,5 +1,10 @@
 <template>
     <v-app>
+        <v-alert class="mt-12" :value="alertCorrecto" type="success">
+            Cuenta correctamente creada.</v-alert>
+        <v-alert class="mt-12" :value="alertIncorrecto" shaped prominent type="error">
+            Error al crear una cuenta
+        </v-alert>
         <v-spacer></v-spacer>
         <v-row justify="center">
 
@@ -75,6 +80,8 @@ export default {
         show2: false,
         invisivilidadBton:true,
         usuarios:[],
+        alertCorrecto: false,
+        alertIncorrecto: false,
         emailRules: [
             v => !!v || 'Correo ingresado invalido',
             v => /^[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(v) || 'Correo ingresado invalido',
@@ -157,8 +164,12 @@ export default {
                 }
                 if(estadoCrearCuenta){
                     console.log("CREAR CUENTA")
+                    this.alertCorrecto=true
+                    this.alertIncorrecto=false
                 }else{
                     console.log("ERROR AL CREAR LA CUENTA")
+                    this.alertCorrecto=false
+                    this.alertIncorrecto=true
                 }
             }
         }

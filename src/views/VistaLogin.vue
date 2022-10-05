@@ -1,8 +1,11 @@
 <template>
-    <v-app >
+    <v-app>
+        <v-alert class="mt-12" :value="alertCorrecto" type="success">
+            Usuario correctamente ingresado.</v-alert>
+        <v-alert class="mt-12" :value="alertIncorrecto" shaped prominent type="error">
+            Usuario Incorrecto
+        </v-alert>
         <v-spacer></v-spacer>
-        <!-- <v-alert :v-model="mostrarIncio" type="success">
-       I'm a success alert.</v-alert> -->
         <v-row justify="center">
             <v-col cols="2" sm="10" md="8" lg="5">
                 <div color="teal lighten-2">
@@ -31,7 +34,8 @@
                                 Crear Cuenta
                             </v-btn>
                             <v-spacer></v-spacer>
-                            <v-btn color="teal lighten-2" class="white--text" :class="visibilidadBotonCrear" :disabled="visivilidadBton" @click="verificarUsuario(name,password)">
+                            <v-btn color="teal lighten-2" class="white--text" :class="visibilidadBotonCrear"
+                                :disabled="visivilidadBton" @click="verificarUsuario(name,password)">
                                 Ingresar
                             </v-btn>
                         </v-card-actions>
@@ -46,31 +50,19 @@
 </template>
 
 <script>
-    const usuarios = [
-        {
-            nombre: 'Matias',
-            correo: 'Matias@gmail.com',
-            contraseña: 'matias111',
-
-        },
-        {
-            nombre: 'Cristian',
-            correo: 'Cristian@gmail.com',
-            contraseña: 'cris1234567',
-        },
-    ]   
 export default {
     data: () => ({
         errorMessages: '',
         name: null,
         show1: false,
         password: '',
-        visivilidadBton:true,
-        mostrarInicio: null,
-        usuarios:[],
+        visivilidadBton: true,
+        alertCorrecto: false,
+        alertIncorrecto: false,
+        usuarios: [],
         rules: {
             min: v => v.length >= 8 || 'Minimo 8 caracteres',
-            
+
         },
     }),
     created() {
@@ -78,9 +70,9 @@ export default {
     },
     computed: {
         visibilidadBotonCrear() {
-            if(this.name=='' || this.email=='' || this.verifyemail==''||  this.password=='' || this.verifypassword==''){
-                this.visivilidadBton = true  
-            }else{
+            if (this.name == '' || this.email == '' || this.verifyemail == '' || this.password == '' || this.verifypassword == '') {
+                this.visivilidadBton = true
+            } else {
                 this.visivilidadBton = false
             }
         },
@@ -93,7 +85,7 @@ export default {
 
 
     methods: {
-        listarCuentas(){
+        listarCuentas() {
             this.axios.get("EZ-Usuario")
                 .then((response) => {
                     this.usuarios = response.data;
@@ -103,31 +95,35 @@ export default {
                     console.log('error' + e);
                 })
         },
-        verificarUsuario(name,password){
-            var estado=false
-            if(password == '' || name==''){               
-                console.log("error") 
-            }else{
-                this.visivilidadBton=false 
-                for(var i=0;i<this.usuarios.length;i++){
+        verificarUsuario(name, password) {
+            var estado = false
+            if (password == '' || name == '') {
+                console.log("error")
+            } else {
+                this.visivilidadBton = false
+                for (var i = 0; i < this.usuarios.length; i++) {
                     //console.log("NAME: "+name+" == "+"guarado "+usuarios[i].xnombre)
                     //console.log("contraseña: "+password+" == "+"guarado "+usuarios[i].contraseña)
-                    if(name==this.usuarios[i].nombreUsuario && password==this.usuarios[i].contrasena){
-                        console.log("Ingreso como el  usuario "+name)
-                        estado=true
+                    if (name == this.usuarios[i].nombreUsuario && password == this.usuarios[i].contrasena) {
+                        console.log("Ingreso como el  usuario " + name)
+                        estado = true
                     }
-                    else{
+                    else {
                         //console.log("error usuario o contraseña")
-                    } 
+                    }
                 }
-                if(estado){
+                if (estado) {
                     console.log("Ingreso corecto")
-                    
-                }else{
+                    this.alertCorrecto = true
+                    this.alertIncorrecto = false
+
+                } else {
                     console.log("error usuario o contraseña")
+                    this.alertCorrecto = false
+                    this.alertIncorrecto = true
                 }
-                
-                
+
+
             }
         }
     },

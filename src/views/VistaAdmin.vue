@@ -97,9 +97,9 @@
             </v-dialog>
             <!-- Mostrar los datos de las zapatillas del inventario -->
             <v-row class="mx-12 mt-4" justify="center">
-                <v-container fluid style="margin: 0px; padding: 0px; width: 45%">
+                <v-container fluid style="margin: 0px; padding: 0px; width: 35%">
                     <v-row class="mb-12" v-for="zapatilla in zapatillas" :key="zapatilla._id">
-                        <v-img height="230" width="150" :src="zapatilla.imagen">
+                        <v-img height="180px" width="160px" :src="zapatilla.imagen">
                             <template v-slot:placeholder>
                                 <v-row class="fill-height ma-0" align="center" justify="center">
                                     <v-progress-circular indeterminate color="teal lighten-2"></v-progress-circular>
