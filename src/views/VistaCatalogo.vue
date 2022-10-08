@@ -1,7 +1,9 @@
 <template>
     <v-app> 
         <v-container>
-            <v-btn @click="drawer = true" rounded fab > Filtrar</v-btn>
+            <v-btn @click="drawer = true" rounded fab color="teal lighten-2">
+                <Icon icon="bi:filter" color="white" width="40" height="40"/>
+            </v-btn>
         </v-container>
         <div align="center" >
             <v-navigation-drawer
@@ -110,27 +112,15 @@ export default {
             zapatillas: [],
             drawer: false,
             group: null,
+            Deportiva:null,
+            Casual:null,
+            Urbana:null,
+            Preciocheck: null,
+            Precio: null
         };
     },
     created() {
-        
-        console.log(this.$store.state.vistaMarcaAdidas);
-        if(this.$store.state.vistaMarcaAdidas===true){
-            console.log("ADIDAS")
-            this.listarZapatillasAdidas();
-        }else if(this.$store.state.vistaMarcaFila===true){
-            console.log("FILA")
-            this.listarZapatillasFila();
-        }else if(this.$store.state.vistaMarcaPuma===true){
-            console.log("PUMA")
-            this.listarZapatillasPuma();
-        }else if(this.$store.state.vistaMarcaNike===true){
-            console.log("NIKE")
-            this.listarZapatillasNike();
-        }else{
-            console.log("NO FILTER MARCA")
-            this.listarZapatillas();
-        }
+        this.listarZapatillas();
     },
     components: {
         Icon,
