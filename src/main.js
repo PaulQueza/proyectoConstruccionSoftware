@@ -3,7 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
-
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 Vue.config.productionTip = false
 
 new Vue({
@@ -12,3 +13,7 @@ new Vue({
   vuetify,
   render: h => h(App)
 }).$mount('#app')
+Vue.use(VueAxios, axios)
+
+// Agregamos la URL base de nuestra API
+axios.defaults.baseURL = 'http://localhost:3000/api';

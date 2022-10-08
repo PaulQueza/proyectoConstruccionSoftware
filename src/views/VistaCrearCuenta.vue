@@ -1,5 +1,10 @@
 <template>
     <v-app>
+        <v-alert class="mt-12" :value="alertCorrecto" type="success">
+            Cuenta correctamente creada.</v-alert>
+        <v-alert class="mt-12" :value="alertIncorrecto" shaped prominent type="error">
+            Error al crear una cuenta
+        </v-alert>
         <v-spacer></v-spacer>
         <v-row justify="center">
 
@@ -44,7 +49,7 @@
                         </v-container>
                         <v-spacer></v-spacer>
                         <v-container class="text-center" >
-                            <v-btn v-model="visivilidadBton" :class="visibilidadBotonCrear" :disabled="visivilidadBton" @click="verificarEmail(email,verifyemail,password,verifypassword, name )" color="primary"  >
+                            <v-btn v-model="invisivilidadBton" :class="visibilidadBotonCrear" :disabled="invisivilidadBton" @click="verificarEmail(email,verifyemail,password,verifypassword, name )" color="primary"  >
                                 Crear cuenta
                             </v-btn>
                         </v-container>
@@ -86,7 +91,10 @@ export default {
         verifypassword: '',
         show1: false,
         show2: false,
-        visivilidadBton:true,
+        invisivilidadBton:true,
+        usuarios:[],
+        alertCorrecto: false,
+        alertIncorrecto: false,
         emailRules: [
             v => !!v || 'Correo ingresado invalido',
             v => /^[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(v) || 'Correo ingresado invalido',
@@ -98,7 +106,9 @@ export default {
             min: v => v.length >= 5 || 'Minimo 5 caracteres',
         },
     }),
-
+    created() {
+        this.listarCuentas();
+    },
     computed: {
         
         form() {
@@ -112,9 +122,9 @@ export default {
         },
         visibilidadBotonCrear() {
             if(this.name=='' || this.email=='' || this.verifyemail==''||  this.password=='' || this.verifypassword==''){
-                this.visivilidadBton = true
+                this.invisivilidadBton = true
             }else{
-                this.visivilidadBton = false
+                this.invisivilidadBton = false
             }
         },
     },
@@ -126,7 +136,16 @@ export default {
     },
 
     methods: {
-        
+        listarCuentas(){
+            this.axios.get("EZ-Usuario")
+                .then((response) => {
+                    this.usuarios = response.data;
+                    console.log("Usuarios Cargados")
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                })
+        },
         addressCheck() {
             this.errorMessages = this.address && !this.name
                 ? `Hey! I'm required`
@@ -135,22 +154,35 @@ export default {
             return true
         },
         verificarEmail(email,emailVerificar,password,verifypassword,name){
-            
+            var estadoCrearCuenta = true;
             if(email== ''|| emailVerificar== '' || password == '' || verifypassword=='' || name==''){               
                 console.log("error") 
+                estadoCrearCuenta=false;
             }else{
                 this.visivilidadBton=false
                 if(password==verifypassword && email==emailVerificar ) {
-                    for(var i=0;i<usuarios.length;i++){
-                        if(name==usuarios[i].nombre){
+                    for(var i=0;i<this.usuarios.length;i++){
+                        if(name==this.usuarios[i].nombreUsuario){
                             console.log("Usuario ya existe "+name)
+                            estadoCrearCuenta=false;
                         }
-                        //if(name==usuarios[i].nombre && email==usuarios[i].correo){
-                        //    console.log("correo ya existe "+correo)
-                       //}
+                        if(email==this.usuarios[i].correo){
+                            console.log("Correo ya existe "+email)
+                            estadoCrearCuenta=false;
+                        }
                     }
                 }else{
                     console.log("email o contraseña incorrecta")
+                    estadoCrearCuenta=false;
+                }
+                if(estadoCrearCuenta){
+                    console.log("CREAR CUENTA")
+                    this.alertCorrecto=true
+                    this.alertIncorrecto=false
+                }else{
+                    console.log("ERROR AL CREAR LA CUENTA")
+                    this.alertCorrecto=false
+                    this.alertIncorrecto=true
                 }
             }
         }

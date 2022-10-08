@@ -64,12 +64,6 @@ export default {
   }),
   components: {
     Icon
-  },
-  methods: {
-    evento() {
-      console.log("SSS")
-
-    },
   }
 };
 </script>

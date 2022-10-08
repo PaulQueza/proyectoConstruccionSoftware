@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 Vue.use(VueRouter)
 
@@ -43,6 +42,11 @@ const routes = [
     path: '/catalogoMarca',
     name: 'catalogomarca',
     component: () => import('../views/VistaMarca.vue')
+  },
+  {
+    path: '/filterMarca',
+    name: 'filterMarca',
+    component: () => import('../views/VistaCatalogoMarcas.vue')
   },
 ]
 
