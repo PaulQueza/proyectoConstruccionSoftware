@@ -10,11 +10,6 @@ const routes = [
     component: () => import('../views/VistaCatalogo.vue')
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/AboutView.vue')
-  },
-  {
     path: '/catalogoHombre',
     name: 'catalogoHombre',
     component: () => import('../views/VistaCatalogoM.vue')
@@ -47,6 +42,21 @@ const routes = [
     path: '/filterMarca',
     name: 'filterMarca',
     component: () => import('../views/VistaCatalogoMarcas.vue')
+  },
+  {
+    path: '/filterMarca',
+    name: 'filterMarca',
+    component: () => import('../views/VistaCatalogoMarcas.vue')
+  },
+  {
+    path: '/busqueda/:name',
+    name: 'busqueda',
+    component: () => import('../views/VistaBusqueda.vue')
+  },
+  {
+    path: '/filtros/:name',
+    name: 'filtros',
+    component: () => import('../views/VistaFiltros.vue')
   },
 ]
 

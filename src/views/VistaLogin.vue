@@ -70,6 +70,7 @@ export default {
     },
     computed: {
         visibilidadBotonCrear() {
+            console.log("ola")
             if (this.name == '' || this.email == '' || this.verifyemail == '' || this.password == '' || this.verifypassword == '') {
                 this.visivilidadBton = true
             } else {
@@ -82,8 +83,6 @@ export default {
             this.errorMessages = ''
         },
     },
-
-
     methods: {
         listarCuentas() {
             this.axios.get("EZ-Usuario")

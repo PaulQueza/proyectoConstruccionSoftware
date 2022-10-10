@@ -157,6 +157,7 @@ export default {
             this.axios.get('Productos-Nike')
                 .then((response) => {
                     this.zapatillas = response.data;
+                    console.log(this.zapatillas)
                 })
                 .catch((e) => {
                     console.log('error' + e);

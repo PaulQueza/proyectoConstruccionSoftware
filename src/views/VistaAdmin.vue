@@ -35,9 +35,10 @@
                                         :rules="[() => !!color || 'Este campo no puede estar vacio']" label="Color"
                                         required>
                                     </v-text-field>
-                                    <v-file-input v-model="imagen" :rules="rules" accept="image/png, image/jpeg"
-                                        placeholder=" Busca la imagen" prepend-icon="mdi-camera" label="Imagen">
-                                    </v-file-input>
+                                    <v-text-field v-model="imagen"
+                                        :rules="[() => !!imagen || 'Este campo no puede estar vacio']" label="Imagen"
+                                        required prepend-icon="mdi-camera">
+                                    </v-text-field>
                                     <v-btn @click="agregarProducto(false)" class="white--text" color="teal lighten-2"
                                         type="submit">
                                         Agregar
@@ -82,11 +83,12 @@
                                         :rules="[() => !!color || 'Este campo no puede estar vacio']" label="Color"
                                         required>
                                     </v-text-field>
-                                    <v-file-input v-model="imagen" :rules="rules" accept="image/png, image/jpeg"
-                                        placeholder=" Busca la imagen" prepend-icon="mdi-camera" label="Imagen">
-                                    </v-file-input>
-                                    <v-btn @click="editarProducto(false,'','','','','','','','','')" class="white--text"
-                                        color="teal lighten-2" type="submit">
+                                    <v-text-field v-model="imagen"
+                                        :rules="[() => !!imagen || 'Este campo no puede estar vacio']" label="Imagen"
+                                        required prepend-icon="mdi-camera">
+                                    </v-text-field>
+                                    <v-btn @click="editarProducto(false, '', '', '', '', 0, '', '', '')"
+                                        class="white--text" color="teal lighten-2" type="submit">
                                         Editar
                                     </v-btn>
                                 </v-col>
@@ -173,9 +175,10 @@ export default {
             imagen: null,
             _id: null
         },
-        rules: [
-            value => !value || value.size < 2000000 || '¡La imagen no puede pesar mas de 2MB!',
-        ],
+
+        //rules: [
+        //value => !value || value.size < 2000000 || '¡La imagen no puede pesar mas de 2MB!',
+        //],
     }),
     created() {
         this.listarZapatillas();
@@ -201,7 +204,7 @@ export default {
                 this.talla = ''
                 this.tipo = ''
                 this.color = ''
-                this.precio = ''
+                this.precio = 0
             } else {
                 this.productoAgregar = {
                     nombre: null,
@@ -275,9 +278,14 @@ export default {
                     this.productoEditar._id = this._id
                     this.axios.put(`Producto-ac/${this.productoEditar._id}`, this.productoEditar)
                         .then(res => {
-                            let index = this.zapatillas.findIndex(itemNota => itemNota._id === this.zapatillas._id);
-                            console.log(index)
-                            // Cambiar en el objeto zapatillas
+                            const index = this.zapatillas.findIndex(zapatillaB => zapatillaB._id === this.productoEditar._id);
+                            this.zapatillas[index].nombre = this.productoEditar.nombre
+                            this.zapatillas[index].marca = this.productoEditar.marca
+                            this.zapatillas[index].talla =this.productoEditar.talla
+                            this.zapatillas[index].tipo = this.productoEditar.tipo
+                            this.zapatillas[index].color = this.productoEditar.color
+                            this.zapatillas[index].precio = this.productoEditar.precio
+                            this.zapatillas[index].imagen = this.productoEditar.imagen
                         })
                         .catch(e => {
                             console.log(e);

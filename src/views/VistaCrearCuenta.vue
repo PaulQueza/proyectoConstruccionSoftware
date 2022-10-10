@@ -161,6 +161,8 @@ export default {
                 }else{
                     console.log("email o contraseña incorrecta")
                     estadoCrearCuenta=false;
+                    this.alertCorrecto=false
+                    this.alertIncorrecto=true
                 }
                 if(estadoCrearCuenta){
                     console.log("CREAR CUENTA")

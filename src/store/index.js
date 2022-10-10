@@ -9,6 +9,11 @@ export default new Vuex.Store({
     vistaMarcaFila:false,
     vistaMarcaPuma: false,
     vistaMarcaNike:false,
+    busqueda: "",
+    Urbana:false,
+    Casual:false,
+    Deportiva:false,
+    PrecioCheck:false,
   },
   getters: {
   },
