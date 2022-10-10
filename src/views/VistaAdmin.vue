@@ -115,6 +115,9 @@
                                 Tipo: {{zapatilla.tipo}} <br>
                                 Precio: {{zapatilla.precio}}<br>
                                 Tallas: {{zapatilla.talla}}<br>
+                                <span v-for="{talla, cantidad} in zapatilla.stock">
+                                        {{talla}} = {{cantidad}} <br>
+                                </span>
                                 Color: {{zapatilla.color}}<br>
                                 Id: {{zapatilla._id}}<br>
                             </p>
@@ -152,6 +155,7 @@ export default {
         talla: null,
         color: null,
         imagen: null,
+        stock: [],
         _id: null,
         drawerAgregar: false,
         drawerEditar: false,
