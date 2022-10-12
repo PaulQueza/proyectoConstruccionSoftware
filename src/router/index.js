@@ -48,6 +48,11 @@ const routes = [
     name: 'filterMarca',
     component: () => import('../views/VistaCatalogoMarcas.vue')
   },
+  {
+    path: '/carritocompras',
+    name: 'carritocompras',
+    component: () => import('../views/VistaCarritodeCompras.vue')
+  },
 ]
 
 const router = new VueRouter({
