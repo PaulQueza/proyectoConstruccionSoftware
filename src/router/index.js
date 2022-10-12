@@ -58,6 +58,11 @@ const routes = [
     name: 'filtros',
     component: () => import('../views/VistaFiltros.vue')
   },
+  {
+    path: '/carritocompras',
+    name: 'carritocompras',
+    component: () => import('../views/VistaCarritodeCompras.vue')
+  },
 ]
 
 const router = new VueRouter({

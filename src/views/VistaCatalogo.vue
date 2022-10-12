@@ -49,7 +49,7 @@
                                 </template>
                             </v-img>
                             <h3>
-                                Nombre: {{ArrayZapatillas.nombre}}
+                                {{ArrayZapatillas.nombre}}
                             </h3>
                             <p>
                                 Marca: {{ArrayZapatillas.marca}}
@@ -105,6 +105,7 @@ export default {
                 .catch((e) => {
                     console.log('error' + e);
                 })
+            console.log(this.$store.state.ingresoAdmin)
         },
         mostrarBotonCompra(nombre) {
             this.hidden = true

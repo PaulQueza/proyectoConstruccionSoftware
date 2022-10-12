@@ -1,12 +1,7 @@
 <template>
     <v-app>
-        <v-alert class="mt-12" :value="alertCorrecto" type="success">
-            Usuario correctamente ingresado.</v-alert>
-        <v-alert class="mt-12" :value="alertIncorrecto" shaped prominent type="error">
-            Usuario Incorrecto
-        </v-alert>
         <v-spacer></v-spacer>
-        <v-row justify="center">
+        <v-row justify="center" v-if="!this.$store.state.ingresoUsuario">
             <v-col cols="2" sm="10" md="8" lg="5">
                 <div color="teal lighten-2">
                     <h1 color="teal lighten-2">
@@ -44,12 +39,20 @@
                 </v-card>
             </v-col>
         </v-row>
+        <v-container align="center" v-else>
+            <v-spacer></v-spacer>
+            <h1> No se encontró la página</h1>
+            <v-spacer></v-spacer>
+        </v-container>
         <v-spacer></v-spacer>
     </v-app>
 
 </template>
 
 <script>
+
+import Swal from 'sweetalert2'
+
 export default {
     data: () => ({
         errorMessages: '',
@@ -57,9 +60,8 @@ export default {
         show1: false,
         password: '',
         visivilidadBton: true,
-        alertCorrecto: false,
-        alertIncorrecto: false,
         usuarios: [],
+        admins: [],
         rules: {
             min: v => v.length >= 8 || 'Minimo 8 caracteres',
 
@@ -93,33 +95,70 @@ export default {
                 .catch((e) => {
                     console.log('error' + e);
                 })
+            this.axios.get("EZ-Admin")
+                .then((response) => {
+                    this.admins = response.data;
+                    console.log("Usuarios Cargados")
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                })
         },
         verificarUsuario(name, password) {
-            var estado = false
+            var estadoUsuario = false
+            var estadoAdmin = false
+            var nombreUsuario = ""
+            var nombreAdmin = ""
             if (password == '' || name == '') {
                 console.log("error")
             } else {
                 this.visivilidadBton = false
                 for (var i = 0; i < this.usuarios.length; i++) {
-                    //console.log("NAME: "+name+" == "+"guarado "+usuarios[i].xnombre)
-                    //console.log("contraseña: "+password+" == "+"guarado "+usuarios[i].contraseña)
                     if (name == this.usuarios[i].nombreUsuario && password == this.usuarios[i].contrasena) {
                         console.log("Ingreso como el  usuario " + name)
-                        estado = true
-                    }
-                    else {
-                        //console.log("error usuario o contraseña")
+                        estadoUsuario = true
+                        estadoAdmin = false
+                        nombreUsuario = this.usuarios[i].nombreUsuario
                     }
                 }
-                if (estado) {
-                    console.log("Ingreso corecto")
-                    this.alertCorrecto = true
-                    this.alertIncorrecto = false
-
+                for (var i = 0; i < this.admins.length; i++) {
+                    if (name == this.admins[i].nombreUsuario && password == this.admins[i].contrasena) {
+                        console.log("Ingreso como el  ADMIN " + name)
+                        estadoAdmin = true
+                        estadoUsuario = false
+                        nombreAdmin = this.admins[i].nombreUsuario
+                    }
+                }
+                if (estadoUsuario) {
+                    console.log("Ingreso corecto Usuario")
+                    localStorage.setItem(nombreUsuario, 'token_usuario')
+                    this.$store.state.ingresoUsuario = true
+                    Swal.fire(
+                        'Ingreso Correcto!',
+                        'Ingresaste de manera exitosa!',
+                        'success'
+                    )
+                    this.$router.push({ path: "/" })
+                } else if (estadoAdmin) {
+                    console.log("Ingreso corecto ADMIN")
+                    localStorage.setItem(nombreAdmin, 'token_admin')
+                    this.$store.state.visibleMarca = false
+                    this.$store.state.visibleMujer = false
+                    this.$store.state.visibleHombre = false
+                    this.$store.state.visibleInventario = true
+                    Swal.fire(
+                        'Ingreso Correcto!',
+                        'Ingresaste de manera exitosa!',
+                        'success'
+                    )
+                    this.$router.push({ path: "inventario/admin" })
                 } else {
                     console.log("error usuario o contraseña")
-                    this.alertCorrecto = false
-                    this.alertIncorrecto = true
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ingreso fallido...',
+                        text: 'Datos incorrectos!',
+                    })
                 }
 
 

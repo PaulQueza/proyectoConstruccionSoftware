@@ -79,7 +79,7 @@
                                 </template>
                             </v-img>
                             <h3>
-                                Nombre: {{ArrayZapatillas.nombre}}
+                                {{ArrayZapatillas.nombre}}
                             </h3>
                             <p>
                                 Marca: {{ArrayZapatillas.marca}}

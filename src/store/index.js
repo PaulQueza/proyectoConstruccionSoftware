@@ -14,6 +14,12 @@ export default new Vuex.Store({
     Casual:false,
     Deportiva:false,
     PrecioCheck:false,
+    ingresoUsuario: false,
+    ingresoAdmin: false,
+    visibleMarca: true,
+    visibleHombre: true,
+    visibleMujer: true,
+    visibleInventario: false,
   },
   getters: {
   },
