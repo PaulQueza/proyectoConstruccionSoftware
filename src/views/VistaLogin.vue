@@ -34,7 +34,7 @@
                                 Crear Cuenta
                             </v-btn>
                             <v-spacer></v-spacer>
-                            <v-btn color="teal lighten-2" class="white--text" :class="visibilidadBotonCrear"
+                            <v-btn color="teal lighten-2" to="/cuenta" class="white--text" :class="visibilidadBotonCrear"
                                 :disabled="visivilidadBton" @click="verificarUsuario(name,password)">
                                 Ingresar
                             </v-btn>

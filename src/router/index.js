@@ -30,6 +30,11 @@ const routes = [
     component: () => import('../views/VistaLogin.vue')
   },
   {
+    path: '/cuenta',
+    name: 'cuenta',
+    component: () => import('../views/VistaCuenta.vue')
+  },
+  {
     path: '/crearcuenta',
     component: () => import('../views/VistaCrearCuenta.vue')
   },
