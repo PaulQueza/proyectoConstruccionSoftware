@@ -1,5 +1,5 @@
 <template>
-     <v-app>
+    <v-app> 
         <v-container>
             <v-btn @click="drawer = true" rounded fab color="teal lighten-2">
                 <Icon icon="bi:filter" color="white" width="40" height="40"/>
@@ -11,7 +11,7 @@
                 absolute
                 temporary
             >
-            <v-container centered justify="center">    
+            <v-container centered justify="center">
                 <h1>Filtros</h1>
                 <h3 align="left" >Tipos</h3>
                 <v-container class="center">
@@ -49,14 +49,14 @@
                     ></v-slider>
                     </v-flex>
                     <div align="center"> 
-                        <v-btn> Filtrar</v-btn>
-                    </div>
+                        <v-btn> Filtrar</v-btn> 
+                    </div>  
                 </v-container>
             </v-container>
             </v-navigation-drawer>
             <v-container>
                 <v-row>
-                    <v-col v-for="ArrayZapatillas in zapatillas" :key="ArrayZapatillas.__id" cols="3">
+                    <v-col v-for="ArrayZapatillas in zapatillas" :key="ArrayZapatillas._id" cols="3">
                         <v-card height="400" width="500" outlined center
                             @mouseover="mostrarBotonCompra(ArrayZapatillas.nombre)"
                             @mouseleave="ocultarBotonCompra(ArrayZapatillas.nombre)">
@@ -87,9 +87,6 @@
                             <p>
                                 Tipo: {{ArrayZapatillas.tipo}}
                             </p>
-                            <p>
-                                Sexo: {{ArrayZapatillas.sexo}}
-                            </p>
                             <span>
                                 Precio: ${{ArrayZapatillas.precio}} USD
                             </span>
@@ -98,12 +95,16 @@
                     </v-col>
                 </v-row>
             </v-container>
-        </div> 
+        </div>    
     </v-app>
 </template>
 <script>
 import { Icon } from "@iconify/vue2";
+import VistaMarca from '../views/VistaMarca.vue'
 export default {
+    props:{
+
+    },
     data() {
         return {
             hidden: null,
@@ -119,14 +120,69 @@ export default {
         };
     },
     created() {
-        this.listarZapatillas();
+        
+        console.log(this.$store.state.vistaMarcaAdidas);
+        if(this.$store.state.vistaMarcaAdidas===true){
+            console.log("ADIDAS")
+            this.listarZapatillasAdidas();
+        }else if(this.$store.state.vistaMarcaFila===true){
+            console.log("FILA")
+            this.listarZapatillasFila();
+        }else if(this.$store.state.vistaMarcaPuma===true){
+            console.log("PUMA")
+            this.listarZapatillasPuma();
+        }else if(this.$store.state.vistaMarcaNike===true){
+            console.log("NIKE")
+            this.listarZapatillasNike();
+        }else{
+            console.log("NO FILTER MARCA")
+            this.listarZapatillas();
+        }
     },
     components: {
         Icon,
+        VistaMarca
     },
     methods: {
         listarZapatillas() {
-            this.axios.get("Productos-F")
+            this.axios.get('EZ-Producto')
+                .then((response) => {
+                    this.zapatillas = response.data;
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                })
+        },
+        listarZapatillasNike() {
+            this.axios.get('Productos-Nike')
+                .then((response) => {
+                    this.zapatillas = response.data;
+                    console.log(this.zapatillas)
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                })
+        },
+        listarZapatillasPuma() {
+            this.axios.get('Productos-Puma')
+                .then((response) => {
+                    this.zapatillas = response.data;
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                })
+        },
+        listarZapatillasAdidas() {
+            this.axios.get('Productos-Adidas')
+                .then((response) => {
+                    this.zapatillas = response.data;
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                })
+        },
+        listarZapatillasFila() {
+            this.axios.get('Productos-Fila')
                 .then((response) => {
                     this.zapatillas = response.data;
                 })

@@ -2,17 +2,21 @@
   <v-app>
     <v-app-bar color="teal lighten-2" app height="100">
       <router-link to="/">
-        <v-img class="mx-12" max-height="100" max-width="100" src="./assets/icono/logo.png"></v-img>
+        <v-img @click=mostrarBuscador() class="mx-12" max-height="100" max-width="100" src="./assets/icono/logo.png">
+        </v-img>
       </router-link>
       <v-tabs centered class="ml-n9" color="white" light>
-        <v-tab to="/catalogoHombre">
+        <v-tab @click=mostrarBuscador() to="/catalogoHombre" v-if="this.$store.state.visibleMarca==true">
           Hombre
         </v-tab>
-        <v-tab to="/catalogoMujer">
+        <v-tab @click=mostrarBuscador() to="/catalogoMujer" v-if="this.$store.state.visibleMujer==true">
           Mujer
         </v-tab>
-        <v-tab to="/catalogoMarca">
+        <v-tab @click=mostrarBuscador() to="/catalogoMarca" v-if="this.$store.state.visibleMarca==true">
           Marca
+        </v-tab>
+        <v-tab @click=mostrarBuscador() to="/inventario/admin" v-if="this.$store.state.visibleInventario">
+          Inventario
         </v-tab>
       </v-tabs>
       <v-container>
@@ -20,12 +24,43 @@
           <v-spacer></v-spacer>
           <v-spacer></v-spacer>
           <v-spacer></v-spacer>
-          <v-text-field prepend-inner-icon="mdi-magnify" rounded dense flat hide-details solo label="Buscar">
+          <v-text-field v-model="buscar" prepend-inner-icon="mdi-magnify" rounded dense flat hide-details solo
+            label="Buscar" @keyup.enter="busqueda" v-if="visibleBusqueda===true">
           </v-text-field>
           <div>
-            <v-btn color="teal lighten-5" rounded class="mx-1" to="/login">
+            <v-btn color="teal lighten-5" rounded class="mx-1" to="/login" v-if="!this.$store.state.ingresoUsuario">
               <Icon icon="ant-design:user-outlined" />
             </v-btn>
+            <v-menu v-else>
+              <template v-slot:activator="{on}">
+                <v-btn icon x-large v-on="on">
+                  <v-avatar color="teal lighten-5" size="48">
+                    <span class="black--text text-h5">US</span>
+                  </v-avatar>
+                </v-btn>
+              </template>
+              <v-card>
+                <v-list-item-content class="justify-center">
+                  <div class="mx-auto text-center">
+                    <v-avatar color="brown">
+                      <span class="white--text text-h5">US</span>
+                    </v-avatar>
+                    <h3>{{this.usuarioConectado.nombreUsuario}}</h3>
+                    <p class="text-caption mt-1">
+                      {{this.usuarioConectado.correo}}
+                    </p>
+                    <v-divider class="my-3"></v-divider>
+                    <v-btn depressed rounded text to="/editarDatos">
+                      Editar datos
+                    </v-btn>
+                    <v-divider class="my-3"></v-divider>
+                    <v-btn depressed rounded text @click="cerrarSesion()">
+                      Cerrar Sesion
+                    </v-btn>
+                  </div>
+                </v-list-item-content>
+              </v-card>
+            </v-menu>
             <v-btn color="teal lighten-5" rounded class="mx-1" to="/carritocompras">
               <Icon icon="maki:shop" />
             </v-btn>
@@ -53,6 +88,8 @@
 
 <script>
 import { Icon } from "@iconify/vue2";
+import axios from "axios";
+axios.defaults.baseURL = 'http://localhost:3000/api';
 export default {
   data: () => ({
     iconos: [
@@ -61,15 +98,78 @@ export default {
       'mdi-linkedin',
       'mdi-instagram',
     ],
+    buscar: null,
+    visibleBusqueda: true,
+    visibleMarca: true,
+    visibleHombre: true,
+    visibleMujer: true,
+    visibleInventario: true,
+    usuarios: [],
+    usuarioConectado:{
+      nombreUsuario:"",
+      correo:"",
+    }
   }),
   components: {
     Icon
   },
-  methods: {
-    evento() {
-      console.log("SSS")
+  mounted: function () {
+    var estado = false
+    var nombreUsuario=""
+    var correoUsuario=""
+    axios.get("EZ-Usuario")
+      .then((response) => {
+        this.usuarios = response.data;
+        for (var i = 0; i < this.usuarios.length; i++) {
+          if (localStorage.getItem(this.usuarios[i].nombreUsuario)) {
+            nombreUsuario=this.usuarios[i].nombreUsuario
+            correoUsuario=this.usuarios[i].correo
+            estado = true
+          }
+        }
+        if (estado) {
+          this.$store.state.ingresoUsuario = true
+          this.usuarioConectado.nombreUsuario=nombreUsuario
+          this.usuarioConectado.correo=correoUsuario
+        } else {
+          this.$store.state.ingresoUsuario = false
+        }
+      })
+      .catch((e) => {
+        console.log('error' + e);
+      })
 
+  },
+  methods: {
+    mostrarBuscador() {
+      this.visibleBusqueda = true
     },
-  }
-};
+    busqueda() {
+      if (this.buscar === "") {
+        // No se busca nada
+      } else {
+        this.$store.state.busqueda = this.buscar
+        if (this.$route.path !== `/busqueda/${this.buscar}`) {
+          this.visibleBusqueda = false
+          this.$router.push({ path: `/busqueda/${this.buscar}` })
+          this.buscar = ""
+        }
+      }
+    },
+    cerrarSesion(){
+      var estado=false
+      for(var i=0; i<this.usuarios.length;i++){
+        if(localStorage.getItem(this.usuarios[i].nombreUsuario)){
+          localStorage.removeItem(this.usuarios[i].nombreUsuario)
+          estado=true
+        }
+      }
+      if(estado){
+        this.$store.state.ingresoUsuario=false
+      }else{
+        this.$store.state.ingresoUsuario=true
+      }
+    },
+  },
+}
 </script>

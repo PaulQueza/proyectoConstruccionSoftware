@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 Vue.use(VueRouter)
 
@@ -9,11 +8,6 @@ const routes = [
     path: '/',
     name: 'home',
     component: () => import('../views/VistaCatalogo.vue')
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/AboutView.vue')
   },
   {
     path: '/catalogoHombre',
@@ -43,6 +37,36 @@ const routes = [
     path: '/catalogoMarca',
     name: 'catalogomarca',
     component: () => import('../views/VistaMarca.vue')
+  },
+  {
+    path: '/filterMarca',
+    name: 'filterMarca',
+    component: () => import('../views/VistaCatalogoMarcas.vue')
+  },
+  {
+    path: '/filterMarca',
+    name: 'filterMarca',
+    component: () => import('../views/VistaCatalogoMarcas.vue')
+  },
+  {
+    path: '/busqueda/:name',
+    name: 'busqueda',
+    component: () => import('../views/VistaBusqueda.vue')
+  },
+  {
+    path: '/filtros/:name',
+    name: 'filtros',
+    component: () => import('../views/VistaFiltros.vue')
+  },
+  {
+    path: '/carritocompras',
+    name: 'carritocompras',
+    component: () => import('../views/VistaCarritodeCompras.vue')
+  },
+  {
+    path: '/editarDatos',
+    name: 'editarDatos',
+    component: () => import('../views/VistaCuenta.vue')
   },
 ]
 
