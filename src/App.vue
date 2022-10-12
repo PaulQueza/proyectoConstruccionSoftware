@@ -50,7 +50,7 @@
                       {{this.usuarioConectado.correo}}
                     </p>
                     <v-divider class="my-3"></v-divider>
-                    <v-btn depressed rounded text>
+                    <v-btn depressed rounded text to="/editarDatos">
                       Editar datos
                     </v-btn>
                     <v-divider class="my-3"></v-divider>
