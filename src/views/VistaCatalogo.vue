@@ -1,58 +1,29 @@
 <template>
-    <v-app> 
+    <v-app>
         <v-container>
             <v-btn @click="drawer = true" rounded fab color="teal lighten-2">
-                <Icon icon="bi:filter" color="white" width="40" height="40"/>
+                <Icon icon="bi:filter" color="white" width="40" height="40" />
             </v-btn>
         </v-container>
-        <div align="center" >
-            <v-navigation-drawer
-                v-model="drawer"
-                absolute
-                temporary
-            >
-            <v-container centered justify="center">
-                <h1>Filtros</h1>
-                <h3 align="left" >Tipos</h3>
-                <v-container class="center">
-                    <v-checkbox 
-                        v-model="Deportiva"
-                        label="Deportiva"
-                        hide-details
-                    ></v-checkbox>
-                    <v-checkbox
-                        v-model="Casual"
-                        label="Casual"
-                        hide-details
-                    ></v-checkbox>
-                    <v-checkbox
-                        v-model="Urbana"
-                        label="Urbana"
-                        hide-details
-                    ></v-checkbox>
-                    <v-checkbox
-                        v-model="Preciocheck"
-                        label="Precio"
-                        hide-details
-                    ></v-checkbox>
-                    <v-flex
-                        xs12
-                        md
-                    >
-                    <v-slider
-                        v-model="Precio"
-                        label="Precio"
-                        min="50"
-                        max="500"
-                        step="5"
-                        thumb-label
-                    ></v-slider>
-                    </v-flex>
-                    <div align="center"> 
-                        <v-btn> Filtrar</v-btn> 
-                    </div>  
+        <div align="center">
+            <v-navigation-drawer v-model="drawer" absolute temporary>
+                <v-container centered justify="center">
+                    <h1>Filtros</h1>
+                    <h3 align="left">Tipos</h3>
+                    <v-container class="center">
+                        <v-checkbox v-model="Deportiva" label="Deportiva" hide-details></v-checkbox>
+                        <v-checkbox v-model="Casual" label="Casual" hide-details></v-checkbox>
+                        <v-checkbox v-model="Urbana" label="Urbana" hide-details></v-checkbox>
+                        <v-checkbox v-model="Preciocheck" label="Precio" hide-details></v-checkbox>
+                        <v-flex xs12 md>
+                            <v-slider v-model="Precio" label="Precio" min="50" max="500" step="5" thumb-label>
+                            </v-slider>
+                        </v-flex>
+                        <div align="center">
+                            <v-btn @click="filtroZapatilllas()"> Filtrar</v-btn>
+                        </div>
+                    </v-container>
                 </v-container>
-            </v-container>
             </v-navigation-drawer>
             <v-container>
                 <v-row>
@@ -70,8 +41,7 @@
                                     </v-fab-transition>
                                 </v-row>
                             </v-container>
-                            <v-img height="150" width="250"
-                                :src="ArrayZapatillas.imagen">
+                            <v-img height="150" width="250" :src="ArrayZapatillas.imagen">
                                 <template v-slot:placeholder>
                                     <v-row class="fill-height ma-0" align="center" justify="center">
                                         <v-progress-circular indeterminate color="teal lighten-2"></v-progress-circular>
@@ -79,7 +49,7 @@
                                 </template>
                             </v-img>
                             <h3>
-                                Nombre: {{ArrayZapatillas.nombre}}
+                                {{ArrayZapatillas.nombre}}
                             </h3>
                             <p>
                                 Marca: {{ArrayZapatillas.marca}}
@@ -95,26 +65,26 @@
                     </v-col>
                 </v-row>
             </v-container>
-        </div>    
+        </div>
     </v-app>
 </template>
 <script>
 import { Icon } from "@iconify/vue2";
 import VistaMarca from '../views/VistaMarca.vue'
 export default {
-    props:{
-
+    props: {
     },
     data() {
         return {
             hidden: null,
             nombre: null,
             zapatillas: [],
+            zapatillasFinal: [],
             drawer: false,
             group: null,
-            Deportiva:null,
-            Casual:null,
-            Urbana:null,
+            Deportiva: null,
+            Casual: null,
+            Urbana: null,
             Preciocheck: null,
             Precio: null
         };
@@ -135,42 +105,7 @@ export default {
                 .catch((e) => {
                     console.log('error' + e);
                 })
-        },
-        listarZapatillasNike() {
-            this.axios.get('Productos-Nike')
-                .then((response) => {
-                    this.zapatillas = response.data;
-                })
-                .catch((e) => {
-                    console.log('error' + e);
-                })
-        },
-        listarZapatillasPuma() {
-            this.axios.get('Productos-Puma')
-                .then((response) => {
-                    this.zapatillas = response.data;
-                })
-                .catch((e) => {
-                    console.log('error' + e);
-                })
-        },
-        listarZapatillasAdidas() {
-            this.axios.get('Productos-Adidas')
-                .then((response) => {
-                    this.zapatillas = response.data;
-                })
-                .catch((e) => {
-                    console.log('error' + e);
-                })
-        },
-        listarZapatillasFila() {
-            this.axios.get('Productos-Fila')
-                .then((response) => {
-                    this.zapatillas = response.data;
-                })
-                .catch((e) => {
-                    console.log('error' + e);
-                })
+            console.log(this.$store.state.ingresoAdmin)
         },
         mostrarBotonCompra(nombre) {
             this.hidden = true
@@ -179,6 +114,13 @@ export default {
         ocultarBotonCompra(nombre) {
             this.hidden = false
             this.nombre = nombre
+        },
+        filtroZapatilllas() {
+            this.$store.state.Urbana=this.Urbana
+            this.$store.state.Casual=this.Casual
+            this.$store.state.Deportiva=this.Deportiva
+            this.$store.state.Preciocheck=this.Preciocheck
+            this.$router.push({ path: `/filtros/${this.Urbana}Urb?%${this.Casual}Cas?%${this.Deportiva}Dep?${this.Preciocheck}Prec?=`})
         },
     }
 };
