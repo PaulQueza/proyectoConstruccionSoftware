@@ -63,6 +63,11 @@ const routes = [
     name: 'carritocompras',
     component: () => import('../views/VistaCarritodeCompras.vue')
   },
+  {
+    path: '/editarDatos',
+    name: 'editarDatos',
+    component: () => import('../views/VistaCuenta.vue')
+  },
 ]
 
 const router = new VueRouter({
