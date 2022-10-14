@@ -1,225 +1,218 @@
-
-
 <template>
     <v-app>
-        <v-container v-if="this.$store.state.ingresoUsuario">
-            <v-container>
-                <v-row justify="center">
-                    <v-col cols="12" sm="10" md="8" lg="6" align="center">
-                        <v-avatar color="primary" size="72">
-                            <h1 class="white--text">US</h1>
-                        </v-avatar>
-                    </v-col>
-                </v-row>
-            </v-container>
 
-            <v-container>
-                <v-row justify="center">
-                    <v-col cols="12" md="8" lg="6">
-                        <div>
-                            <v-bottom-navigation :value="value" color="teal" grow>
-                                <v-btn @click="hiddenD = !hiddenD, !hiddenF">
-                                    <span>Datos</span>
-                                </v-btn>
-                                <v-btn @click="hiddenF = !hiddenF, !hiddenD">
-                                    <span>Factura</span>
-                                </v-btn>
-                                <v-btn @click="hidden = !hidden">
-                                    <span>Historial de compras</span>
-                                </v-btn>
-                            </v-bottom-navigation>
-                        </div>
-                    </v-col>
-                </v-row>
-            </v-container>
+        <v-container>
+            <v-row justify="center">
+                <v-col cols="12" sm="10" md="8" lg="6" align="center">
+                    <v-avatar color="primary" size="72">
+                        <span class="white--text">{{this.$store.state.UsuarioMode}}</span>
+                    </v-avatar>
+                </v-col>
+            </v-row>
+        </v-container>
 
-            <v-container v-show="!hiddenD">
-                <v-row justify="center">
-                    <v-col cols="12" md="8" lg="6">
-                        <v-card>
-                            <v-card-text>
-                                <v-container>
-                                    <v-row class="text-center">
+        <v-container>
+            <v-row justify="center">
+                <v-col cols="12" md="8" lg="6">
+                    <div>
+                        <v-bottom-navigation color="teal" grow>
+                            <v-btn @click="cambiarHiddens('hiddenD')">
+                                <span>Datos</span>
+                            </v-btn>
+                            <v-btn @click="cambiarHiddens('hiddenF')" v-if="this.$store.state.UsuarioMode==='user'">
+                                <span>Despacho</span>
+                            </v-btn>
+                            <v-btn @click="cambiarHiddens('hiddenH')">
+                                <span>Historial de compras</span>
+                            </v-btn>
+                        </v-bottom-navigation>
+                    </div>
+                </v-col>
+            </v-row>
+        </v-container>
+
+        <v-container v-show="hiddenD">
+            <v-row justify="center">
+                <v-col cols="12" md="8" lg="6">
+                    <v-card>
+                        <v-card-text>
+                            <v-container>
+                                <v-row class="text-center">
+                                    <v-col>
                                         <h2> Nombre</h2>
-                                        <v-spacer></v-spacer>
+                                    </v-col>
+                                    <v-col>
                                         <h2>Correo</h2>
-                                        <v-spacer></v-spacer>
-                                        <h2>Contraseña</h2>
-                                    </v-row>
-                                </v-container>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
 
-                                <v-container>
-                                    <v-row class="text-center">
-                                        <h3 class="text-decoration-underline">XXXXXX</h3>
-                                        <v-spacer></v-spacer>
-                                        <h3 class="text-decoration-underline">XXXXXX</h3>
-                                        <v-spacer></v-spacer>
-                                        <h3 class="text-decoration-underline">XXXXXX</h3>
-                                    </v-row>
-                                </v-container>
+                            <v-container>
+                                <v-row class="text-center">
+                                    <v-col>
+                                        <h3 class="text-decoration-underline">
+                                            {{this.$store.state.UsuarioConectadoNombre}}</h3>
+                                    </v-col>
+                                    <v-col>
+                                        <h3 class="text-decoration-underline">{{this.$store.state.UsuarioConectadoMail}}
+                                        </h3>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
 
-                                <v-container>
-                                    <v-row justify="center">
-                                        <v-col align="center">
-                                            <v-btn color="teal lighten-2" class="mt-12"
-                                                @click="overlayDato = !overlayDato">
+
+                            <v-row justify="center">
+                                <v-col align="center">
+                                    <v-dialog v-model="dialogD" persistent max-width="600px">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn color="teal lighten-2" v-bind="attrs" v-on="on">
                                                 Editar datos
                                             </v-btn>
-                                            <v-overlay :absolute="absoluteDato" :opacity="opacityDato"
-                                                :value="overlayDato">
+                                        </template>
+                                        <v-card>
+                                            <v-card-title>
+                                                <span class="text-h5">Datos a modificar</span>
+                                            </v-card-title>
+                                            <v-card-text>
                                                 <v-container>
                                                     <v-row>
-                                                        <v-col>
-                                                            <v-text-field ref="email" v-model="email"
-                                                                :rules="emailRules" :error-messages="errorMessages"
-                                                                label="Modificar correo electronico" required>
-
-                                                            </v-text-field>
-
+                                                        <v-col cols="12">
+                                                            <v-text-field label="Correo*" required></v-text-field>
                                                         </v-col>
-                                                        <v-col>
-                                                            <v-spacer></v-spacer>
-                                                            <v-text-field ref="email" v-model="email"
-                                                                :rules="emailRules" :error-messages="errorMessages"
-                                                                label="Modificar contraseña" required>
-
+                                                        <v-col cols="12">
+                                                            <v-text-field label="Contraseña*" type="password" required>
                                                             </v-text-field>
                                                         </v-col>
                                                     </v-row>
                                                 </v-container>
-                                                <v-btn color="teal lighten-2" @click="overlayDato = false">
+                                                <small>*indica campo requerido</small>
+                                            </v-card-text>
+                                            <v-card-actions>
+                                                <v-spacer></v-spacer>
+                                                <v-btn color="blue darken-1" text @click="dialogD = false">
+                                                    Cerrar
+                                                </v-btn>
+                                                <v-btn color="blue darken-1" text @click="dialogD = false">
                                                     Guardar
                                                 </v-btn>
-                                            </v-overlay>
-                                        </v-col>
-                                    </v-row>
-                                </v-container>
+                                            </v-card-actions>
+                                        </v-card>
+                                    </v-dialog>
+                                </v-col>
+                            </v-row>
 
-                            </v-card-text>
-                        </v-card>
-                    </v-col>
-                </v-row>
-            </v-container>
 
-            <v-container v-show="!hiddenF">
-                <v-row justify="center">
-                    <v-col cols="12" md="8" lg="6">
-                        <v-card>
-                            <v-card-text>
-                                <v-container>
-                                    <v-row class="text-center">
-                                        <h2> Nombre</h2>
-                                        <v-spacer></v-spacer>
-                                        <h2> Telefonico</h2>
-                                        <v-spacer></v-spacer>
-                                        <h2> Calle</h2>
-                                    </v-row>
-                                </v-container>
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-container>
 
-                                <v-container>
-                                    <v-row class="text-center">
-                                        <h3 class="text-decoration-underline">XXXXXX</h3>
-                                        <v-spacer></v-spacer>
-                                        <h3 class="text-decoration-underline">XXXXXX</h3>
-                                        <v-spacer></v-spacer>
-                                        <h3 class="text-decoration-underline">XXXXXX</h3>
-                                    </v-row>
-                                </v-container>
-                                <v-container>
-                                    <v-row class="text-center">
-                                        <h2> Región</h2>
-                                        <v-spacer></v-spacer>
-                                        <h2> Comuna</h2>
+        <v-container v-show="hiddenF">
+            <v-row justify="center">
+                <v-col cols="12" md="8" lg="6">
+                    <v-card>
+                        <v-card-text>
+                            <v-container>
+                                <v-row class="text-center">
+                                    <v-col>
+                                        <h2> Region</h2>
+                                    </v-col>
+                                    <v-col>
+                                        <h2> Ciudad</h2>
+                                    </v-col>
+                                    <v-col>
+                                        <h2> Direccion</h2>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
 
-                                    </v-row>
-                                </v-container>
-
-                                <v-container>
-                                    <v-row class="text-center">
-                                        <h3 class="text-decoration-underline">XXXXXX</h3>
-                                        <v-spacer></v-spacer>
-                                        <h3 class="text-decoration-underline">XXXXXX</h3>
-
-                                    </v-row>
-                                </v-container>
-
-                                <v-container>
-                                    <v-row justify="center">
-                                        <v-col align="center">
-                                            <v-btn color="teal lighten-2" class="mt-12"
-                                                @click="overlayFactura = !overlayFactura">
+                            <v-container>
+                                <v-row class="text-center">
+                                    <v-col>
+                                        <h3 class="text-decoration-underline">{{this.regionDespacho}}</h3>
+                                    </v-col>
+                                    <v-col>
+                                        <h3 class="text-decoration-underline">{{this.ciudadDespacho}}</h3>
+                                    </v-col>
+                                    <v-col>
+                                        <h3 class="text-decoration-underline">{{this.direccionDespacho}}</h3>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                            <v-row justify="center">
+                                <v-col align="center">
+                                    <v-dialog v-model="dialogF" persistent max-width="600px">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn color="teal lighten-2" v-bind="attrs" v-on="on">
                                                 Editar datos
                                             </v-btn>
-                                            <v-overlay :absolute="absoluteFactura" :opacity="opacityFactura"
-                                                :value="overlayFactura">
+                                        </template>
+                                        <v-card>
+                                            <v-card-title>
+                                                <span class="text-h5">Datos a modificar</span>
+                                            </v-card-title>
+                                            <v-card-text>
                                                 <v-container>
                                                     <v-row>
-                                                        <v-col>
-                                                            <v-text-field ref="email" v-model="email"
-                                                                :rules="emailRules" :error-messages="errorMessages"
-                                                                label="Modificar nombre" required>
-
-                                                            </v-text-field>
-
-                                                            <v-text-field ref="email" v-model="email"
-                                                                :rules="emailRules" :error-messages="errorMessages"
-                                                                label="Modificar Telefono" required>
-
-                                                            </v-text-field>
+                                                        <v-col cols="12">
+                                                            <v-text-field label="Nombre*" required></v-text-field>
                                                         </v-col>
-                                                        <v-col>
-                                                            <v-text-field ref="email" v-model="email"
-                                                                :rules="emailRules" :error-messages="errorMessages"
-                                                                label="Modificar Calle" required>
-
-                                                            </v-text-field>
-                                                            <v-text-field ref="email" v-model="email"
-                                                                :rules="emailRules" :error-messages="errorMessages"
-                                                                label="Modificar Región" required>
-
-                                                            </v-text-field>
-                                                            <v-spacer></v-spacer>
-                                                            <v-text-field ref="email" v-model="email"
-                                                                :rules="emailRules" :error-messages="errorMessages"
-                                                                label="Modificar Comuna" required>
-                                                            </v-text-field>
-
+                                                        <v-col cols="12">
+                                                            <v-text-field label="Telefono*" required></v-text-field>
                                                         </v-col>
-
+                                                        <v-col cols="12">
+                                                            <v-text-field label="Calle*" required></v-text-field>
+                                                        </v-col>
+                                                        <v-col cols="12">
+                                                            <v-text-field label="Región*" required></v-text-field>
+                                                        </v-col>
+                                                        <v-col cols="12">
+                                                            <v-text-field label="Comuna*" required></v-text-field>
+                                                        </v-col>
 
                                                     </v-row>
                                                 </v-container>
-                                                <v-btn color="teal lighten-2" @click="overlayFactura = false">
+                                                <small>*indica campo requerido</small>
+                                            </v-card-text>
+                                            <v-card-actions>
+                                                <v-spacer></v-spacer>
+                                                <v-btn color="blue darken-1" text @click="dialogF = false">
+                                                    Cerrar
+                                                </v-btn>
+                                                <v-btn color="blue darken-1" text @click="dialogF = false">
                                                     Guardar
                                                 </v-btn>
-                                            </v-overlay>
-                                        </v-col>
-                                    </v-row>
-                                </v-container>
-
-                            </v-card-text>
-                        </v-card>
-                    </v-col>
-                </v-row>
-            </v-container>
-
-            <v-container v-show="!hiddenD">
-                <v-row justify="center">
-                    <v-col cols="12" md="8" lg="6">
-                        <v-card>
-
-                        </v-card>
-                    </v-col>
-                </v-row>
-            </v-container>
-
+                                            </v-card-actions>
+                                        </v-card>
+                                    </v-dialog>
+                                </v-col>
+                            </v-row>
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+            </v-row>
         </v-container>
-        <v-container align="center" v-else>
-            <v-spacer></v-spacer>
-            <h1> No se encontró la página</h1>
-            <v-spacer></v-spacer>
+        <v-container v-show="hiddenH">
+            <v-row justify="center">
+                <v-col cols="12" md="8" lg="6">
+                    <v-card align="end">
+                        <v-row>
+                            <v-col>
+
+                            </v-col>
+                            <v-col>
+
+                            </v-col>
+                            <v-col align="end">
+                                <v-slider vertical></v-slider>
+                            </v-col>
+                        </v-row>
+
+                    </v-card>
+                </v-col>
+            </v-row>
         </v-container>
-        <v-spacer></v-spacer>
     </v-app>
 
 
@@ -228,19 +221,21 @@
 <script>
 export default {
     data: () => ({
-        absoluteDato: true,
-        opacityDato: 1,
-        overlayDato: false,
-        absoluteFactura: true,
-        opacityFactura: 1,
-        overlayFactura: false,
-        hiddenD: false,
-        hiddenF: true,
-
+        dialogD: false,
+        dialogF: false,
+        hiddenD: true,
+        hiddenF: false,
+        hiddenH: false,
+        admins: [],
+        usuarios: [],
+        regionDespacho: null,
+        ciudadDespacho: null,
+        direccionDespacho: null,
     }),
-
+    created() {
+        this.datosDespacho()
+    },
     computed: {
-
     },
     watch: {
         name() {
@@ -248,7 +243,38 @@ export default {
         },
     },
     methods: {
+        cambiarHiddens(hidden) {
+            if (hidden === "hiddenD") {
+                this.hiddenD = true
+                this.hiddenF = false
+                this.hiddenH = false
+            } else if (hidden === "hiddenF") {
+                this.hiddenD = false
+                this.hiddenF = true
+                this.hiddenH = false
+            } else if (hidden === "hiddenH") {
+                this.hiddenD = false
+                this.hiddenF = false
+                this.hiddenH = true
+            }
+        },
+        datosDespacho() {
+            this.axios.get("EZ-Usuario")
+                .then((response) => {
+                    this.usuarios = response.data;
+                    for (var i = 0; i < this.usuarios.length; i++) {
+                        if (this.usuarios[i].nombreUsuario === this.$store.state.UsuarioConectadoNombre) {
+                            this.regionDespacho = this.usuarios[i].region
+                            this.ciudadDespacho = this.usuarios[i].ciudad
+                            this.direccionDespacho = this.usuarios[i].direccion
+                        }
+                    }
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                })
 
+        }
     },
 }
 </script>

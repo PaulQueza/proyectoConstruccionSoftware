@@ -117,6 +117,9 @@ export default {
                     if (name == this.usuarios[i].nombreUsuario && password == this.usuarios[i].contrasena) {
                         console.log("Ingreso como el  usuario " + name)
                         estadoUsuario = true
+                        this.$store.state.UsuarioConectadoNombre=this.usuarios[i].nombreUsuario
+                        this.$store.state.UsuarioConectadoMail=this.usuarios[i].correo
+                        this.$store.state.UsuarioMode="user"
                         estadoAdmin = false
                         nombreUsuario = this.usuarios[i].nombreUsuario
                     }
@@ -124,6 +127,9 @@ export default {
                 for (var i = 0; i < this.admins.length; i++) {
                     if (name == this.admins[i].nombreUsuario && password == this.admins[i].contrasena) {
                         console.log("Ingreso como el  ADMIN " + name)
+                        this.$store.state.UsuarioConectadoNombre=this.admins[i].nombreUsuario
+                        this.$store.state.UsuarioConectadoMail=this.admins[i].correo
+                        this.$store.state.UsuarioMode="admin"
                         estadoAdmin = true
                         estadoUsuario = false
                         nombreAdmin = this.admins[i].nombreUsuario
@@ -133,6 +139,11 @@ export default {
                     console.log("Ingreso corecto Usuario")
                     localStorage.setItem(nombreUsuario, 'token_usuario')
                     this.$store.state.ingresoUsuario = true
+                    this.$store.state.visibleInicio = true
+                    this.$store.state.visibleMarca = true
+                    this.$store.state.visibleMujer = true
+                    this.$store.state.visibleHombre = true
+                    this.$store.state.visibleInventario = false
                     Swal.fire(
                         'Ingreso Correcto!',
                         'Ingresaste de manera exitosa!',
@@ -142,6 +153,8 @@ export default {
                 } else if (estadoAdmin) {
                     console.log("Ingreso corecto ADMIN")
                     localStorage.setItem(nombreAdmin, 'token_admin')
+                    this.$store.state.ingresoUsuario = true
+                    this.$store.state.visibleInicio = false
                     this.$store.state.visibleMarca = false
                     this.$store.state.visibleMujer = false
                     this.$store.state.visibleHombre = false
