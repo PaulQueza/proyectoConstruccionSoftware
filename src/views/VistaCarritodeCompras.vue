@@ -211,7 +211,6 @@ export default {
         eliminar(nombre){
             for(var i=0;i<this.zapatillas.length;i++){
                 console.log("comp1: "+this.zapatillas[i].nombre)
-                console.log("comp2: "+index)
                 if(this.zapatillas[i].nombre==nombre){
                     this.zapatillas.splice(i,1)
                     i=this.zapatillas.length
