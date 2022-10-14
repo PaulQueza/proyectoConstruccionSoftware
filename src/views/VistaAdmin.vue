@@ -81,7 +81,7 @@
                                             <Icon icon="dashicons:edit" color="black" width="15" height="15" />
                                         </v-btn>
                                         <v-btn fab width="30" height="30" color="#cf142b" outlined
-                                            @click="eliminarTalla(tallaV.id)">
+                                            @click="eliminarTalla(true,tallaV.talla)">
                                             <Icon icon="ant-design:delete-twotone" color="black" width="15"
                                                 height="15" />
                                         </v-btn>
@@ -135,7 +135,7 @@
                                             <Icon icon="dashicons:edit" color="black" width="15" height="15" />
                                         </v-btn>
                                         <v-btn fab width="30" height="30" color="#cf142b" outlined
-                                            @click="eliminarTallasEd(product.id)">
+                                            @click="eliminarTalla(false,product.talla)">
                                             <Icon icon="ant-design:delete-twotone" color="black" width="15"
                                                 height="15" />
                                         </v-btn>
@@ -224,6 +224,7 @@ import { Icon } from "@iconify/vue2";
 export default {
     data: () => ({
         indexEditar:null,
+        indexEliminar:null,
         agregarBool:null,
         editarBool:null,
         numeroTallaEditar: null,
@@ -599,8 +600,15 @@ export default {
                 this.drawerTallasAdmin=false
             }
         },
-        eliminarTalla(id) {
-            console.log(id)
+        eliminarTalla(vista,numeroTalla) {
+            if(vista){
+                this.indexEliminar = this.tallasVista.findIndex(tallaE => tallaE.talla === numeroTalla)
+                this.tallasVista.splice(this.indexEliminar,1)
+            }else{
+                this.indexEliminar = this.stock.findIndex(tallaE => tallaE.talla === numeroTalla)
+                this.stock.splice(this.indexEliminar, 1);
+            }
+                
         },
     }
 }
