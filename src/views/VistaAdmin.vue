@@ -27,8 +27,8 @@
                                         :rules="[() => !!precio || 'Este campo no puede estar vacio']" label="Precio"
                                         required>
                                     </v-text-field>
-                                    <v-text-field v-model="talla"
-                                        :rules="[() => !!talla || 'Este campo no puede estar vacio']" label="Tallas"
+                                    <v-text-field v-model="stock"
+                                        :rules="[() => !!stock || 'Este campo no puede estar vacio']" label="stocks"
                                         required>
                                     </v-text-field>
                                     <v-text-field v-model="color"
@@ -39,7 +39,7 @@
                                         :rules="[() => !!imagen || 'Este campo no puede estar vacio']" label="Imagen"
                                         required prepend-icon="mdi-camera">
                                     </v-text-field>
-                                    <v-btn @click="agregarProducto(false)" class="white--text" color="teal lighten-2"
+                                    <v-btn @click="agregarProducto(false)" class="white--text" color="teal lighten-2" 
                                         type="submit">
                                         Agregar
                                     </v-btn>
@@ -75,10 +75,17 @@
                                         :rules="[() => !!precio || 'Este campo no puede estar vacio']" label="Precio"
                                         required>
                                     </v-text-field>
-                                    <v-text-field v-model="talla"
-                                        :rules="[() => !!talla || 'Este campo no puede estar vacio']" label="Tallas"
+                                    <p>
+                                        Tallas:
+                                    </p>
+                                    <li v-for="(product) in stock">
+                                        <input :id="product.id" :value="product.talla" name="product.talla" type="checkbox" v-model="checked">
+                                        <label :for="product.id">  {{product.talla}}</label>
+                                    </li>
+                                    <v-text-field v-model="cantidad"
+                                        :rules="[() => !!cantidad || 'Este campo no puede estar vacio']" label="Cantidad"
                                         required>
-                                    </v-text-field>
+                                    </v-text-field>                     
                                     <v-text-field v-model="color"
                                         :rules="[() => !!color || 'Este campo no puede estar vacio']" label="Color"
                                         required>
@@ -99,43 +106,48 @@
             </v-dialog>
             <!-- Mostrar los datos de las zapatillas del inventario -->
             <v-row class="mx-12 mt-4" justify="center">
-                <v-container fluid style="margin: 0px; padding: 0px; width: 35%">
-                    <v-row class="mb-12" v-for="zapatilla in zapatillas" :key="zapatilla._id">
-                        <v-img height="180px" width="160px" :src="zapatilla.imagen">
-                            <template v-slot:placeholder>
-                                <v-row class="fill-height ma-0" align="center" justify="center">
-                                    <v-progress-circular indeterminate color="teal lighten-2"></v-progress-circular>
-                                </v-row>
-                            </template>
-                        </v-img>
-                        <v-col>
-                            <h1 style="font-size:170%">{{zapatilla.nombre}}</h1>
-                            <p style="font-size:90%">
-                                Marca: {{zapatilla.marca}}<br>
-                                Tipo: {{zapatilla.tipo}} <br>
-                                Precio: {{zapatilla.precio}}<br>
-                                Tallas: {{zapatilla.talla}}<br>
-                                <span v-for="{talla, cantidad} in zapatilla.stock">
-                                        {{talla}} = {{cantidad}} <br>
-                                </span>
-                                Color: {{zapatilla.color}}<br>
-                                Id: {{zapatilla._id}}<br>
-                            </p>
-                        </v-col>
-                        <v-btn class="mx-3" color="teal lighten-2" fab @click="eliminarProducto(zapatilla._id)">
-                            <Icon icon="fluent:delete-16-regular" width="30" height="30" />
-                        </v-btn>
-                        <v-btn color="teal lighten-2" fab
-                            @click="editarProducto(true, zapatilla.nombre, zapatilla.marca, zapatilla.talla, zapatilla.color, zapatilla.precio, zapatilla.tipo, zapatilla._id, zapatilla.imagen)">
-                            <Icon icon="clarity:edit-solid" width="30" height="30" />
-                        </v-btn>
-                    </v-row>
+                <v-container fluid style="margin: 0px; padding: 0px; width: 60%">
+                    <v-row>
+                    <v-col v-for="zapatilla in zapatillas" :key="zapatilla._id" cols="3">
+                        <v-card height="550" width="700" outlined center>
+                        <v-img height="160" width="300"
+                                :src="zapatilla.imagen">
+                                <template v-slot:placeholder>
+                                    <v-row class="fill-height ma-0" align="center" justify="center">
+                                        <v-progress-circular indeterminate color="teal lighten-2"></v-progress-circular>
+                                    </v-row>
+                                </template>
+                            </v-img>
+                            <v-col>
+                                <v-btn class="mx-3" color="teal lighten-2" fab @click="eliminarProducto(zapatilla._id)"  top left card>
+                                    <Icon icon="fluent:delete-16-regular" width="30" height="30" />
+                                </v-btn>
+                                <v-btn color="teal lighten-2" fab
+                                    @click="editarProducto(true, zapatilla.nombre, zapatilla.marca, zapatilla.stock, zapatilla.color, zapatilla.precio, zapatilla.tipo, zapatilla._id, zapatilla.imagen)"  top right card >
+                                    <Icon icon="clarity:edit-solid" width="30" height="30" />
+                                </v-btn>
+                                <h1 style="font-size:140%">{{zapatilla.nombre}}</h1>
+                                <p style="font-size:90%">
+                                    Marca: {{zapatilla.marca}}<br>
+                                    Tipo: {{zapatilla.tipo}} <br>
+                                    Precio: {{zapatilla.precio}}<br>
+                                    Tallas:<br>
+                                    <span v-for="{talla, cantidad} in zapatilla.stock">
+                                        talla:  {{talla}} quedan: {{cantidad}} <br>
+                                    </span>
+                                    Color: {{zapatilla.color}}<br>
+                                    Id: {{zapatilla._id}}<br> 
+                                </p>
+                            </v-col>
+                    </v-card>
+                    </v-col>
+                </v-row>
                 </v-container>
             </v-row>
             <!-- Boton agregar -->
             <div style: width="30px">
                 <v-row no-gutters justify="end">
-                    <v-btn @click="agregarProducto(true)" fab>
+                    <v-btn @click="agregarProducto(true)" absolute top right>
                         <Icon icon="carbon:add-filled" color="#4db6ac" width="66" height="66" />
                     </v-btn>
                 </v-row>
@@ -152,7 +164,6 @@ export default {
         marca: null,
         tipo: null,
         precio: null,
-        talla: null,
         color: null,
         imagen: null,
         stock: [],
@@ -165,7 +176,7 @@ export default {
             marca: null,
             tipo: null,
             precio: null,
-            talla: null,
+            stock: null,
             color: null,
             imagen: null,
         },
@@ -174,15 +185,11 @@ export default {
             marca: null,
             tipo: null,
             precio: null,
-            talla: null,
+            stock: null,
             color: null,
             imagen: null,
             _id: null
         },
-
-        //rules: [
-        //value => !value || value.size < 2000000 || '¡La imagen no puede pesar mas de 2MB!',
-        //],
     }),
     created() {
         this.listarZapatillas();
@@ -205,7 +212,7 @@ export default {
                 this.drawerAgregar = true;
                 this.name = ''
                 this.marca = ''
-                this.talla = ''
+                this.stock = ''
                 this.tipo = ''
                 this.color = ''
                 this.precio = 0
@@ -215,13 +222,13 @@ export default {
                     marca: null,
                     tipo: null,
                     precio: null,
-                    talla: null,
+                    stock: null,
                     color: null,
                     imagen: null,
                 }
                 this.productoAgregar.nombre = this.name
                 this.productoAgregar.marca = this.marca
-                this.productoAgregar.talla = this.talla
+                this.productoAgregar.stock = this.stock
                 this.productoAgregar.tipo = this.tipo
                 this.productoAgregar.color = this.color
                 this.productoAgregar.precio = this.precio
@@ -237,7 +244,8 @@ export default {
             }
         },
         eliminarProducto(id) {
-            this.axios.delete(`Producto-el/${id}`)
+            if(confirm("¿Estas seguro que deseas eliminar este elemento?")){
+                this.axios.delete(`Producto-el/${id}`)
                 .then(res => {
                     let index = this.zapatillas.findIndex(item => item._id === res.data._id)
                     this.zapatillas.splice(index, 1);
@@ -245,13 +253,15 @@ export default {
                 .catch(e => {
                     console.log("error " + e.response);
                 })
+                }
+            
         },
-        editarProducto(consulta, name, marca, talla, color, precio, tipo, _id, imagen) {
+        editarProducto(consulta, name, marca, stock, color, precio, tipo, _id, imagen) {
             if (consulta == true) {
                 this.drawerEditar = true
                 this.name = name
                 this.marca = marca
-                this.talla = talla
+                this.stock = stock
                 this.tipo = tipo
                 this.color = color
                 this.precio = precio
@@ -259,7 +269,7 @@ export default {
                 this.imagen = imagen
             } else {
                 this.drawerEditar = false
-                if (this.name == '' || this.tipo == '' || this.marca == '' || this.talla == '' || this.color == '' || this.precio == '' || this.imagen == '') {
+                if (this.name == '' || this.tipo == '' || this.marca == '' || this.stock == [] || this.color == '' || this.precio == '' || this.imagen == '') {
                     console.log("Datos vacios")
                 } else {
                     this.productoEditar = {
@@ -267,14 +277,14 @@ export default {
                         marca: null,
                         tipo: null,
                         precio: null,
-                        talla: null,
+                        stock: null,
                         color: null,
                         imagen: null,
                         _id: null,
                     }
                     this.productoEditar.nombre = this.name
                     this.productoEditar.marca = this.marca
-                    this.productoEditar.talla = this.talla
+                    this.productoEditar.stock = this.stock
                     this.productoEditar.tipo = this.tipo
                     this.productoEditar.color = this.color
                     this.productoEditar.precio = this.precio
@@ -285,7 +295,7 @@ export default {
                             const index = this.zapatillas.findIndex(zapatillaB => zapatillaB._id === this.productoEditar._id);
                             this.zapatillas[index].nombre = this.productoEditar.nombre
                             this.zapatillas[index].marca = this.productoEditar.marca
-                            this.zapatillas[index].talla =this.productoEditar.talla
+                            this.zapatillas[index].stock =this.productoEditar.stock
                             this.zapatillas[index].tipo = this.productoEditar.tipo
                             this.zapatillas[index].color = this.productoEditar.color
                             this.zapatillas[index].precio = this.productoEditar.precio
