@@ -105,6 +105,7 @@ export default {
                 .catch((e) => {
                     console.log('error' + e);
                 })
+            console.log(this.$store.state.ingresoAdmin)
         },
         mostrarBotonCompra(nombre) {
             this.hidden = true
