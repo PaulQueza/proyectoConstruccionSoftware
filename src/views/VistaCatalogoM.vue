@@ -30,24 +30,6 @@
                     label="Urbana"
                     hide-details
                 ></v-checkbox>
-                <v-checkbox
-                    v-model="Preciocheck"
-                    label="Precio"
-                    hide-details
-                ></v-checkbox>
-                <v-flex
-                    xs12
-                    md
-                >
-                <v-slider
-                    v-model="Precio"
-                    label="Precio"
-                    min="50"
-                    max="500"
-                    step="5"
-                    thumb-label
-                    ></v-slider>
-                </v-flex>
                     <div align="center"> <v-btn> Filtrar</v-btn> </div>    
                 </v-container>
             </v-container>

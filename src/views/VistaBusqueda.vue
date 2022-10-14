@@ -9,7 +9,7 @@
         <div>
             <v-container>
                 <v-row>
-                    <v-col v-for="ArrayZapatillas in zapatillas" :key="ArrayZapatillas._id" cols="10">
+                    <v-col v-for="ArrayZapatillas in zapatillasFinal" :key="ArrayZapatillas._id" cols="10">
                         <v-card height="300" width="700" outlined center class="mx-12"
                             @mouseover="mostrarBotonCompra(ArrayZapatillas.nombre)"
                             @mouseleave="ocultarBotonCompra(ArrayZapatillas.nombre)">
@@ -78,13 +78,19 @@ export default {
     },
     methods: {
         listarZapatillas() {
-            this.axios.get(`Productos-Buscar/${this.$store.state.busqueda}`)
+            this.axios.get('EZ-Producto')
                 .then((response) => {
                     this.zapatillas = response.data;
+                    this.$store.state.busqueda=this.$store.state.busqueda.toLowerCase()
+                    this.zapatillasFinal=this.zapatillas.filter(zapatilla => zapatilla.nombre.toLowerCase().indexOf(this.$store.state.busqueda)!==-1)
                 })
                 .catch((e) => {
-                    this.zapatillas = []
                     console.log('error' + e);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error en la busqueda...',
+                        text: 'Error conexion con la red!',
+                    })
                 })
         },
         mostrarBotonCompra(nombre) {
@@ -105,22 +111,25 @@ export default {
             this.group = null
         },
         busqueda() {
+            var algo=[]
             if (this.$route.path !== `/busqueda/${this.buscar}`) {
                 this.$router.push({ path: `/busqueda/${this.buscar}` })
             }
             this.limpiarVentana()
-            this.axios.get(`Productos-Buscar/${this.buscar}`)
+            this.axios.get('EZ-Producto')
                 .then((response) => {
                     this.zapatillas = response.data;
-                    if (this.zapatillas.length === 0) {
-                        this.zapatillas = []
-                    }
+                    this.buscar = this.buscar.toLowerCase()
+                    this.zapatillasFinal=this.zapatillas.filter(zapatilla => zapatilla.nombre.toLowerCase().indexOf(this.buscar)!==-1)
                 })
                 .catch((e) => {
-                    this.zapatillas = []
                     console.log('error' + e);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error en la busqueda...',
+                        text: 'Error conexion con la red!',
+                    })
                 })
-
         }
     }
 };

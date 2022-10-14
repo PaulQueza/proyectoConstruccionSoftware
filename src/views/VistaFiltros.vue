@@ -14,11 +14,6 @@
                         <v-checkbox v-model="Deportiva" label="Deportiva" hide-details></v-checkbox>
                         <v-checkbox v-model="Casual" label="Casual" hide-details></v-checkbox>
                         <v-checkbox v-model="Urbana" label="Urbana" hide-details></v-checkbox>
-                        <v-checkbox v-model="Preciocheck" label="Precio" hide-details></v-checkbox>
-                        <v-flex xs12 md>
-                            <v-slider v-model="Precio" label="Precio" min="50" max="500" step="5" thumb-label>
-                            </v-slider>
-                        </v-flex>
                         <div align="center">
                             <v-btn @click="filtroZapatilllas()"> Filtrar</v-btn>
                         </div>
@@ -124,7 +119,6 @@ export default {
             var zapatillasUrbanas = []
             var zapatillasCasual = []
             var zapatillasDeportivas = []
-            var zapatillasPrecio = []
             var zapatilla = []
             if (this.Urbana) {
                 this.axios.get('Productos-FilterTipo/Urbana')
@@ -200,19 +194,6 @@ export default {
                         console.log('error' + e);
                     })
                 this.zapatillas = this.zapatillasFinal
-            }
-            if (this.Preciocheck) {
-                this.Deportiva = false
-                this.Casual = false
-                this.Urbana = false
-                this.axios.get(`/Productos-FilterPrecio/${this.Precio}`)
-                    .then((response) => {
-                        zapatillasPrecio = response.data;
-                        this.zapatillas = zapatillasPrecio
-                    })
-                    .catch((e) => {
-                        console.log('error' + e);
-                    })
             }
         },
     }

@@ -14,11 +14,6 @@
                         <v-checkbox v-model="Deportiva" label="Deportiva" hide-details></v-checkbox>
                         <v-checkbox v-model="Casual" label="Casual" hide-details></v-checkbox>
                         <v-checkbox v-model="Urbana" label="Urbana" hide-details></v-checkbox>
-                        <v-checkbox v-model="Preciocheck" label="Precio" hide-details></v-checkbox>
-                        <v-flex xs12 md>
-                            <v-slider v-model="Precio" label="Precio" min="50" max="500" step="5" thumb-label>
-                            </v-slider>
-                        </v-flex>
                         <div align="center">
                             <v-btn @click="filtroZapatilllas()"> Filtrar</v-btn>
                         </div>
@@ -105,7 +100,6 @@ export default {
                 .catch((e) => {
                     console.log('error' + e);
                 })
-            console.log(this.$store.state.ingresoAdmin)
         },
         mostrarBotonCompra(nombre) {
             this.hidden = true
