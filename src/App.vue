@@ -6,6 +6,9 @@
         </v-img>
       </router-link>
       <v-tabs centered class="ml-n9" color="white" light>
+        <v-tab to="/" v-if="this.$store.state.visibleMarca==true">
+          Inicio
+        </v-tab>
         <v-tab @click=mostrarBuscador() to="/catalogoHombre" v-if="this.$store.state.visibleMarca==true">
           Hombre
         </v-tab>
@@ -105,6 +108,7 @@ export default {
     visibleMujer: true,
     visibleInventario: true,
     usuarios: [],
+    admins:[],
     usuarioConectado:{
       nombreUsuario:"",
       correo:"",
@@ -138,7 +142,28 @@ export default {
       .catch((e) => {
         console.log('error' + e);
       })
-
+      estado=false
+      axios.get("EZ-Admin")
+      .then((response) => {
+        this.admins = response.data;
+        for (var i = 0; i < this.admins.length; i++) {
+          if (localStorage.getItem(this.admins[i].nombreUsuario)) {
+            nombreUsuario=this.admins[i].nombreUsuario
+            correoUsuario=this.admins[i].correo
+            estado = true
+          }
+        }
+        if (estado) {
+          this.$store.state.ingresoAdmin = true
+          this.usuarioConectado.nombreUsuario=nombreUsuario
+          this.usuarioConectado.correo=correoUsuario
+        } else {
+          this.$store.state.ingresoAdmin = false
+        }
+      })
+      .catch((e) => {
+        console.log('error' + e);
+      })
   },
   methods: {
     mostrarBuscador() {

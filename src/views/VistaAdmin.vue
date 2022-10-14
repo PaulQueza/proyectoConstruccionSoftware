@@ -1,6 +1,57 @@
 <template>
     <v-app>
         <v-row class="mx-2 mt-3" v-if="ingresoAdmin === true">
+            <!-- Dialogo de editar tallas del ComboBox-->
+            <v-dialog v-model="drawerTallas" max-width="300px">
+                <v-card>
+                    <v-card-title>
+                        <span class="text-h5">Agregar una talla</span>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-container>
+                            <v-row justify="center">
+                                <v-col cols="12" sm="10" md="10">
+                                    <v-combobox v-model="tallasCBX" :items="items" label="Tallas"></v-combobox>
+                                    <v-text-field v-model="cantidadTallasVista"
+                                        :rules="[() => !!cantidadTallasVista || 'Este campo no puede estar vacio']"
+                                        label="Cantidad tallas" required>
+                                    </v-text-field>
+                                    <v-btn @click="agregarMasTallas(false,tallasCBX, cantidadTallasVista)"
+                                        class="white--text" color="teal lighten-2" type="submit">
+                                        Agregar
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                    </v-card-text>
+                </v-card>
+            </v-dialog>
+
+             <!-- Dialogo de editar tallas segun el administrador-->
+             <v-dialog v-model="drawerTallasAdmin" max-width="300px">
+                <v-card>
+                    <v-card-title>
+                        <span class="text-h5">Agregar una talla</span>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-container>
+                            <v-row justify="center">
+                                <v-col cols="12" sm="10" md="10">
+                                    <v-combobox v-model="tallasAdmin" :items="items" label="Tallas"></v-combobox>
+                                    <v-text-field v-model="cantidadTallasAdmin"
+                                        :rules="[() => !!cantidadTallasAdmin || 'Este campo no puede estar vacio']"
+                                        label="Cantidad tallas" required>
+                                    </v-text-field>
+                                    <v-btn @click="editarTalla(false,'',tallasAdmin,cantidadTallasAdmin)"
+                                        class="white--text" color="teal lighten-2" type="submit">
+                                        Agregar
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                    </v-card-text>
+                </v-card>
+            </v-dialog>
             <!-- Dialogo de agregar -->
             <v-dialog v-model="drawerAgregar" max-width="500px">
                 <v-card>
@@ -15,31 +66,36 @@
                                         :rules="[() => !!name || 'Este campo no puede estar vacio']" label="Nombre"
                                         required>
                                     </v-text-field>
-                                    <v-text-field v-model="marca"
-                                        :rules="[() => !!marca || 'Este campo no puede estar vacio']" label="Marca"
-                                        required>
-                                    </v-text-field>
-                                    <v-text-field v-model="tipo"
-                                        :rules="[() => !!tipo || 'Este campo no puede estar vacio']" label="Tipo"
-                                        required>
-                                    </v-text-field>
+                                    <v-combobox v-model="marca" :items="marcas" label="Marcas"></v-combobox>
+                                    <v-combobox v-model="tipo" :items="tipos" label="Tipos"></v-combobox>
                                     <v-text-field v-model="precio"
                                         :rules="[() => !!precio || 'Este campo no puede estar vacio']" label="Precio"
                                         required>
                                     </v-text-field>
-                                    <v-text-field v-model="stock"
-                                        :rules="[() => !!stock || 'Este campo no puede estar vacio']" label="stocks"
-                                        required>
-                                    </v-text-field>
-                                    <v-text-field v-model="color"
-                                        :rules="[() => !!color || 'Este campo no puede estar vacio']" label="Color"
-                                        required>
-                                    </v-text-field>
+                                    <p>
+                                        Tallas:
+                                    </p>
+                                    <li v-for="tallaV in tallasVista" :key="tallaV.id">
+                                        <label> Talla: {{tallaV.talla}}, Cantidad: {{tallaV.cantidad}}</label>
+                                        <v-btn class="mx-1" fab width="30" height="30" color="#e5be01" outlined @click="editarTalla(true,tallaV.talla,'','')">
+                                            <Icon icon="dashicons:edit" color="black" width="15" height="15" />
+                                        </v-btn>
+                                        <v-btn fab width="30" height="30" color="#cf142b" outlined
+                                            @click="eliminarTalla(true,tallaV.talla)">
+                                            <Icon icon="ant-design:delete-twotone" color="black" width="15"
+                                                height="15" />
+                                        </v-btn>
+                                    </li>
+                                    <v-spacer></v-spacer>
+                                    <v-btn fab width="40" height="40" @click="agregarMasTallas(true,'','',true,false)">
+                                        <Icon icon="carbon:add-filled" width="45" height="45" color="#57a639" />
+                                    </v-btn>
+                                    <v-combobox v-model="color" :items="colores" label="Colores"></v-combobox>
                                     <v-text-field v-model="imagen"
                                         :rules="[() => !!imagen || 'Este campo no puede estar vacio']" label="Imagen"
                                         required prepend-icon="mdi-camera">
                                     </v-text-field>
-                                    <v-btn @click="agregarProducto(false)" class="white--text" color="teal lighten-2"
+                                    <v-btn @click="agregarProducto(false)" class="white--text" color="teal lighten-2" 
                                         type="submit">
                                         Agregar
                                     </v-btn>
@@ -63,14 +119,8 @@
                                         :rules="[() => !!name || 'Este campo no puede estar vacio']" label="Nombre"
                                         required>
                                     </v-text-field>
-                                    <v-text-field v-model="marca"
-                                        :rules="[() => !!marca || 'Este campo no puede estar vacio']" label="Marca"
-                                        required>
-                                    </v-text-field>
-                                    <v-text-field v-model="tipo"
-                                        :rules="[() => !!tipo || 'Este campo no puede estar vacio']" label="Tipo"
-                                        required>
-                                    </v-text-field>
+                                    <v-combobox v-model="marca" :items="marcas" label="Marcas"></v-combobox>
+                                    <v-combobox v-model="tipo" :items="tipos" label="Tipos"></v-combobox>
                                     <v-text-field v-model="precio"
                                         :rules="[() => !!precio || 'Este campo no puede estar vacio']" label="Precio"
                                         required>
@@ -79,17 +129,22 @@
                                         Tallas:
                                     </p>
                                     <li v-for="(product) in stock" :key="product.id">
-                                        <input :id="product.id" :value="product.talla" name="product.talla"
-                                            type="checkbox" v-model="checked">
-                                        <label :for="product.id"> {{product.talla}}</label>
+                                        <label :for="product.id"> Talla: {{product.talla}}, Cantidad:
+                                            {{product.cantidad}}</label>
+                                        <v-btn class="mx-1" fab width="30" height="30" color="#e5be01" outlined @click="editarTalla(true,product.talla,'','')">
+                                            <Icon icon="dashicons:edit" color="black" width="15" height="15" />
+                                        </v-btn>
+                                        <v-btn fab width="30" height="30" color="#cf142b" outlined
+                                            @click="eliminarTalla(false,product.talla)">
+                                            <Icon icon="ant-design:delete-twotone" color="black" width="15"
+                                                height="15" />
+                                        </v-btn>
                                     </li>
-                                    <v-text-field :rules="[() => !!cantidad || 'Este campo no puede estar vacio']"
-                                        label="Cantidad" required>
-                                    </v-text-field>
-                                    <v-text-field v-model="color"
-                                        :rules="[() => !!color || 'Este campo no puede estar vacio']" label="Color"
-                                        required>
-                                    </v-text-field>
+                                    <v-spacer></v-spacer>
+                                    <v-btn fab width="40" height="40" @click="agregarMasTallas(true,'','',false,true)">
+                                        <Icon icon="carbon:add-filled" width="45" height="45" color="#57a639" />
+                                    </v-btn>
+                                    <v-combobox v-model="color" :items="colores" label="Colores"></v-combobox>
                                     <v-text-field v-model="imagen"
                                         :rules="[() => !!imagen || 'Este campo no puede estar vacio']" label="Imagen"
                                         required prepend-icon="mdi-camera">
@@ -168,6 +223,18 @@ import Swal from 'sweetalert2'
 import { Icon } from "@iconify/vue2";
 export default {
     data: () => ({
+        indexEditar:null,
+        indexEliminar:null,
+        agregarBool:null,
+        editarBool:null,
+        numeroTallaEditar: null,
+        cantidadTallaEditar: null,
+        cantidadTallasVista: null,
+        cantidadTallasAdmin:null,
+        tallasCBX: null,
+        tallasAdmin:null,
+        checkAdd: [],
+        checkEdit: [],
         ingresoAdmin: null,
         name: null,
         marca: null,
@@ -179,13 +246,15 @@ export default {
         _id: null,
         drawerAgregar: false,
         drawerEditar: false,
+        drawerTallas: false,
+        drawerTallasAdmin:null,
         zapatillas: [],
         productoAgregar: {
             nombre: null,
             marca: null,
             tipo: null,
             precio: null,
-            stock: null,
+            stock: [],
             color: null,
             imagen: null,
         },
@@ -200,6 +269,43 @@ export default {
             _id: null
         },
         admins: [],
+        tallasVista: [],
+        items: [
+            '29',
+            '30',
+            '31',
+            '32',
+            '33',
+            '34',
+            '35',
+            '36',
+            '37',
+            '38',
+            '39',
+            '40',
+            '41',
+            '42',
+            '43',
+            '44'
+        ],
+        marcas: [
+            'Adidas',
+            'Nike',
+            'Puma',
+            'Fila'
+        ],
+        tipos: [
+            'Deportiva',
+            'Casual',
+            'Urbana'
+        ],
+        colores: [
+            'Negro',
+            'Morado',
+            'Rojo',
+            'Verde',
+            'Otro'
+        ]
     }),
     created() {
         this.listarZapatillas();
@@ -237,30 +343,50 @@ export default {
                 this.tipo = ''
                 this.color = ''
                 this.precio = 0
+                this.tallasVista = []
+                this.imagen = ''
+                this.editarBool=false
+                this.agregarBool=true
             } else {
                 this.productoAgregar = {
                     nombre: null,
                     marca: null,
                     tipo: null,
                     precio: null,
-                    stock: null,
+                    stock: [],
                     color: null,
                     imagen: null,
                 }
                 this.productoAgregar.nombre = this.name
                 this.productoAgregar.marca = this.marca
-                this.productoAgregar.stock = this.stock
+                //this.productoAgregar.stock = this.stock
+                this.productoAgregar.stock = this.tallasVista
                 this.productoAgregar.tipo = this.tipo
                 this.productoAgregar.color = this.color
                 this.productoAgregar.precio = this.precio
+                this.productoAgregar.imagen = this.imagen
                 this.axios.post('Nuevo-Producto', this.productoAgregar)
                     .then(res => {
                         // Agrega al inicio de nuestro array notas
                         this.zapatillas.unshift(res.data);
+                        if (this.productoAgregar.stock.length === 0) {
+                            Swal.fire(
+                                'Agregado sin tallas!',
+                                'El producto a sido agregado sin tallas.',
+                                'warning'
+                            )
+                        } else {
+                            Swal.fire(
+                                'Agregado!',
+                                'El producto a sido agregado.',
+                                'success'
+                            )
+                        }
                     })
                     .catch(e => {
                         console.log("error");
                     })
+                this.agregarBool=false
                 this.drawerAgregar = false;
             }
         },
@@ -285,7 +411,7 @@ export default {
                         })
                     Swal.fire(
                         'Eliminado!',
-                        'El archivo a sido eliminado.',
+                        'El producto a sido eliminado.',
                         'success'
                     )
                 }
@@ -303,6 +429,8 @@ export default {
                 this.precio = precio
                 this._id = _id
                 this.imagen = imagen
+                this.editarBool=true
+                this.agregarBool=false
             } else {
                 this.drawerEditar = false
                 if (this.name == '' || this.tipo == '' || this.marca == '' || this.stock == [] || this.color == '' || this.precio == '' || this.imagen == '') {
@@ -340,6 +468,7 @@ export default {
                         .catch(e => {
                             console.log(e);
                         })
+                    this.editarBool=false
                 }
             }
         },
@@ -349,7 +478,6 @@ export default {
                 .then((response) => {
                     this.admins = response.data;
                     for (var i = 0; i < this.admins.length; i++) {
-                        console.log(this.admins[i].nombreUsuario + "???")
                         if (localStorage.getItem(this.admins[i].nombreUsuario)) {
                             estado = true
                         }
@@ -363,7 +491,125 @@ export default {
                 .catch((e) => {
                     console.log('error' + e);
                 })
-        }
+        },
+        agregarMasTallas(consulta, numeroTallaIngresado, CantidadIngresado, boolAgregar, boolEditar) {
+            if (consulta) {
+                this.items=[
+                    '29',
+                    '30',
+                    '31',
+                    '32',
+                    '33',
+                    '34',
+                    '35',
+                    '36',
+                    '37',
+                    '38',
+                    '39',
+                    '40',
+                    '41',
+                    '42',
+                    '43',
+                    '44'
+                ]
+                this.drawerTallas = true
+                if(boolAgregar){
+                    this.drawerAgregar = false
+                    this.agregarBool=true
+                    this.editarBool=false
+                }else if(boolEditar){
+                    this.drawerEditar=false
+                    this.agregarBool=false
+                    this.editarBool=true
+                }
+            } else {
+                this.cantidadTallasVista = null
+                this.tallasCBX = null
+                if(this.agregarBool){
+                    var verificar=true
+                    for(var i=0; i<this.tallasVista.length;i++){
+                        if(this.tallasVista[i].talla===numeroTallaIngresado){
+                            verificar=false
+                        }
+                    }
+                    if(verificar){
+                        this.tallasVista.push({
+                            id: Date.now(),
+                            talla: numeroTallaIngresado,
+                            cantidad: CantidadIngresado
+                        })
+                    }else{
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Talla repetida...',
+                        text: 'Datos incorrectos!',
+                        })
+                    }
+                    this.drawerAgregar = true
+                }else if(this.editarBool){
+                    var verificar=true
+                    for(var i=0; i<this.stock.length;i++){
+                        if(this.stock[i].talla===numeroTallaIngresado){
+                            verificar=false
+                        }
+                    }
+                    if(verificar){
+                        this.stock.push({
+                            id: Date.now(),
+                            talla: numeroTallaIngresado,
+                            cantidad: CantidadIngresado
+                        })
+                    }else{
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Talla repetida...',
+                        text: 'Datos incorrectos!',
+                        })
+                    }
+                    this.drawerEditar = true
+                }
+                this.drawerTallas = false
+            }
+        },
+        editarTalla(consulta,numeroTalla,tallaAdmin, cantidadAdmin) {
+            if(consulta){
+                if(this.agregarBool){
+                    this.indexEditar= this.tallasVista.findIndex(tallaE => tallaE.talla == numeroTalla)
+                    this.drawerAgregar=false
+                }else if(this.editarBool){
+                    this.indexEditar= this.stock.findIndex(tallaE => tallaE.talla == numeroTalla)
+                    this.drawerEditar=false
+                }
+                this.drawerTallasAdmin=true
+                console.log(this.indexEditar)
+            }else{
+                if(this.agregarBool){
+                    this.tallasVista[this.indexEditar].talla = tallaAdmin
+                    this.tallasVista[this.indexEditar].cantidad = cantidadAdmin
+                    this.drawerAgregar=true
+                }else if(this.editarBool){
+                    this.stock[this.indexEditar].talla = tallaAdmin
+                    this.stock[this.indexEditar].cantidad = cantidadAdmin
+                    Swal.fire(
+                        'Talla no guardado!',
+                        'Puede que se vean cambios, los datos aun no estan guardados.',
+                        'warning'
+                    )
+                    this.drawerEditar=true
+                }
+                this.drawerTallasAdmin=false
+            }
+        },
+        eliminarTalla(vista,numeroTalla) {
+            if(vista){
+                this.indexEliminar = this.tallasVista.findIndex(tallaE => tallaE.talla === numeroTalla)
+                this.tallasVista.splice(this.indexEliminar,1)
+            }else{
+                this.indexEliminar = this.stock.findIndex(tallaE => tallaE.talla === numeroTalla)
+                this.stock.splice(this.indexEliminar, 1);
+            }
+                
+        },
     }
 }
 </script>

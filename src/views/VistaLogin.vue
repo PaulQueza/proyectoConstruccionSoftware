@@ -160,8 +160,6 @@ export default {
                         text: 'Datos incorrectos!',
                     })
                 }
-
-
             }
         }
     },
