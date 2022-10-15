@@ -4,84 +4,79 @@
     <v-app>
        <div align="left">
             <v-row class="mx-12 mt-4" >
-                <container
-                    id="scroll-target"
-                    style="max-height: 500px"
-                    class="overflow-y-auto">
-                <v-col>
-                    <v-row class="mb-2" v-for="ArrayZapatillas in zapatillas" :key="ArrayZapatillas.id">
-                        <v-card  height="250" width="700" >
-                            <v-container>
-                                <v-container >
-                                    <v-row row="12" sm="10" md="10" >
-                                        <h1>{{ArrayZapatillas.nombre}}</h1>
-                                        <v-spacer></v-spacer>
-                                        <v-spacer></v-spacer>
-                                        <v-spacer></v-spacer>
-                                        <v-spacer></v-spacer>
-                                        <v-spacer></v-spacer>
-                                        <v-btn @click="eliminar(ArrayZapatillas.nombre)">
-                                            Eliminar
-                                        </v-btn> 
-                                    </v-row>   
-                                </v-container>
-                                    <v-row
-                                        align="center"
-                                    >
-                                        <v-card height="150" width="250">
-                                            <v-img height="150" width="250"
-                                                :src="ArrayZapatillas.imagen">
-                                                <template v-slot:placeholder>
-                                                    <v-row class="fill-height ma-0" align="center" justify="center">
-                                                        <v-progress-circular indeterminate color="teal lighten-2"></v-progress-circular>
-                                                    </v-row>
-                                                </template>
-                                            </v-img>  
-                                        </v-card>
-                                        <v-col >     
-                                            <p>
-                                                Marca: {{ArrayZapatillas.marca}}
-                                            </p>
-                                            <p>
-                                                Tipo: {{ArrayZapatillas.tipo}}
-                                            </p>
-                                            <p>
-                                                Precio: ${{ArrayZapatillas.precio}} USD
-                                            </p>
+                    <v-col>
+                        <v-row class="mb-2" v-for="ArrayZapatillas in zapatillas" :key="ArrayZapatillas.id" >
+                            <v-card  height="250" width="700" >
+                                <v-container>
+                                    <v-container >
+                                        <v-row row="12" sm="10" md="10" >
+                                            <h1>{{ArrayZapatillas.nombre}}</h1>
                                             <v-spacer></v-spacer>
-                                        </v-col>
-                                        <v-col >
-                                            <v-select
-                                                    :items="a"
-                                                    label="Talla"
-                                                >
-                                                </v-select>
-                                            
-                                            <p align="center">
-                                                Cantidad 
-                                            </p>
-                                            <v-row justify="space-around" >   
-                                                <v-btn @click="disminuir(ArrayZapatillas.nombre)"> 
-                                                    -     
-                                                </v-btn>    
+                                            <v-spacer></v-spacer>
+                                            <v-spacer></v-spacer>
+                                            <v-spacer></v-spacer>
+                                            <v-spacer></v-spacer>
+                                            <v-btn @click="eliminar(ArrayZapatillas.nombre)">
+                                                Eliminar
+                                            </v-btn> 
+                                        </v-row>   
+                                    </v-container>
+                                        <v-row
+                                            align="center"
+                                        >
+                                            <v-card height="150" width="250">
+                                                <v-img height="150" width="250"
+                                                    :src="ArrayZapatillas.imagen">
+                                                    <template v-slot:placeholder>
+                                                        <v-row class="fill-height ma-0" align="center" justify="center">
+                                                            <v-progress-circular indeterminate color="teal lighten-2"></v-progress-circular>
+                                                        </v-row>
+                                                    </template>
+                                                </v-img>  
+                                            </v-card>
+                                            <v-col >     
                                                 <p>
-                                                    {{ArrayZapatillas.count}}
-                                                    
+                                                    Marca: {{ArrayZapatillas.marca}}
                                                 </p>
-                                                <v-btn @click="aumentar(ArrayZapatillas.nombre)">
-                                                    +
-                                                </v-btn>
                                                 <p>
-                                                    Total precio: {{(ArrayZapatillas.precio*ArrayZapatillas.count).toLocaleString('es', { style: 'currency', currency: 'USD' })}}
+                                                    Tipo: {{ArrayZapatillas.tipo}}
                                                 </p>
-                                            </v-row>                    
-                                        </v-col>
-                                    </v-row> 
+                                                <p>
+                                                    Precio: ${{ArrayZapatillas.precio}} USD
+                                                </p>
+                                                <v-spacer></v-spacer>
+                                            </v-col>
+                                            <v-col >
+                                                <v-select
+                                                        :items="null"
+                                                        label="Talla"
+                                                    >
+                                                    </v-select>
+                                                
+                                                <p align="center">
+                                                    Cantidad 
+                                                </p>
+                                                <v-row justify="space-around" >   
+                                                    <v-btn @click="disminuir(ArrayZapatillas.nombre)"> 
+                                                        -     
+                                                    </v-btn>    
+                                                    <p>
+                                                        {{ArrayZapatillas.count}}
+                                                        
+                                                    </p>
+                                                    <v-btn @click="aumentar(ArrayZapatillas.nombre)">
+                                                        +
+                                                    </v-btn>
+                                                    <p>
+                                                        Total precio: {{(ArrayZapatillas.precio*ArrayZapatillas.count).toLocaleString('es', { style: 'currency', currency: 'USD' })}}
+                                                    </p>
+                                                </v-row>                    
+                                            </v-col>
+                                        </v-row> 
                                 </v-container>
                             </v-card>
                         </v-row>
                     </v-col>
-                </container> 
                 <v-card height="500" width="700">
                     <v-container >
                         <v-col  align="center"> 
@@ -226,6 +221,9 @@ export default {
                 console.log(this.zapatillas[i].nombre)
             }
         },
+        onScroll (e) {
+        this.offsetTop = e.target.scrollTop
+      },
     },
     computed:{
         sum:{
