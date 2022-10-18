@@ -31,8 +31,10 @@
                     <v-card-text>
                         <v-col>
                             <h3> Inicio sesion</h3>
-                            <v-text-field v-model="nombreUsuarioVerificar" class="ml-12 mr-12" label="Usuario"></v-text-field>
-                            <v-text-field v-model="contrasenaVerificar" class="ml-12 mr-12" label="Contraseña"></v-text-field>
+                            <v-text-field v-model="nombreUsuarioVerificar" class="ml-12 mr-12" label="Usuario">
+                            </v-text-field>
+                            <v-text-field v-model="contrasenaVerificar" class="ml-12 mr-12" label="Contraseña">
+                            </v-text-field>
                             <v-row>
                                 <v-spacer></v-spacer>
                                 <v-btn class="white--text" color="teal lighten-2" @click="inicioSesion(false,'')">
@@ -53,8 +55,10 @@
                     </v-card-title>
                     <v-card-text>
                         <v-col>
-                            <v-text-field class="ml-12 mr-12" label="Correo Nuevo"></v-text-field>
-                            <v-text-field class="ml-12 mr-12" label="Verificacion Correo"></v-text-field>
+                            <v-text-field v-model="verificarCorreo" class="ml-12 mr-12" label="Correo Nuevo">
+                            </v-text-field>
+                            <v-text-field v-model="verificarCorreoNuevamente" class="ml-12 mr-12"
+                                label="Verificacion Correo"></v-text-field>
                             <v-row>
                                 <v-spacer></v-spacer>
                                 <v-btn class="white--text" color="teal lighten-2" @click="cambiarCorreo(false)">
@@ -75,9 +79,10 @@
                     </v-card-title>
                     <v-card-text>
                         <v-col>
-                            <h3> Inicio sesion</h3>
-                            <v-text-field class="ml-12 mr-12" label="Contraseña"></v-text-field>
-                            <v-text-field class="ml-12 mr-12" label="Verificacion Contraseña"></v-text-field>
+                            <v-text-field v-model="verificarContrasenaNueva" class="ml-12 mr-12" label="Contraseña">
+                            </v-text-field>
+                            <v-text-field v-model="verificarContrasenaNuevaNuevamente" class="ml-12 mr-12"
+                                label="Verificacion Contraseña"></v-text-field>
                             <v-row>
                                 <v-spacer></v-spacer>
                                 <v-btn class="white--text" color="teal lighten-2" @click="cambiarContrasena(false)">
@@ -133,14 +138,16 @@
                                         </v-row>
                                         <v-row class="mt-8">
                                             <v-spacer></v-spacer>
-                                            <h3 class="text-decoration-underline">{{this.$store.state.UsuarioConectadoNombre}}</h3>
+                                            <h3 class="text-decoration-underline">
+                                                {{this.$store.state.UsuarioConectadoNombre}}</h3>
                                         </v-row>
                                     </v-col>
                                     <v-col class="mr-12">
                                         <v-row>
                                             <v-spacer></v-spacer>
                                             <h2> Contraseña</h2>
-                                            <v-btn fab width="20px" height="20px" color="teal lighten-2" @click="inicioSesion(true,'cambioContraseña')">
+                                            <v-btn fab width="20px" height="20px" color="teal lighten-2"
+                                                @click="inicioSesion(true,'cambioContraseña')">
                                                 <Icon icon="clarity:edit-line" color="white" />
                                             </v-btn>
                                         </v-row>
@@ -148,9 +155,10 @@
                                             <v-spacer></v-spacer>
                                             <h3 class="text-decoration-underline" v-if="!vContrasena">XXXXXXXXXX</h3>
                                             <h3 class="text-decoration-underline" v-else>{{this.contrasenaUsuario}}</h3>
-                                            <v-btn fab width="20px" height="20px" color="teal lighten-2" @click="inicioSesion(true,'visibilidadContraseña')">
-                                                <Icon icon="akar-icons:eye-closed" color="white" v-if="!vContrasena"/>
-                                                <Icon icon="akar-icons:eye" color="white" v-else/>
+                                            <v-btn fab width="20px" height="20px" color="teal lighten-2"
+                                                @click="inicioSesion(true,'visibilidadContraseña')">
+                                                <Icon icon="akar-icons:eye-closed" color="white" v-if="!vContrasena" />
+                                                <Icon icon="akar-icons:eye" color="white" v-else />
                                             </v-btn>
                                         </v-row>
                                     </v-col>
@@ -158,13 +166,15 @@
                                         <v-row>
                                             <v-spacer></v-spacer>
                                             <h2> Correo</h2>
-                                            <v-btn fab width="20px" height="20px" color="teal lighten-2" @click="inicioSesion(true,'cambioCorreo')">
+                                            <v-btn fab width="20px" height="20px" color="teal lighten-2"
+                                                @click="inicioSesion(true,'cambioCorreo')">
                                                 <Icon icon="clarity:edit-line" color="white" />
                                             </v-btn>
                                         </v-row>
                                         <v-row class="mt-8">
                                             <v-spacer></v-spacer>
-                                            <h3 class="text-decoration-underline">{{this.$store.state.UsuarioConectadoMail}}</h3>
+                                            <h3 class="text-decoration-underline">
+                                                {{this.$store.state.UsuarioConectadoMail}}</h3>
                                         </v-row>
                                     </v-col>
                                 </v-row>
@@ -203,23 +213,28 @@
                             <v-container>
                                 <v-row class="text-center">
                                     <v-col>
-                                        <h3 class="text-decoration-underline" v-if="this.regionDespacho===null">No Ingresado</h3>
+                                        <h3 class="text-decoration-underline" v-if="this.regionDespacho===null">No
+                                            Ingresado</h3>
                                         <h3 class="text-decoration-underline" v-else>{{this.regionDespacho}}</h3>
                                     </v-col>
                                     <v-col>
-                                        <h3 class="text-decoration-underline" v-if="this.provinciaDespacho===null">No Ingresado</h3>
+                                        <h3 class="text-decoration-underline" v-if="this.provinciaDespacho===null">No
+                                            Ingresado</h3>
                                         <h3 class="text-decoration-underline" v-else>{{this.provinciaDespacho}}</h3>
                                     </v-col>
                                     <v-col>
-                                        <h3 class="text-decoration-underline" v-if="this.comunaDespacho===null">No Ingresado</h3>
+                                        <h3 class="text-decoration-underline" v-if="this.comunaDespacho===null">No
+                                            Ingresado</h3>
                                         <h3 class="text-decoration-underline" v-else>{{this.comunaDespacho}}</h3>
                                     </v-col>
                                     <v-col>
-                                        <h3 class="text-decoration-underline" v-if="this.direccionDespacho===null">No Ingresado</h3>
+                                        <h3 class="text-decoration-underline" v-if="this.direccionDespacho===null">No
+                                            Ingresado</h3>
                                         <h3 class="text-decoration-underline">{{this.direccionDespacho}}</h3>
                                     </v-col>
                                     <v-col>
-                                        <h3 class="text-decoration-underline" v-if="this.codigopostalDespacho===null">No Ingresado</h3>
+                                        <h3 class="text-decoration-underline" v-if="this.codigopostalDespacho===null">No
+                                            Ingresado</h3>
                                         <h3 class="text-decoration-underline">{{this.codigopostalDespacho}}</h3>
                                     </v-col>
                                 </v-row>
@@ -278,24 +293,28 @@ export default {
         regionDespacho: null,
         comunaDespacho: null,
         direccionDespacho: null,
-        codigopostalDespacho:null,
-        provinciaDespacho:null,
-        contrasenaUsuario:null,
+        codigopostalDespacho: null,
+        provinciaDespacho: null,
+        contrasenaUsuario: null,
         drawerCliente: null,
-        drawerVerificarUsuario:null,
-        drawerContrasena:null,
-        drawerCorreo:null,
-        drawerEditarDatosCliente:null,
-        vContrasena:null,
-        accionRealizar:null,
-        nombreUsuarioVerificar:null,
-        contrasenaVerificar:null,
+        drawerVerificarUsuario: null,
+        drawerContrasena: null,
+        drawerCorreo: null,
+        drawerEditarDatosCliente: null,
+        vContrasena: null,
+        accionRealizar: null,
+        nombreUsuarioVerificar: null,
+        contrasenaVerificar: null,
+        verificarCorreo: null,
+        verificarCorreoNuevamente: null,
+        verificarContrasenaNueva: null,
+        verificarContrasenaNuevaNuevamente: null,
     }),
     components: {
         Icon,
     },
     created() {
-        this.$store.state.visibleBusqueda=true
+        this.$store.state.visibleBusqueda = true
         this.datosDespacho()
     },
     computed: {
@@ -342,55 +361,143 @@ export default {
                 })
 
         },
-        visibilidadContrasena(){
-            if(this.vContrasena){
-                this.vContrasena=false
-            }else{
-                this.vContrasena=true
+        visibilidadContrasena() {
+            if (this.vContrasena) {
+                this.vContrasena = false
+            } else {
+                this.vContrasena = true
             }
         },
-        cambiarContrasena(consulta){
-            if(consulta){
-                this.drawerContrasena=true
-            }else{
+        cambiarContrasena(consulta) {
+            if (consulta) {
+                this.verificarContrasenaNueva=null
+                this.verificarContrasenaNuevaNuevamente=null
+                this.drawerContrasena = true
+                
+            } else {
                 // Cambiar contraseña
-                this.drawerContrasena=false
-            }
-        },
-        cambiarCorreo(consulta){
-            if(consulta){
-                this.drawerCorreo=true
-            }else{
-                // Cambiar correo
-                this.drawerCorreo=false
-            }
-        },
-        inicioSesion(consulta,accion){
-            // se inicia sesion (valida)
-            if(consulta){
-                if(accion==="visibilidadContraseña"){
-                    if(this.vContrasena){
-                        this.vContrasena=false
-                    }else{
-                        this.drawerVerificarUsuario=true
-                        this.accionRealizar=accion
-                    }
-                }else{
-                    this.drawerVerificarUsuario=true
-                    this.accionRealizar=accion
+                var estado = false
+                if (this.verificarContrasenaNueva.length>=6 && this.verificarContrasenaNuevaNuevamente.length>=6 && this.verificarContrasenaNueva===this.verificarContrasenaNuevaNuevamente) {
+                    estado = true
                 }
-            }else{
-                var estado = this.verificarUsuario(this.nombreUsuarioVerificar,this.contrasenaVerificar)
-                if(estado){
+                if (estado) {
+                    this.axios.get("EZ-Usuario")
+                        .then((response) => {
+                            this.usuarios = response.data;
+                            for (var i = 0; i < this.usuarios.length; i++) {
+                                if (this.usuarios[i].nombreUsuario === this.$store.state.UsuarioConectadoNombre) {
+                                    this.usuarios[i].contrasena=this.verificarContrasenaNueva
+                                    this.axios.put(`Usuario-ac/${this.usuarios[i]._id}`, this.usuarios[i])
+                                        .then(res => {
+                                            const index = this.usuarios.findIndex(user => user._id === this.user._id);
+                                            this.usuarios[index].contrasena=this.verificarContrasenaNueva
+                                        })
+                                        .catch(e => {
+                                            console.log(e);
+                                        })
+                                        
+                                    }
+                                }
+                            })
+                            .catch((e) => {
+                                console.log('error' + e);
+                            })
+                            this.contrasenaUsuario = this.verificarContrasenaNueva
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Se cambio la contraseña correctamente...',
+                                text: 'Contraseña  Cambiado!',
+                            })
+
+                    } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Datos incorrectos...',
+                        text: 'Verifique el correo!',
+                    })
+                }
+                this.drawerContrasena = false
+            }
+        },
+        cambiarCorreo(consulta) {
+            if (consulta) {
+                this.verificarCorreo=null
+                this.verificarCorreoNuevamente=null
+                this.drawerCorreo = true
+            } else {
+                // Cambiar correo
+                var erCorreo = /^[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
+                var estado = false
+                if (erCorreo.test(this.verificarCorreo) && erCorreo.test(this.verificarCorreoNuevamente) && this.verificarCorreo === this.verificarCorreoNuevamente) {
+                    estado = true
+                }
+                if (estado) {
+                    this.axios.get("EZ-Usuario")
+                        .then((response) => {
+                            this.usuarios = response.data;
+                            for (var i = 0; i < this.usuarios.length; i++) {
+                                if (this.usuarios[i].nombreUsuario === this.$store.state.UsuarioConectadoNombre) {
+                                    this.usuarios[i].correo=this.verificarCorreo
+                                    this.axios.put(`Usuario-ac/${this.usuarios[i]._id}`, this.usuarios[i])
+                                        .then(res => {
+                                            const index = this.usuarios.findIndex(user => user._id === this.user._id);
+                                            this.usuarios[index].correo=this.verificarCorreo
+                                        })
+                                        .catch(e => {
+                                            console.log(e);
+                                        })
+                                        
+                                    }
+                                }
+                            })
+                            .catch((e) => {
+                                console.log('error' + e);
+                            })
+                            this.$store.state.UsuarioConectadoMail=this.verificarCorreo
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Se cambio el correo correctamente...',
+                                text: 'Correo Cambiado!',
+                            })
+
+                    } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Datos incorrectos...',
+                        text: 'Verifique el correo!',
+                    })
+                }
+                this.drawerCorreo = false
+            }
+        },
+        inicioSesion(consulta, accion) {
+            // se inicia sesion (valida)
+            if (consulta) {
+                this.nombreUsuarioVerificar = null
+                this.contrasenaVerificar = null
+                if (accion === "visibilidadContraseña") {
+                    if (this.vContrasena) {
+                        this.vContrasena = false
+                    } else {
+                        this.drawerVerificarUsuario = true
+                        this.accionRealizar = accion
+                    }
+                } else {
+                    this.drawerVerificarUsuario = true
+                    this.accionRealizar = accion
+                }
+            } else {
+                var estado = this.verificarUsuario(this.nombreUsuarioVerificar, this.contrasenaVerificar)
+                if (estado) {
                     // Inicio de sesion validada
-                    if(this.accionRealizar==="visibilidadContraseña"){
-                        this.drawerVerificarUsuario=false
+                    if (this.accionRealizar === "visibilidadContraseña") {
+                        this.drawerVerificarUsuario = false
                         this.visibilidadContrasena()
-                    }else if(this.accionRealizar==="cambioContraseña"){
-                        this.drawerVerificarUsuario=false
+                    } else if (this.accionRealizar === "cambioContraseña") {
+                        this.drawerVerificarUsuario = false
                         this.cambiarContrasena(true)
-                    }else if(this.accionRealizar==="cambioCorreo"){
-                        this.drawerVerificarUsuario=false
+                    } else if (this.accionRealizar === "cambioCorreo") {
+                        this.drawerVerificarUsuario = false
                         this.cambiarCorreo(true)
                     }
                 }
@@ -404,13 +511,13 @@ export default {
             } else {
                 this.visivilidadBton = false
                 for (var i = 0; i < this.usuarios.length; i++) {
-                    if (name == this.usuarios[i].nombreUsuario && password == this.usuarios[i].contrasena) {
+                    if (name == this.usuarios[i].nombreUsuario && password == this.usuarios[i].contrasena && this.usuarios[i].nombreUsuario===this.$store.state.UsuarioConectadoNombre) {
                         estadoUsuario = true
                         estadoAdmin = false
                     }
                 }
                 for (var i = 0; i < this.admins.length; i++) {
-                    if (name == this.admins[i].nombreUsuario && password == this.admins[i].contrasena) {
+                    if (name == this.admins[i].nombreUsuario && password == this.admins[i].contrasena && this.usuarios[i].nombreUsuario===this.$store.state.UsuarioConectadoNombre) {
                         estadoAdmin = true
                         estadoUsuario = false
                     }
@@ -439,11 +546,11 @@ export default {
                 }
             }
         },
-        editarDatosCliente(consulta){
-            if(consulta){
-                this.drawerEditarDatosCliente=true
-            }else{
-                this.drawerEditarDatosCliente=false
+        editarDatosCliente(consulta) {
+            if (consulta) {
+                this.drawerEditarDatosCliente = true
+            } else {
+                this.drawerEditarDatosCliente = false
             }
         },
 
