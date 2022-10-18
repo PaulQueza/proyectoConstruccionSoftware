@@ -4,9 +4,10 @@
     <v-app>
         <div align="left" v-if="this.$store.state.ingresoUsuario">
             <v-row class="mx-12 mt-4">
-                <v-col>
-                    <v-row class="mb-2" v-for="ArrayZapatillas in zapatillas" :key="ArrayZapatillas.id">
-                        <v-card height="250" width="700">
+                <v-card height="600" width="50%" outlined>
+                <v-col >
+                    <v-row class="mb-2" v-for="ArrayZapatillas in this.$store.state.carroCompras" :key="ArrayZapatillas.id">
+                        <v-card height="250" width="700" class="mx-12">
                             <v-container>
                                 <v-container>
                                     <v-row row="12" sm="10" md="10">
@@ -16,7 +17,7 @@
                                         <v-spacer></v-spacer>
                                         <v-spacer></v-spacer>
                                         <v-spacer></v-spacer>
-                                        <v-btn @click="eliminar(ArrayZapatillas.nombre)">
+                                        <v-btn @click="eliminar(ArrayZapatillas.id)">
                                             Eliminar
                                         </v-btn>
                                     </v-row>
@@ -45,21 +46,19 @@
                                         <v-spacer></v-spacer>
                                     </v-col>
                                     <v-col>
-                                        <v-select :items="null" label="Talla">
-                                        </v-select>
-
+                                        <span>Talla {{ArrayZapatillas.talla}}</span>
                                         <p align="center">
                                             Cantidad
                                         </p>
                                         <v-row justify="space-around">
-                                            <v-btn @click="disminuir(ArrayZapatillas.nombre)">
+                                            <v-btn @click="disminuir(ArrayZapatillas.id)">
                                                 -
                                             </v-btn>
                                             <p>
                                                 {{ArrayZapatillas.count}}
 
                                             </p>
-                                            <v-btn @click="aumentar(ArrayZapatillas.nombre)">
+                                            <v-btn @click="aumentar(ArrayZapatillas.id)">
                                                 +
                                             </v-btn>
                                             <p>
@@ -74,7 +73,8 @@
                         </v-card>
                     </v-row>
                 </v-col>
-                <v-card height="500" width="700">
+            </v-card>
+                <v-card height="600" width="50%" outlined>
                     <v-container>
                         <v-col align="center">
                             <H1>
@@ -111,54 +111,6 @@
 
 <script>
 import { Icon } from "@iconify/vue2";
-
-let zapatillas1 = [
-    {
-        id: 0,
-        nombre: "Fila Oakmont Tr",
-        marca: "Fila",
-        tipo: "Urbana",
-        imagen: "https://i.ibb.co/QmCZKzZ/Fila1.jpg",
-        precio: 69.990,
-        sexo: "F",
-        color: "Rosado",
-        visible: true,
-        stock: [
-            {
-                talla: "36",
-                cantidad: 12
-            }
-        ],
-        count: 2
-    },
-    {
-        id: 1,
-        nombre: "Puma R78 Voyage Better222",
-        marca: "Puma",
-        tipo: "Deportiva",
-        imagen: "https://i.ibb.co/1npKqsX/Puma1.jpg",
-        precio: 69.990,
-        sexo: "F",
-        color: "Negro",
-        visible: true,
-        stock: [
-            {
-                talla: "35",
-                cantidad: 8
-            },
-            {
-                talla: "36",
-                cantidad: 3
-            },
-            {
-                talla: "37",
-                cantidad: 7
-            }
-        ],
-        count: 1
-    },
-]
-
 export default {
     data() {
         return {
@@ -171,8 +123,6 @@ export default {
             Urbana: null,
             Preciocheck: null,
             Precio: null,
-            zapatillas: [
-            ],
             tallas: [],
             usuarios:[],
             nombreUsuario:null,
@@ -181,16 +131,16 @@ export default {
         };
     },
     created() {
-        this.listarZapatillas();
         this.datosUsuario();
     },
     methods: {
-        aumentar(nombre) {
-            for (var i = 0; i < this.zapatillas.length; i++) {
-                if (this.zapatillas[i].nombre == nombre) {
-                    if (this.zapatillas[i].count != 0) {
-                        this.zapatillas[i].count = this.zapatillas[i].count + 1;
-                        i = this.zapatillas.length
+        aumentar(id) {
+            var zapatillas=this.$store.state.carroCompras
+            for (var i = 0; i < zapatillas.length; i++) {
+                if (zapatillas[i].id == id) {
+                    if (zapatillas[i].count < zapatillas[i].maxCantidad) {
+                        this.$store.state.carroCompras[i].count++;
+                        break
                     } else {
                         console.log("verificar stock")
                     }
@@ -198,29 +148,29 @@ export default {
             }
 
         },
-        disminuir(nombre) {
-            for (var i = 0; i < this.zapatillas.length; i++) {
-                if (this.zapatillas[i].nombre == nombre) {
-                    if (this.zapatillas[i].count >= 2) {
-                        this.zapatillas[i].count = this.zapatillas[i].count - 1;
-                        i = this.zapatillas.length
+        disminuir(id) {
+            var zapatillas=this.$store.state.carroCompras
+            for (var i = 0; i < zapatillas.length; i++) {
+                if (zapatillas[i].id == id) {
+                    if (zapatillas[i].count >= 2) {
+                        this.$store.state.carroCompras[i].count--;
+                        break
                     } else {
                         console.log("verificar stock")
                     }
                 }
             }
         },
-        eliminar(nombre) {
-            for (var i = 0; i < this.zapatillas.length; i++) {
-                console.log("comp1: " + this.zapatillas[i].nombre)
-                if (this.zapatillas[i].nombre == nombre) {
-                    this.zapatillas.splice(i, 1)
-                    i = this.zapatillas.length
+        eliminar(id) {
+            var zapatillas=this.$store.state.carroCompras
+            for (var i = 0; i < zapatillas.length; i++) {
+                console.log("comp1: " + zapatillas[i].nombre)
+                if (zapatillas[i].id == id) {
+                    this.$store.state.carroCompras.splice(i,1)
                     console.log("se elimina")
+                    break
                 }
             }
-
-
         },
         listarZapatillas() {
             for (var i = 0; i < zapatillas1.length; i++) {
@@ -252,7 +202,7 @@ export default {
         sum: {
             get() {
                 let sum = 0;
-                for (let ArrayZapatillas of this.zapatillas) {
+                for (let ArrayZapatillas of this.$store.state.carroCompras) {
                     sum += ArrayZapatillas.count * ArrayZapatillas.precio;
                 }
                 return sum;

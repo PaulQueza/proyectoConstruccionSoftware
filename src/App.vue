@@ -31,6 +31,7 @@
             label="Buscar" @keyup.enter="busqueda" v-if="visibleBusqueda===true">
           </v-text-field>
           <div>
+            
             <v-btn color="teal lighten-5" rounded class="mx-1" to="/login" v-if="!this.$store.state.ingresoUsuario">
               <Icon icon="ant-design:user-outlined" />
             </v-btn>
@@ -109,64 +110,56 @@ export default {
     visibleMujer: true,
     visibleInventario: true,
     usuarios: [],
-    admins:[],
-    usuarioConectado:{
-      nombreUsuario:"",
-      correo:"",
+    admins: [],
+    usuarioConectado: {
+      nombreUsuario: "",
+      correo: "",
     }
   }),
   components: {
     Icon
   },
-  mounted: function () {
-    var estado = false
+  beforeMount: function () {
     axios.get("EZ-Usuario")
       .then((response) => {
         this.usuarios = response.data;
         for (var i = 0; i < this.usuarios.length; i++) {
-          if (localStorage.getItem(this.usuarios[i].nombreUsuario)) {
-            this.$store.state.UsuarioConectadoNombre=this.usuarios[i].nombreUsuario
-            this.$store.state.UsuarioConectadoMail=this.usuarios[i].correo
-            this.$store.state.UsuarioMode="user"
-            console.log(this.usuarios[i].nombreUsuario+" || "+this.usuarios[i].correo)
-            estado = true
-          }
-        }
-        if (estado) {
-          this.$store.state.ingresoUsuario = true
-          this.$store.state.visibleInicio = true
-          this.$store.state.visibleMarca = true
-          this.$store.state.visibleMujer = true
-          this.$store.state.visibleHombre = true
-          this.$store.state.visibleInventario = false
-        } else {
           this.$store.state.ingresoUsuario = false
+          if (localStorage.getItem(this.usuarios[i].nombreUsuario)) {
+            this.$store.state.UsuarioConectadoNombre = this.usuarios[i].nombreUsuario
+            this.$store.state.UsuarioConectadoMail = this.usuarios[i].correo
+            this.$store.state.ingresoUsuario = true
+            this.$store.state.UsuarioMode = "user"
+            this.$store.state.visibleInicio = true
+            this.$store.state.visibleMarca = true
+            this.$store.state.visibleMujer = true
+            this.$store.state.visibleHombre = true
+            this.$store.state.visibleInventario = false
+            console.log(this.usuarios[i].nombreUsuario + " || " + this.usuarios[i].correo + " || "+this.$store.state.ingresoUsuario)
+            break
+          }
         }
       })
       .catch((e) => {
         console.log('error' + e);
       })
-      estado=false
-      axios.get("EZ-Admin")
+    axios.get("EZ-Admin")
       .then((response) => {
         this.admins = response.data;
         for (var i = 0; i < this.admins.length; i++) {
-          if (localStorage.getItem(this.admins[i].nombreUsuario)) {
-            this.$store.state.UsuarioConectadoNombre=this.admins[i].nombreUsuario
-            this.$store.state.UsuarioConectadoMail=this.admins[i].correo
-            this.$store.state.UsuarioMode="admin"
-            estado = true
-          }
-        }
-        if (estado) {
-          this.$store.state.ingresoUsuario = true
-          this.$store.state.visibleInicio = false
-          this.$store.state.visibleMarca = false
-          this.$store.state.visibleMujer = false
-          this.$store.state.visibleHombre = false
-          this.$store.state.visibleInventario = true
-        } else {
           this.$store.state.ingresoUsuario = false
+          if (localStorage.getItem(this.admins[i].nombreUsuario)) {
+            this.$store.state.UsuarioConectadoNombre = this.admins[i].nombreUsuario
+            this.$store.state.UsuarioConectadoMail = this.admins[i].correo
+            this.$store.state.UsuarioMode = "admin"
+            this.$store.state.ingresoUsuario = true
+            this.$store.state.visibleInicio = false
+            this.$store.state.visibleMarca = false
+            this.$store.state.visibleMujer = false
+            this.$store.state.visibleHombre = false
+            this.$store.state.visibleInventario = true
+            break
+          }
         }
       })
       .catch((e) => {
@@ -189,30 +182,30 @@ export default {
         }
       }
     },
-    cerrarSesion(){
-      var estado=false
-        for(var i=0; i<this.usuarios.length;i++){
-          if(localStorage.getItem(this.usuarios[i].nombreUsuario)){
-            localStorage.removeItem(this.usuarios[i].nombreUsuario)
-            estado=true
-          }
+    cerrarSesion() {
+      var estado = false
+      for (var i = 0; i < this.usuarios.length; i++) {
+        if (localStorage.getItem(this.usuarios[i].nombreUsuario)) {
+          localStorage.removeItem(this.usuarios[i].nombreUsuario)
+          estado = true
         }
-        for(var i=0; i<this.admins.length;i++){
-          if(localStorage.getItem(this.admins[i].nombreUsuario)){
-            localStorage.removeItem(this.admins[i].nombreUsuario)
-            estado=true
-          }
+      }
+      for (var i = 0; i < this.admins.length; i++) {
+        if (localStorage.getItem(this.admins[i].nombreUsuario)) {
+          localStorage.removeItem(this.admins[i].nombreUsuario)
+          estado = true
         }
-      if(estado){
+      }
+      if (estado) {
         Swal.fire(
-        'Saliste de tu cuenta!',
+          'Saliste de tu cuenta!',
         )
-        this.$store.state.ingresoUsuario=false
+        this.$store.state.ingresoUsuario = false
         if (this.$route.path !== `/`) {
-          this.$router.push({path: "/"})
+          this.$router.push({ path: "/" })
         }
-      }else{
-        this.$store.state.ingresoUsuario=true
+      } else {
+        this.$store.state.ingresoUsuario = true
       }
       this.$store.state.visibleInicio = true
       this.$store.state.visibleMarca = true

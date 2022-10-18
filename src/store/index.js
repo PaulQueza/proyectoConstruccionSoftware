@@ -24,6 +24,7 @@ export default new Vuex.Store({
     UsuarioConectadoNombre:null,
     UsuarioConectadoMail: null,
     UsuarioMode:null,
+    carroCompras:[],
   },
   getters: {
   },
