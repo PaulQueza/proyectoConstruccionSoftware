@@ -49,7 +49,7 @@
             <v-navigation-drawer v-model="drawer" absolute temporary>
                 <v-container centered justify="center">
                     <h1>Filtros</h1>
-                    <h3 align="left">Tipos</h3>
+                    <h3 align="left">Tags</h3>
                     <v-container class="center">
                         <v-checkbox v-model="Deportiva" label="Deportiva" hide-details></v-checkbox>
                         <v-checkbox v-model="Casual" label="Casual" hide-details></v-checkbox>
@@ -58,6 +58,15 @@
                             <v-btn @click="filtroZapatilllas()"> Filtrar</v-btn>
                         </div>
                     </v-container>
+                    <h3 align="left">Precio</h3>
+
+                    <h3 align="left">Tallas</h3>
+                    <v-row>
+                        <v-spacer></v-spacer>
+                        <v-text-field label="Ingresa la talla"></v-text-field>
+                        <v-spacer></v-spacer>
+                        
+                    </v-row>
                 </v-container>
             </v-navigation-drawer>
             <v-container>
@@ -190,37 +199,45 @@ export default {
                     this.itemsCarro.push(this.tallasCarro[i].talla)
                 }
             } else {
-                var estado=true
-                for(var i=0; i<this.$store.state.carroCompras.length;i++){
-                    if(this.nombreCarro===this.$store.state.carroCompras[i].nombre && this.$store.state.carroCompras[i].talla===this.cmbxCarrito){
-                        estado=false
-                        break
+                if(this.$store.state.ingresoUsuario){
+                    var estado=true
+                    for(var i=0; i<this.$store.state.carroCompras.length;i++){
+                        if(this.nombreCarro===this.$store.state.carroCompras[i].nombre && this.$store.state.carroCompras[i].talla===this.cmbxCarrito){
+                            estado=false
+                            break
+                        }
                     }
-                }
-                if(estado){
-                    this.$store.state.carroCompras.push({
-                        nombre: this.nombreCarro,
-                        marca:this.marcaCarro,
-                        tipo:this.tipoCarro,
-                        precio:this.precioCarro,
-                        imagen:this.imagenCarro,
-                        talla: this.cmbxCarrito,
-                        count: this.cmbxCantidad,
-                        maxCantidad: this.cantidadMaximaCarro,
-                        id: Date.now()
-                    })
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'El producto se añadido al carro',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
+                    if(estado){
+                        this.$store.state.carroCompras.push({
+                            nombre: this.nombreCarro,
+                            marca:this.marcaCarro,
+                            tipo:this.tipoCarro,
+                            precio:this.precioCarro,
+                            imagen:this.imagenCarro,
+                            talla: this.cmbxCarrito,
+                            count: this.cmbxCantidad,
+                            maxCantidad: this.cantidadMaximaCarro,
+                            id: Date.now()
+                        })
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'El producto se añadido al carro',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }else{
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Talla duplicada en el carro...',
+                        text: 'Modifique la talla para poder ingresarlo al carro!',
+                        })
+                    }
                 }else{
                     Swal.fire({
-                    icon: 'error',
-                    title: 'Talla duplicada en el carro...',
-                    text: 'Modifique la talla para poder ingresarlo al carro!',
+                        icon: 'error',
+                        title: 'Error al ingresar productos al carro...',
+                        text: 'Debes logearte para poder añadir productos a tu carro de compras!',
                     })
                 }
                 this.drawerCarrito = false
