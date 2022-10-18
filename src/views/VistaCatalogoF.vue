@@ -46,35 +46,51 @@
             </v-btn>
         </v-container>
         <div align="center" >
-            <v-navigation-drawer
-                v-model="drawer"
-                absolute
-                temporary
-            >
-            <v-container centered justify="center">    
-                <h1>Filtros</h1>
-                <h3 align="left" >Tipos</h3>
-                <v-container class="center">
-                    <v-checkbox 
-                        v-model="Deportiva"
-                        label="Deportiva"
-                        hide-details
-                    ></v-checkbox>
-                    <v-checkbox
-                        v-model="Casual"
-                        label="Casual"
-                        hide-details
-                    ></v-checkbox>
-                    <v-checkbox
-                        v-model="Urbana"
-                        label="Urbana"
-                        hide-details
-                    ></v-checkbox>
-                    <div align="center"> 
-                        <v-btn> Filtrar</v-btn>
+            <v-navigation-drawer v-model="drawer" absolute temporary>
+                <v-container centered justify="center">
+                    <h1>Filtros</h1>
+                    <v-row>
+                        <v-checkbox v-model="TagsCheck" hide-details class="ml-4"></v-checkbox>
+                        <h3 align="left" class="mt-5">Tags</h3>
+                    </v-row>
+                    <v-container class="center">
+                        <v-checkbox v-model="Deportiva" label="Deportiva" hide-details class="ml-2"></v-checkbox>
+                        <v-checkbox v-model="Casual" label="Casual" hide-details class="ml-2"></v-checkbox>
+                        <v-checkbox v-model="Urbana" label="Urbana" hide-details class="ml-2"></v-checkbox>
+                    </v-container>
+                    <v-row>
+                        <v-checkbox v-model="PrecioCheck" hide-details class="ml-4"></v-checkbox>
+                        <h3 align="left" class="mt-5">Precio</h3>
+                    </v-row>
+                    <v-row>
+                        <v-col class="px-4">
+                            <v-range-slider v-model="range" :max="max" :min="min" hide-details class="align-center">
+                                <template v-slot:prepend>
+                                    <v-text-field :value="range[0]" class="mt-0 pt-0" hide-details single-line
+                                        type="number" style="width: 60px" @change="$set(range, 0, $event)">
+                                    </v-text-field>
+                                </template>
+                                <template v-slot:append>
+                                    <v-text-field :value="range[1]" class="mt-0 pt-0" hide-details single-line
+                                        type="number" style="width: 60px" @change="$set(range, 1, $event)">
+                                    </v-text-field>
+                                </template>
+                            </v-range-slider>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-checkbox v-model="TallaCheck" hide-details class="ml-4"></v-checkbox>
+                        <h3 align="left" class="mt-5">Talla</h3>
+                    </v-row>
+                    <v-row>
+                        <v-spacer></v-spacer>
+                        <v-text-field v-model="TallaFiltro" label="Ingresa la talla"></v-text-field>
+                        <v-spacer></v-spacer>
+                    </v-row>
+                    <div align="center">
+                        <v-btn @click="filtroZapatilllas()" color="teal lighten-2" class="white--text"> Filtrar</v-btn>
                     </div>
                 </v-container>
-            </v-container>
             </v-navigation-drawer>
             <v-container>
                 <v-row>
@@ -138,8 +154,10 @@ export default {
             Deportiva:null,
             Casual:null,
             Urbana:null,
-            Preciocheck: null,
-            Precio: null,
+            PrecioCheck: null,
+            TagsCheck:null,
+            TallaCheck:null,
+            TallaFiltro:null,
 
             drawerCarrito: null,
             imagenCarro: null,
@@ -153,6 +171,9 @@ export default {
             itemsCarro: [],
             itemsCantidad: [],
             cantidadMaximaCarro:null,
+            min: 0,
+            max: 500,
+            range: [0, 500],
         };
     },
     created() {
@@ -268,7 +289,25 @@ export default {
                 })
 
             }
-        }
+        },
+        filtroZapatilllas() {
+            this.$store.state.tags= this.TagsCheck
+            if(this.TagsCheck){
+                this.$store.state.Urbana = this.Urbana
+                this.$store.state.Casual = this.Casual
+                this.$store.state.Deportiva = this.Deportiva
+                this.$store.state.Preciocheck = this.Preciocheck
+            }
+            if(this.PrecioCheck){
+                this.$store.state.precioMin = this.range[0]
+                this.$store.state.precioMax = this.range[1] 
+            }
+            this.$store.state.talla=this.TallaCheck
+            if(this.TallaCheck){
+                this.$store.state.tallaFiltrar= this.TallaFiltro
+            }
+            this.$router.push({ path: `/filtros/${this.Urbana}Urb?%${this.Casual}Cas?%${this.Deportiva}Dep?${this.Preciocheck}Prec?=` })
+        },
     }
 };
 </script>

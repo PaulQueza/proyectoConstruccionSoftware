@@ -81,9 +81,7 @@ export default {
             v => !!v || 'Correo Invalido',
             v => /^[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(v) || 'Correo ingresado invalido',
         ],
-        botonRule: [
-
-        ],
+        botonRule: [],
         rules: {
             min: v => v.length >= 5 || 'Minimo 5 caracteres',
         },
