@@ -416,7 +416,6 @@ export default {
                     )
                 }
             })
-
         },
         editarProducto(consulta, name, marca, stock, color, precio, tipo, _id, imagen) {
             if (consulta == true) {

@@ -3,8 +3,8 @@
 <template>
     <v-app>
         <div align="left" v-if="this.$store.state.ingresoUsuario">
-            <v-row class="mx-12 mt-4">
-                <v-card height="600" width="50%" outlined>
+            <v-row class=" mt-5">
+                <v-card height="600" width="50%" outlined class="overflow-y-auto" max-height="600">
                 <v-col >
                     <v-row class="mb-2" v-for="ArrayZapatillas in this.$store.state.carroCompras" :key="ArrayZapatillas.id">
                         <v-card height="250" width="700" class="mx-12">
