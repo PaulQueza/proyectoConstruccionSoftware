@@ -6,6 +6,9 @@
         </v-img>
       </router-link>
       <v-tabs centered class="ml-n9" color="white" light>
+        <v-tab to="/" v-if="this.$store.state.visibleInicio==true">
+          Inicio
+        </v-tab>
         <v-tab @click=mostrarBuscador() to="/catalogoHombre" v-if="this.$store.state.visibleMarca==true">
           Hombre
         </v-tab>
@@ -25,7 +28,7 @@
           <v-spacer></v-spacer>
           <v-spacer></v-spacer>
           <v-text-field v-model="buscar" prepend-inner-icon="mdi-magnify" rounded dense flat hide-details solo
-            label="Buscar" @keyup.enter="busqueda" v-if="visibleBusqueda===true">
+            label="Buscar" @keyup.enter="busqueda" v-if="this.$store.state.visibleBusqueda">
           </v-text-field>
           <div>
             <v-btn color="teal lighten-5" rounded class="mx-1" to="/login" v-if="!this.$store.state.ingresoUsuario">
@@ -34,23 +37,23 @@
             <v-menu v-else>
               <template v-slot:activator="{on}">
                 <v-btn icon x-large v-on="on">
-                  <v-avatar color="teal lighten-5" size="48">
-                    <span class="black--text text-h5">US</span>
+                  <v-avatar color="teal lighten-5" size="45">
+                    <Icon icon="carbon:user-avatar-filled-alt" width="30" height="30" />
                   </v-avatar>
                 </v-btn>
               </template>
               <v-card>
                 <v-list-item-content class="justify-center">
                   <div class="mx-auto text-center">
-                    <v-avatar color="brown">
-                      <span class="white--text text-h5">US</span>
+                    <v-avatar color="brown" size="70">
+                      <span class="white--text text-h5">{{this.$store.state.UsuarioMode}}</span>
                     </v-avatar>
-                    <h3>{{this.usuarioConectado.nombreUsuario}}</h3>
+                    <h3>{{this.$store.state.UsuarioConectadoNombre}}</h3>
                     <p class="text-caption mt-1">
-                      {{this.usuarioConectado.correo}}
+                      {{this.$store.state.UsuarioConectadoMail}}
                     </p>
                     <v-divider class="my-3"></v-divider>
-                    <v-btn depressed rounded text to="/editarDatos">
+                    <v-btn depressed rounded text to="/editarDatos" v-if="this.$store.state.UsuarioMode==='user'">
                       Editar datos
                     </v-btn>
                     <v-divider class="my-3"></v-divider>
@@ -90,6 +93,7 @@
 import { Icon } from "@iconify/vue2";
 import axios from "axios";
 axios.defaults.baseURL = 'http://localhost:3000/api';
+import Swal from 'sweetalert2'
 export default {
   data: () => ({
     iconos: [
@@ -105,40 +109,14 @@ export default {
     visibleMujer: true,
     visibleInventario: true,
     usuarios: [],
-    usuarioConectado:{
-      nombreUsuario:"",
-      correo:"",
+    admins: [],
+    usuarioConectado: {
+      nombreUsuario: "",
+      correo: "",
     }
   }),
   components: {
     Icon
-  },
-  mounted: function () {
-    var estado = false
-    var nombreUsuario=""
-    var correoUsuario=""
-    axios.get("EZ-Usuario")
-      .then((response) => {
-        this.usuarios = response.data;
-        for (var i = 0; i < this.usuarios.length; i++) {
-          if (localStorage.getItem(this.usuarios[i].nombreUsuario)) {
-            nombreUsuario=this.usuarios[i].nombreUsuario
-            correoUsuario=this.usuarios[i].correo
-            estado = true
-          }
-        }
-        if (estado) {
-          this.$store.state.ingresoUsuario = true
-          this.usuarioConectado.nombreUsuario=nombreUsuario
-          this.usuarioConectado.correo=correoUsuario
-        } else {
-          this.$store.state.ingresoUsuario = false
-        }
-      })
-      .catch((e) => {
-        console.log('error' + e);
-      })
-
   },
   methods: {
     mostrarBuscador() {
@@ -150,25 +128,30 @@ export default {
       } else {
         this.$store.state.busqueda = this.buscar
         if (this.$route.path !== `/busqueda/${this.buscar}`) {
-          this.visibleBusqueda = false
+          this.$store.state.visibleBusqueda=false
           this.$router.push({ path: `/busqueda/${this.buscar}` })
           this.buscar = ""
         }
       }
     },
-    cerrarSesion(){
-      var estado=false
-      for(var i=0; i<this.usuarios.length;i++){
-        if(localStorage.getItem(this.usuarios[i].nombreUsuario)){
-          localStorage.removeItem(this.usuarios[i].nombreUsuario)
-          estado=true
+    cerrarSesion() {
+      var estado = false
+      if (this.$store.state.ingresoUsuario) {
+        Swal.fire(
+          'Saliste de tu cuenta!',
+        )
+        this.$store.state.ingresoUsuario = false
+        if (this.$route.path !== `/`) {
+          this.$router.push({ path: "/" })
         }
+      } else {
+        this.$store.state.ingresoUsuario = true
       }
-      if(estado){
-        this.$store.state.ingresoUsuario=false
-      }else{
-        this.$store.state.ingresoUsuario=true
-      }
+      this.$store.state.visibleInicio = true
+      this.$store.state.visibleMarca = true
+      this.$store.state.visibleMujer = true
+      this.$store.state.visibleHombre = true
+      this.$store.state.visibleInventario = false
     },
   },
 }

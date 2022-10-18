@@ -18,7 +18,6 @@
                             <v-row>
                                 <v-text-field ref="email" v-model="email" :rules="emailRules"
                                     :error-messages="errorMessages" label="Ingrese el correo electronico" required>
-
                                 </v-text-field>
                                 <v-spacer></v-spacer>
                                 <v-text-field ref="verifyemail" v-model="verifyemail"
@@ -45,7 +44,7 @@
                         <v-container class="text-center">
                             <v-btn v-model="invisivilidadBton" :class="visibilidadBotonCrear"
                                 :disabled="invisivilidadBton"
-                                @click="verificarEmail(email,verifyemail,password,verifypassword, name )"
+                                @click="verificarDatos(email,verifyemail,password,verifypassword, name )"
                                 color="primary">
                                 Crear cuenta
                             </v-btn>
@@ -79,12 +78,10 @@ export default {
         invisivilidadBton: true,
         usuarios: [],
         emailRules: [
-            v => !!v || 'Correo ingresado invalido',
+            v => !!v || 'Correo Invalido',
             v => /^[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(v) || 'Correo ingresado invalido',
         ],
-        botonRule: [
-
-        ],
+        botonRule: [],
         rules: {
             min: v => v.length >= 5 || 'Minimo 5 caracteres',
         },
@@ -97,7 +94,10 @@ export default {
             region:'',
             ciudad:'',
             direccion:''
-        }
+        },
+        validacionReqNombre:null,
+        validacionReqCorreo:null,
+        validacionReqContrasena:null,
     }),
     created() {
         this.listarCuentas();
@@ -129,11 +129,29 @@ export default {
     },
 
     methods: {
+        validar(){
+            var erCorreo = /^[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
+            if(erCorreo.test(email)){
+                this.validacionReqCorreo=true
+            }else{
+                this.validacionReqCorreo=false
+            }
+            if(this.name.length>=5){
+                this.validacionReqNombre=true
+            }else{
+                this.validacionReqNombre=false
+            }
+            if(this.password.length>=5){
+                this.validacionReqContrasena=true
+            }else{
+                this.validacionReqContrasena=false
+            }
+
+        },
         listarCuentas() {
             this.axios.get("EZ-Usuario")
                 .then((response) => {
                     this.usuarios = response.data;
-                    console.log("Usuarios Cargados")
                 })
                 .catch((e) => {
                     console.log('error' + e);
@@ -146,32 +164,44 @@ export default {
 
             return true
         },
-        verificarEmail(email, emailVerificar, password, verifypassword, name) {
+        verificarDatos(email, emailVerificar, password, verifypassword, name) {
             var estadoCrearCuenta = true;
             if (email == '' || emailVerificar == '' || password == '' || verifypassword == '' || name == '') {
                 console.log("error")
                 estadoCrearCuenta = false;
             } else {
+                var erCorreo = /^[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
+                if(erCorreo.test(email)){
+                    this.validacionReqCorreo=true
+                }else{
+                    this.validacionReqCorreo=false
+                }
+                if(this.name.length>=5){
+                    this.validacionReqNombre=true
+                }else{
+                    this.validacionReqNombre=false
+                }
+                if(this.password.length>=5){
+                    this.validacionReqContrasena=true
+                }else{
+                    this.validacionReqContrasena=false
+                }
                 this.visivilidadBton = false
-                if (password == verifypassword && email == emailVerificar) {
+                if (password == verifypassword && email == emailVerificar && this.validacionReqNombre && this.validacionReqCorreo && this.validacionReqContrasena) {
                     for (var i = 0; i < this.usuarios.length; i++) {
                         if (name == this.usuarios[i].nombreUsuario) {
-                            console.log("Usuario ya existe " + name)
                             estadoCrearCuenta = false;
                         }
                         if (email == this.usuarios[i].correo) {
-                            console.log("Correo ya existe " + email)
                             estadoCrearCuenta = false;
                         }
                     }
                 } else {
-                    console.log("email o contraseña incorrecta")
                     estadoCrearCuenta = false;
                     this.alertCorrecto = false
                     this.alertIncorrecto = true
                 }
                 if (estadoCrearCuenta) {
-                    console.log("CREAR CUENTA")
                     this.usuariosCrear.nombreUsuario=name
                     this.usuariosCrear.contrasena=password
                     this.usuariosCrear.correo=email
@@ -182,7 +212,6 @@ export default {
                     this.usuariosCrear.telefono=""
                     this.axios.post("Nuevo-Usuario", this.usuariosCrear)
                         .then((response) => {
-                            console.log("Se ingreso correctamente")
                             this.usuarios.unshift(response.data);
                         })
                         .catch((e) => {
