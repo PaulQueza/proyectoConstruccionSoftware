@@ -178,6 +178,7 @@ export default {
         };
     },
     created() {
+        this.$store.state.visibleBusqueda=true
         this.listarZapatillas();
     },
     components: {

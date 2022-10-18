@@ -295,6 +295,7 @@ export default {
         Icon,
     },
     created() {
+        this.$store.state.visibleBusqueda=true
         this.datosDespacho()
     },
     computed: {
@@ -332,6 +333,7 @@ export default {
                             this.direccionDespacho = this.usuarios[i].direccion
                             this.codigopostalDespacho = this.usuarios[i].codigopostal
                             this.contrasenaUsuario = this.usuarios[i].contrasena
+                            break
                         }
                     }
                 })

@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-row class="mx-2 mt-3" v-if="ingresoAdmin === true">
-            <!-- Dialogo de editar tallas del ComboBox-->
+            <!-- Dialogo de editar tallas del select-->
             <v-dialog v-model="drawerTallas" max-width="300px">
                 <v-card>
                     <v-card-title>
@@ -11,7 +11,7 @@
                         <v-container>
                             <v-row justify="center">
                                 <v-col cols="12" sm="10" md="10">
-                                    <v-combobox v-model="tallasCBX" :items="items" label="Tallas"></v-combobox>
+                                    <v-select v-model="tallasCBX" :items="items" label="Tallas"></v-select>
                                     <v-text-field v-model="cantidadTallasVista"
                                         :rules="[() => !!cantidadTallasVista || 'Este campo no puede estar vacio']"
                                         label="Cantidad tallas" required>
@@ -37,7 +37,7 @@
                         <v-container>
                             <v-row justify="center">
                                 <v-col cols="12" sm="10" md="10">
-                                    <v-combobox v-model="tallasAdmin" :items="items" label="Tallas"></v-combobox>
+                                    <v-select v-model="tallasAdmin" :items="items" label="Tallas"></v-select>
                                     <v-text-field v-model="cantidadTallasAdmin"
                                         :rules="[() => !!cantidadTallasAdmin || 'Este campo no puede estar vacio']"
                                         label="Cantidad tallas" required>
@@ -66,8 +66,8 @@
                                         :rules="[() => !!name || 'Este campo no puede estar vacio']" label="Nombre"
                                         required>
                                     </v-text-field>
-                                    <v-combobox v-model="marca" :items="marcas" label="Marcas"></v-combobox>
-                                    <v-combobox v-model="tipo" :items="tipos" label="Tipos"></v-combobox>
+                                    <v-select v-model="marca" :items="marcas" label="Marcas"></v-select>
+                                    <v-select v-model="tipo" :items="tipos" label="Tipos"></v-select>
                                     <v-text-field v-model="precio"
                                         :rules="[() => !!precio || 'Este campo no puede estar vacio']" label="Precio"
                                         required>
@@ -90,7 +90,7 @@
                                     <v-btn fab width="40" height="40" @click="agregarMasTallas(true,'','',true,false)">
                                         <Icon icon="carbon:add-filled" width="45" height="45" color="#57a639" />
                                     </v-btn>
-                                    <v-combobox v-model="color" :items="colores" label="Colores"></v-combobox>
+                                    <v-select v-model="color" :items="colores" label="Colores"></v-select>
                                     <v-text-field v-model="imagen"
                                         :rules="[() => !!imagen || 'Este campo no puede estar vacio']" label="Imagen"
                                         required prepend-icon="mdi-camera">
@@ -119,8 +119,8 @@
                                         :rules="[() => !!name || 'Este campo no puede estar vacio']" label="Nombre"
                                         required>
                                     </v-text-field>
-                                    <v-combobox v-model="marca" :items="marcas" label="Marcas"></v-combobox>
-                                    <v-combobox v-model="tipo" :items="tipos" label="Tipos"></v-combobox>
+                                    <v-select v-model="marca" :items="marcas" label="Marcas"></v-select>
+                                    <v-select v-model="tipo" :items="tipos" label="Tipos"></v-select>
                                     <v-text-field v-model="precio"
                                         :rules="[() => !!precio || 'Este campo no puede estar vacio']" label="Precio"
                                         required>
@@ -144,7 +144,7 @@
                                     <v-btn fab width="40" height="40" @click="agregarMasTallas(true,'','',false,true)">
                                         <Icon icon="carbon:add-filled" width="45" height="45" color="#57a639" />
                                     </v-btn>
-                                    <v-combobox v-model="color" :items="colores" label="Colores"></v-combobox>
+                                    <v-select v-model="color" :items="colores" label="Colores"></v-select>
                                     <v-text-field v-model="imagen"
                                         :rules="[() => !!imagen || 'Este campo no puede estar vacio']" label="Imagen"
                                         required prepend-icon="mdi-camera">
@@ -416,7 +416,6 @@ export default {
                     )
                 }
             })
-
         },
         editarProducto(consulta, name, marca, stock, color, precio, tipo, _id, imagen) {
             if (consulta == true) {
@@ -525,48 +524,56 @@ export default {
             } else {
                 this.cantidadTallasVista = null
                 this.tallasCBX = null
-                if(this.agregarBool){
-                    var verificar=true
-                    for(var i=0; i<this.tallasVista.length;i++){
-                        if(this.tallasVista[i].talla===numeroTallaIngresado){
-                            verificar=false
+                if(numeroTallaIngresado!=null && numeroTallaIngresado < 46 && numeroTallaIngresado > 28 ){
+                    if(this.agregarBool){
+                        var verificar=true
+                        for(var i=0; i<this.tallasVista.length;i++){
+                            if(this.tallasVista[i].talla===numeroTallaIngresado){
+                                verificar=false
+                            }
                         }
+                        if(verificar){
+                            this.tallasVista.push({
+                                id: Date.now(),
+                                talla: numeroTallaIngresado,
+                                cantidad: CantidadIngresado
+                            })
+                        }else{
+                            Swal.fire({
+                            icon: 'error',
+                            title: 'Talla repetida...',
+                            text: 'Datos incorrectos!',
+                            })
+                        }
+                        this.drawerAgregar = true
+                    }else if(this.editarBool){
+                        var verificar=true
+                        for(var i=0; i<this.stock.length;i++){
+                            if(this.stock[i].talla===numeroTallaIngresado){
+                                verificar=false
+                            }
+                        }
+                        if(verificar){
+                            this.stock.push({
+                                id: Date.now(),
+                                talla: numeroTallaIngresado,
+                                cantidad: CantidadIngresado
+                            })
+                        }else{
+                            Swal.fire({
+                            icon: 'error',
+                            title: 'Talla repetida...',
+                            text: 'Datos incorrectos!',
+                            })
+                        }
+                        this.drawerEditar = true
                     }
-                    if(verificar){
-                        this.tallasVista.push({
-                            id: Date.now(),
-                            talla: numeroTallaIngresado,
-                            cantidad: CantidadIngresado
-                        })
-                    }else{
-                        Swal.fire({
+                }else{
+                    Swal.fire({
                         icon: 'error',
-                        title: 'Talla repetida...',
+                        title: 'Error al ingresar talla...',
                         text: 'Datos incorrectos!',
                         })
-                    }
-                    this.drawerAgregar = true
-                }else if(this.editarBool){
-                    var verificar=true
-                    for(var i=0; i<this.stock.length;i++){
-                        if(this.stock[i].talla===numeroTallaIngresado){
-                            verificar=false
-                        }
-                    }
-                    if(verificar){
-                        this.stock.push({
-                            id: Date.now(),
-                            talla: numeroTallaIngresado,
-                            cantidad: CantidadIngresado
-                        })
-                    }else{
-                        Swal.fire({
-                        icon: 'error',
-                        title: 'Talla repetida...',
-                        text: 'Datos incorrectos!',
-                        })
-                    }
-                    this.drawerEditar = true
                 }
                 this.drawerTallas = false
             }
@@ -582,23 +589,32 @@ export default {
                 }
                 this.drawerTallasAdmin=true
                 console.log(this.indexEditar)
-            }else{
-                if(this.agregarBool){
-                    this.tallasVista[this.indexEditar].talla = tallaAdmin
-                    this.tallasVista[this.indexEditar].cantidad = cantidadAdmin
-                    this.drawerAgregar=true
-                }else if(this.editarBool){
-                    this.stock[this.indexEditar].talla = tallaAdmin
-                    this.stock[this.indexEditar].cantidad = cantidadAdmin
-                    Swal.fire(
-                        'Talla no guardado!',
-                        'Puede que se vean cambios, los datos aun no estan guardados.',
-                        'warning'
-                    )
-                    this.drawerEditar=true
+            }       
+            else{
+                if(numeroTalla!=null && tallaAdmin!= null){
+                    if(this.agregarBool){
+                        this.tallasVista[this.indexEditar].talla = tallaAdmin
+                        this.tallasVista[this.indexEditar].cantidad = cantidadAdmin
+                        this.drawerAgregar=true
+                    }else if(this.editarBool){
+                        this.stock[this.indexEditar].talla = tallaAdmin
+                        this.stock[this.indexEditar].cantidad = cantidadAdmin
+                        Swal.fire(
+                            'Talla no guardado!',
+                            'Puede que se vean cambios, los datos aun no estan guardados.',
+                            'warning'
+                        )
+                        this.drawerEditar=true
+                    }
+                    this.drawerTallasAdmin=false
+                    }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al ingresar talla...',
+                        text: 'Datos incorrectos!',
+                        })
+                    }
                 }
-                this.drawerTallasAdmin=false
-            }
         },
         eliminarTalla(vista,numeroTalla) {
             if(vista){

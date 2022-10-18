@@ -92,8 +92,10 @@ export default {
             nombreUsuario:'',
             contrasena:'',
             region:'',
-            ciudad:'',
-            direccion:''
+            provincia:'',
+            direccion:'',
+            codigopostal:'',
+            comuna:''
         },
         validacionReqNombre:null,
         validacionReqCorreo:null,
@@ -205,11 +207,13 @@ export default {
                     this.usuariosCrear.nombreUsuario=name
                     this.usuariosCrear.contrasena=password
                     this.usuariosCrear.correo=email
-                    this.usuariosCrear.edad=""
-                    this.usuariosCrear.ciudad=""
-                    this.usuariosCrear.direccion=""
-                    this.usuariosCrear.region=""
-                    this.usuariosCrear.telefono=""
+                    this.usuariosCrear.edad=null
+                    this.usuariosCrear.provincia=null
+                    this.usuariosCrear.direccion=null
+                    this.usuariosCrear.region=null
+                    this.usuariosCrear.comuna=null
+                    this.usuariosCrear.codigopostal=null
+                    this.usuariosCrear.telefono=null
                     this.axios.post("Nuevo-Usuario", this.usuariosCrear)
                         .then((response) => {
                             this.usuarios.unshift(response.data);
