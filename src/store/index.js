@@ -26,6 +26,7 @@ export default new Vuex.Store({
     visibleHombre: true,
     visibleMujer: true,
     visibleInventario: false,
+    visibleBusqueda: true,
     UsuarioConectadoNombre:null,
     UsuarioConectadoMail: null,
     UsuarioMode:null,

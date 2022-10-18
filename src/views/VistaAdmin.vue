@@ -310,7 +310,7 @@ export default {
     created() {
         this.listarZapatillas();
         this.listarCuentas();
-        this.revisarAdmin();
+        this.ingresoAdmin = this.$store.state.ingresoAdmin
     },
     components: {
         Icon,

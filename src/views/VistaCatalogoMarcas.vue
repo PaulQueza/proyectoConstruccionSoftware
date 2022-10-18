@@ -140,6 +140,7 @@
 </template>
 <script>
 import { Icon } from "@iconify/vue2";
+import Swal from 'sweetalert2'
 import VistaMarca from '../views/VistaMarca.vue'
 export default {
     props:{
@@ -178,8 +179,7 @@ export default {
         };
     },
     created() {
-        
-        console.log(this.$store.state.vistaMarcaAdidas);
+        this.$store.state.visibleBusqueda=true
         if(this.$store.state.vistaMarcaAdidas===true){
             console.log("ADIDAS")
             this.listarZapatillasAdidas();

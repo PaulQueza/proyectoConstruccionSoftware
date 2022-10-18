@@ -147,6 +147,7 @@ export default {
                 } else if (estadoAdmin) {
                     //localStorage.setItem(nombreAdmin, 'token_admin')
                     this.$store.state.ingresoUsuario = true
+                    this.$store.state.ingresoAdmin=true
                     this.$store.state.visibleInicio = false
                     this.$store.state.visibleMarca = false
                     this.$store.state.visibleMujer = false

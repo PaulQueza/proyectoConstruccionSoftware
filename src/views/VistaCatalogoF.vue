@@ -143,6 +143,7 @@
 </template>
 <script>
 import { Icon } from "@iconify/vue2";
+import Swal from 'sweetalert2'
 export default {
     data() {
         return {
@@ -177,6 +178,7 @@ export default {
         };
     },
     created() {
+        this.$store.state.visibleBusqueda=true
         this.listarZapatillas();
     },
     components: {

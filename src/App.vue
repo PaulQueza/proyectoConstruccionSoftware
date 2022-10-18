@@ -28,7 +28,7 @@
           <v-spacer></v-spacer>
           <v-spacer></v-spacer>
           <v-text-field v-model="buscar" prepend-inner-icon="mdi-magnify" rounded dense flat hide-details solo
-            label="Buscar" @keyup.enter="busqueda" v-if="visibleBusqueda===true">
+            label="Buscar" @keyup.enter="busqueda" v-if="this.$store.state.visibleBusqueda">
           </v-text-field>
           <div>
             <v-btn color="teal lighten-5" rounded class="mx-1" to="/login" v-if="!this.$store.state.ingresoUsuario">
@@ -128,7 +128,7 @@ export default {
       } else {
         this.$store.state.busqueda = this.buscar
         if (this.$route.path !== `/busqueda/${this.buscar}`) {
-          this.visibleBusqueda = false
+          this.$store.state.visibleBusqueda=false
           this.$router.push({ path: `/busqueda/${this.buscar}` })
           this.buscar = ""
         }
