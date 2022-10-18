@@ -93,8 +93,8 @@
                             <p>
                                 Total precio: {{(sum).toLocaleString('es', { style: 'currency', currency: 'USD' })}}
                             </p>
-                            <v-btn>
-                                Finalizar pedido
+                            <v-btn color="teal lighten-2" class="white--text" @click="comprar()">
+                                Comprar
                             </v-btn>
                         </v-col>
                     </v-container>
@@ -110,6 +110,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 import { Icon } from "@iconify/vue2";
 export default {
     data() {
@@ -128,6 +129,7 @@ export default {
             nombreUsuario:null,
             telefonoUsuario:null,
             direccionEnvio:null,
+            sumaTotal:null,
         };
     },
     created() {
@@ -141,8 +143,6 @@ export default {
                     if (zapatillas[i].count < zapatillas[i].maxCantidad) {
                         this.$store.state.carroCompras[i].count++;
                         break
-                    } else {
-                        console.log("verificar stock")
                     }
                 }
             }
@@ -155,8 +155,6 @@ export default {
                     if (zapatillas[i].count >= 2) {
                         this.$store.state.carroCompras[i].count--;
                         break
-                    } else {
-                        console.log("verificar stock")
                     }
                 }
             }
@@ -197,15 +195,39 @@ export default {
                     console.log('error' + e);
                 })
         },
+        comprar(){
+            if(this.sumaTotal===0 || this.direccionEnvio.length===0){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al comprar',
+                    text:'Revisa si hay productos en tu carro, tambien tu direccion de envio',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }else{
+                this.$store.state.carroCompras=[]
+                this.sumaTotal=null
+                Swal.fire({
+                    icon: 'success',
+                    title: 'El producto ha sido comprado',
+                    text:'Gracias por tu compra!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                if (this.$route.path !== `/`) {
+                    this.$router.push({ path: "/" })
+                }
+            }
+        },
     },
     computed: {
         sum: {
             get() {
-                let sum = 0;
+                this.sumaTotal = 0;
                 for (let ArrayZapatillas of this.$store.state.carroCompras) {
-                    sum += ArrayZapatillas.count * ArrayZapatillas.precio;
+                    this.sumaTotal+= ArrayZapatillas.count * ArrayZapatillas.precio;
                 }
-                return sum;
+                return this.sumaTotal;
             }
         },
     }

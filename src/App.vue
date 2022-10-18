@@ -31,7 +31,6 @@
             label="Buscar" @keyup.enter="busqueda" v-if="visibleBusqueda===true">
           </v-text-field>
           <div>
-            
             <v-btn color="teal lighten-5" rounded class="mx-1" to="/login" v-if="!this.$store.state.ingresoUsuario">
               <Icon icon="ant-design:user-outlined" />
             </v-btn>
@@ -119,53 +118,6 @@ export default {
   components: {
     Icon
   },
-  beforeMount: function () {
-    axios.get("EZ-Usuario")
-      .then((response) => {
-        this.usuarios = response.data;
-        for (var i = 0; i < this.usuarios.length; i++) {
-          this.$store.state.ingresoUsuario = false
-          if (localStorage.getItem(this.usuarios[i].nombreUsuario)) {
-            this.$store.state.UsuarioConectadoNombre = this.usuarios[i].nombreUsuario
-            this.$store.state.UsuarioConectadoMail = this.usuarios[i].correo
-            this.$store.state.ingresoUsuario = true
-            this.$store.state.UsuarioMode = "user"
-            this.$store.state.visibleInicio = true
-            this.$store.state.visibleMarca = true
-            this.$store.state.visibleMujer = true
-            this.$store.state.visibleHombre = true
-            this.$store.state.visibleInventario = false
-            console.log(this.usuarios[i].nombreUsuario + " || " + this.usuarios[i].correo + " || "+this.$store.state.ingresoUsuario)
-            break
-          }
-        }
-      })
-      .catch((e) => {
-        console.log('error' + e);
-      })
-    axios.get("EZ-Admin")
-      .then((response) => {
-        this.admins = response.data;
-        for (var i = 0; i < this.admins.length; i++) {
-          this.$store.state.ingresoUsuario = false
-          if (localStorage.getItem(this.admins[i].nombreUsuario)) {
-            this.$store.state.UsuarioConectadoNombre = this.admins[i].nombreUsuario
-            this.$store.state.UsuarioConectadoMail = this.admins[i].correo
-            this.$store.state.UsuarioMode = "admin"
-            this.$store.state.ingresoUsuario = true
-            this.$store.state.visibleInicio = false
-            this.$store.state.visibleMarca = false
-            this.$store.state.visibleMujer = false
-            this.$store.state.visibleHombre = false
-            this.$store.state.visibleInventario = true
-            break
-          }
-        }
-      })
-      .catch((e) => {
-        console.log('error' + e);
-      })
-  },
   methods: {
     mostrarBuscador() {
       this.visibleBusqueda = true
@@ -184,19 +136,7 @@ export default {
     },
     cerrarSesion() {
       var estado = false
-      for (var i = 0; i < this.usuarios.length; i++) {
-        if (localStorage.getItem(this.usuarios[i].nombreUsuario)) {
-          localStorage.removeItem(this.usuarios[i].nombreUsuario)
-          estado = true
-        }
-      }
-      for (var i = 0; i < this.admins.length; i++) {
-        if (localStorage.getItem(this.admins[i].nombreUsuario)) {
-          localStorage.removeItem(this.admins[i].nombreUsuario)
-          estado = true
-        }
-      }
-      if (estado) {
+      if (this.$store.state.ingresoUsuario) {
         Swal.fire(
           'Saliste de tu cuenta!',
         )
