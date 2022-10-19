@@ -209,34 +209,22 @@ export default {
             this.nombre = nombre
         },
         filtroZapatilllas() {
-            if (this.TagsCheck) {
-                this.$store.state.tags = this.TagsCheck
+            this.$store.state.tags= this.TagsCheck
+            if(this.TagsCheck){
                 this.$store.state.Urbana = this.Urbana
                 this.$store.state.Casual = this.Casual
                 this.$store.state.Deportiva = this.Deportiva
-            }else{
-                this.$store.state.tags = false
-                this.$store.state.Urbana = false
-                this.$store.state.Casual = false
-                this.$store.state.Deportiva = false
+                this.$store.state.Preciocheck = this.Preciocheck
             }
-            if (this.PrecioCheck) {
-                this.$store.state.precio = this.PrecioCheck
+            if(this.PrecioCheck){
                 this.$store.state.precioMin = this.range[0]
-                this.$store.state.precioMax = this.range[1]
-            }else{
-                this.$store.state.precio = false
-                this.$store.state.precioMin = this.range[0]
-                this.$store.state.precioMax = this.range[1]
+                this.$store.state.precioMax = this.range[1] 
             }
-            if (this.TagsCheck) {
-                this.$store.state.talla = this.TallaCheck
-                this.$store.state.tallaFiltrar = this.TallaFiltro
-            }else{
-                this.$store.state.talla = false
-                this.$store.state.tallaFiltrar = false
+            this.$store.state.talla=this.TallaCheck
+            if(this.TallaCheck){
+                this.$store.state.tallaFiltrar= this.TallaFiltro
             }
-            this.$router.push({ path: `/filtros/${this.TagsCheck}Urb?%${this.PrecioCheck}Cas?%${this.TagsCheck}Dep?${this.range[0]}Prec?=` })
+            this.$router.push({ path: `/filtros/${this.TagsCheck}Urb?%${this.PrecioCheck}Cas?%${this.TallaCheck}Dep?${this.range[0]}Prec?=` })
         },
         agregarCarroCompra(consulta, nombre, imagen, tallas, precio, tipo, marca) {
             if (consulta) {

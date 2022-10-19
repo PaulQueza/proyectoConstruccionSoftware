@@ -231,10 +231,6 @@ export default {
                 this.Urbana=false
                 this.Casual=false
                 this.Deportiva=false
-            }else{
-                if(!this.Urbana && !this.Casual && !this.Deportiva){
-                    this.TagsCheck=false
-                }
             }
             if(!this.TallaCheck){
                 this.TallaFiltro=null
