@@ -204,7 +204,7 @@
             <!-- Boton agregar -->
             <div style: width="30px">
                 <v-row no-gutters justify="end">
-                    <v-btn @click="agregarProducto(true)" absolute top right>
+                    <v-btn @click="agregarProducto(true)" absolute top right width="55" height="55">
                         <Icon icon="carbon:add-filled" color="#4db6ac" width="66" height="66" />
                     </v-btn>
                 </v-row>

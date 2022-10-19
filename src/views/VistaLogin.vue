@@ -63,7 +63,7 @@ export default {
         usuarios: [],
         admins: [],
         rules: {
-            min: v => v.length >= 8 || 'Minimo 8 caracteres',
+            min: v => v.length >= 5 || 'Minimo 5 caracteres',
 
         },
     }),

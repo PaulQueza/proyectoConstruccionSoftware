@@ -210,7 +210,7 @@ export default {
                     text:'Revisa si hay productos en tu carro',
                 })
             }else{
-                if(this.direccionEnvio.length===0){
+                if(this.direccionEnvio===""){
                     Swal.fire({
                         icon: 'error',
                         title: 'No hay datos de envio',
@@ -219,6 +219,12 @@ export default {
                     if (this.$route.path !== `/editarDatos`) {
                         this.$router.push({ path: "/editarDatos" })
                     }
+                }else if(this.$store.state.ingresoUsuario){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Eres administrador.... Despedido!',
+                        text:'Recuerda que no puedes comprar siendo administrador!',
+                    })
                 }else{
                     this.$store.state.carroCompras=[]
                     this.sumaTotal=null
