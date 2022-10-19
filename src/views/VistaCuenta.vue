@@ -2,14 +2,52 @@
     <v-app>
         <!-- Editar datos cuenta cliente -->
         <v-container>
-            <v-dialog v-model="drawerEditarDatosCliente" max-width="700px">
+            <v-dialog v-model="drawerEditarDatosCliente" max-width="1000px">
                 <v-card>
                     <v-card-title>
                         <span class="text-h5">Editar datos cuenta cliente</span>
                     </v-card-title>
                     <v-card-text>
                         <v-col>
-                            <v-card-subtitle>asjdksa</v-card-subtitle>
+                            <v-row class="text-center">
+                                    <v-col>
+                                        <v-select v-model="regionDespacho" :items="regiones" label="Regiones"></v-select>
+                                    </v-col>
+                                    <v-col>
+                                        <v-select v-model="provinciaDespacho" v-if="this.regionDespacho === 'Región Metropolitana de Santiago'" :items= "provinciaMetropolitana" label="Provincias"></v-select>
+                                        <v-select v-model="provinciaDespacho" v-if="this.regionDespacho === 'Región de O Higgins'" :items= "provinciaOhiggins" label="Provincias"></v-select>
+                                        <v-select v-model="provinciaDespacho" v-if="this.regionDespacho === 'Región del Maule'" :items= "provinciaMaule" label="Provincias"></v-select>
+                                    </v-col>
+                                    <v-col>
+                                        <v-select v-model="comunaDespacho" v-if="this.provinciaDespacho === 'Chacabuco'" :items= "comunaMetropolitanaChacabuco" label="comunas"></v-select>
+                                        <v-select v-model="comunaDespacho" v-if="this.provinciaDespacho === 'Cordillera'" :items= "comunaMetropolitanaCordillera" label="comunas"></v-select>
+                                        <v-select v-model="comunaDespacho" v-if="this.provinciaDespacho === 'Maipo'" :items= "comunaMetropolitanaMaipo" label="comunas"></v-select>
+                                        <v-select v-model="comunaDespacho" v-if="this.provinciaDespacho === 'Melipilla'" :items= "comunaMetropolitanaMelipilla" label="comunas"></v-select>
+                                        <v-select v-model="comunaDespacho" v-if="this.provinciaDespacho === 'Santiago'" :items= "comunaMetropolitanaSantiago" label="comunas"></v-select>
+                                        <v-select v-model="comunaDespacho" v-if="this.provinciaDespacho === 'Talagante'" :items= "comunaMetropolitanTalagante" label="comunas"></v-select>
+
+                                        <v-select v-model="comunaDespacho" v-if="this.provinciaDespacho === 'Cachapoal'" :items= "comunaOhigginsCachapoal" label="comunas"></v-select>
+                                        <v-select v-model="comunaDespacho" v-if="this.provinciaDespacho === 'Cardenal Caro'" :items= "comunaOhigginsCardenal" label="comunas"></v-select>
+                                        <v-select v-model="comunaDespacho" v-if="this.provinciaDespacho === 'Colchagua'" :items= "comunaOhigginsColchagua" label="comunas"></v-select>
+
+                                        <v-select v-model="comunaDespacho" v-if="this.provinciaDespacho === 'Cauquenes'" :items= "comunaMauleCauquenes" label="comunas"></v-select>
+                                        <v-select v-model="comunaDespacho" v-if="this.provinciaDespacho === 'Curicó'" :items= "comunaMauleCurico" label="comunas"></v-select>
+                                        <v-select v-model="comunaDespacho" v-if="this.provinciaDespacho === 'Linares'" :items= "comunaMauleLinares" label="comunas"></v-select>
+                                        <v-select v-model="comunaDespacho" v-if="this.provinciaDespacho === 'Talca'" :items= "comunaMauleTalca" label="comunas"></v-select>
+                                    </v-col>
+                                    <v-col>
+                                        <v-text-field v-model="direccionDespacho"
+                                        :rules="[() => !!direccionDespacho || 'Este campo no puede estar vacio']" label="Direccion despacho"
+                                        required>
+                                    </v-text-field>
+                                    </v-col>
+                                    <v-col>
+                                        <v-text-field v-model="codigopostalDespacho"
+                                        :rules="[() => !!codigopostalDespacho || 'Este campo no puede estar vacio']" label="Codigo postal despacho"
+                                        required>
+                                    </v-text-field>
+                                    </v-col>
+                                </v-row>
                             <v-row>
                                 <v-spacer></v-spacer>
                                 <v-btn class="white--text" color="teal lighten-2" @click="editarDatosCliente(false)">
@@ -275,6 +313,7 @@ export default {
         hiddenH: false,
         admins: [],
         usuarios: [],
+        _id: null,
         regionDespacho: null,
         comunaDespacho: null,
         direccionDespacho: null,
@@ -290,6 +329,31 @@ export default {
         accionRealizar:null,
         nombreUsuarioVerificar:null,
         contrasenaVerificar:null,
+        selectedRegion : null,
+        selectedProvincia: null,
+        selectedComuna: null,
+
+        regiones:['Región Metropolitana de Santiago','Región de O Higgins','Región del Maule'],
+        
+        provinciaMetropolitana:['Chacabuco','Cordillera','Maipo','Melipilla','Santiago','Talagante'],
+        comunaMetropolitanaChacabuco:['Colina','Lampa','Tiltil'],
+        comunaMetropolitanaCordillera:['Pirque','Puente Alto','San José de Maipo'],
+        comunaMetropolitanaMaipo:['Buin','Calera de Tango','San Bernardo'],
+        comunaMetropolitanaMelipilla:['Curacaví','Melipilla','San Pedro','María Pinto'],
+        comunaMetropolitanaSantiago:['Cerrillos','Cerro Navia','La Cisterna','Independencia','La Florida','La Pintana','Las Condes','Lo Barnechea','Maipú','Ñuñoa','Providencia','Renca','San Joaquín','San Ramón','Santiago','Vitacura'],
+        comunaMetropolitanTalagante:['Isla de Maipo','Peñaflor','Talagante','El Monte'],
+
+        provinciaOhiggins:['Cachapoal','Cardenal Caro','Colchagua'],
+        comunaOhigginsCachapoal:['Codegua','Coínco','Graneros','Machalí','Rancagua','Rengo','Requínoa','San Vicente'],
+        comunaOhigginsCardenal:['La Estrella','Litueche','Marchihue','Navidad','Paredones','Pichilemu'],
+        comunaOhigginsColchagua:['Chépica','Chimbarongo','Lolol','Nancagua','San Fernando','Santa Cruz','Pichilemu','Palmilla'],
+
+        provinciaMaule:['Cauquenes','Curicó','Linares','Talca'],
+        comunaMauleCauquenes:['Cauquenes','Chanco','Pelluhue'],
+        comunaMauleCurico:['Curicó','Hualañé','Licantén','Molina','Romeral','Teno','Sagrada Familia'],
+        comunaMauleLinares:['Colbún','Linares','Parral','San Javier','Villa Alegre','Yerbas Buenas'],
+        comunaMauleTalca:['Constitución','Maule','Pelarco','Río Claro','San Rafael','Talca'],
+
     }),
     components: {
         Icon,
@@ -443,6 +507,34 @@ export default {
             if(consulta){
                 this.drawerEditarDatosCliente=true
             }else{
+                this.axios.get("EZ-Usuario")
+                .then((response) => {
+                    this.usuarios = response.data;
+                        for (var i = 0; i < this.usuarios.length; i++) {
+                            if (this.usuarios[i].nombreUsuario === this.$store.state.UsuarioConectadoNombre) {
+                                    this.usuarios[i].region = this.regionDespacho
+                                    this.usuarios[i].provincia = this.provinciaDespacho
+                                    this.usuarios[i].comuna = this.comunaDespacho
+                                    this.usuarios[i].direccion = this.direccionDespacho
+                                    this.usuarios[i].codigopostal = this.codigopostalDespacho
+                                    this.axios.put(`Usuario-ac/${this.usuarios[i]._id}`, this.usuarios[i])
+                                        .then(res => {
+                                                const index = this.usuarios.findIndex(user => user._id === this.user._id);
+                                                this.usuarios[index].region = this.regionDespacho
+                                                this.usuarios[index].provincia = this.provinciaDespacho
+                                                this.usuarios[index].comuna = this.comunaDespacho
+                                                this.usuarios[index].direccion = this.direccionDespacho
+                                                this.usuarios[index].codigopostal = this.codigopostalDespacho
+                                            })
+                                            .catch(e => {
+                                                console.log(e);
+                                        })
+                                    }
+                                }
+                            })
+                            .catch((e) => {
+                                console.log('error' + e);
+                            })
                 this.drawerEditarDatosCliente=false
             }
         },
