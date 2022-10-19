@@ -60,7 +60,7 @@
                         <v-checkbox v-model="Urbana" label="Urbana" hide-details class="ml-2"></v-checkbox>
                     </v-container>
                     <v-row>
-                        <v-checkbox v-model="PrecioCheck" hide-details class="ml-4"></v-checkbox>
+                        <v-checkbox v-model="PrecioCheck" hide-details class="ml-4" ></v-checkbox>
                         <h3 align="left" class="mt-5">Precio</h3>
                     </v-row>
                     <v-row>
@@ -157,10 +157,11 @@ export default {
             Urbana: null,
             drawerCarrito: null,
             imagenCarro: null,
-            PrecioCheck: null,
-            TagsCheck:null,
-            TallaCheck:null,
-            TallaFiltro:null,
+
+            PrecioCheck: false,
+            TagsCheck: false,
+            TallaCheck: false,
+            TallaFiltro: null,
 
             tallasCarro: [],
             nombreCarro: null,
@@ -175,10 +176,14 @@ export default {
             min: 0,
             max: 500,
             range: [0, 500],
+
+            tagsSelec:false,
+            tallasSelec:false,
+            precioSelec:false,
         };
     },
     created() {
-        this.$store.state.visibleBusqueda=true
+        this.$store.state.visibleBusqueda = true
         this.listarZapatillas();
     },
     components: {
@@ -204,22 +209,34 @@ export default {
             this.nombre = nombre
         },
         filtroZapatilllas() {
-            this.$store.state.tags= this.TagsCheck
-            if(this.TagsCheck){
+            if (this.TagsCheck) {
+                this.$store.state.tags = this.TagsCheck
                 this.$store.state.Urbana = this.Urbana
                 this.$store.state.Casual = this.Casual
                 this.$store.state.Deportiva = this.Deportiva
-                this.$store.state.Preciocheck = this.Preciocheck
+            }else{
+                this.$store.state.tags = false
+                this.$store.state.Urbana = false
+                this.$store.state.Casual = false
+                this.$store.state.Deportiva = false
             }
-            if(this.PrecioCheck){
+            if (this.PrecioCheck) {
+                this.$store.state.precio = this.PrecioCheck
                 this.$store.state.precioMin = this.range[0]
-                this.$store.state.precioMax = this.range[1] 
+                this.$store.state.precioMax = this.range[1]
+            }else{
+                this.$store.state.precio = false
+                this.$store.state.precioMin = this.range[0]
+                this.$store.state.precioMax = this.range[1]
             }
-            this.$store.state.talla=this.TallaCheck
-            if(this.TallaCheck){
-                this.$store.state.tallaFiltrar= this.TallaFiltro
+            if (this.TagsCheck) {
+                this.$store.state.talla = this.TallaCheck
+                this.$store.state.tallaFiltrar = this.TallaFiltro
+            }else{
+                this.$store.state.talla = false
+                this.$store.state.tallaFiltrar = false
             }
-            this.$router.push({ path: `/filtros/${this.Urbana}Urb?%${this.Casual}Cas?%${this.Deportiva}Dep?${this.Preciocheck}Prec?=` })
+            this.$router.push({ path: `/filtros/${this.TagsCheck}Urb?%${this.PrecioCheck}Cas?%${this.TagsCheck}Dep?${this.range[0]}Prec?=` })
         },
         agregarCarroCompra(consulta, nombre, imagen, tallas, precio, tipo, marca) {
             if (consulta) {
@@ -249,16 +266,16 @@ export default {
                             break
                         }
                     }
-                    if(this.cmbxCarrito===null || this.cmbxCantidad===null){
-                        estadoElementos=false
+                    if (this.cmbxCarrito === null || this.cmbxCantidad === null) {
+                        estadoElementos = false
                     }
-                    if(!estadoElementos){
+                    if (!estadoElementos) {
                         Swal.fire({
                             icon: 'error',
                             title: 'No se ingresaron las cantidades y/o talla...',
                             text: 'Ingrese la talla y las cantidades para agregar productos a su carro de compras!',
                         })
-                    }else{
+                    } else {
                         if (estadoTalla) {
                             this.$store.state.carroCompras.push({
                                 nombre: this.nombreCarro,

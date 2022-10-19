@@ -15,7 +15,7 @@ export default new Vuex.Store({
     precioMax:null,
     precioMin:null,
     talla:false,
-    tallaFiltrar:null,
+    tallaFiltrar:false,
     Urbana:false,
     Casual:false,
     Deportiva:false,

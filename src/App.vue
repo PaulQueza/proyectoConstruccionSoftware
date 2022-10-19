@@ -82,7 +82,7 @@
           <v-icon size="24px">{{icono}}</v-icon>
         </v-btn>
         <v-col class="grey py-4 text-center white--text" cols="12">
-          {{ new Date().getFullYear() }} — <strong>Ez-Neackers</strong>
+          {{ new Date().getFullYear() }} — <strong>Ez-Neakers</strong>
         </v-col>
       </v-row>
     </v-footer>

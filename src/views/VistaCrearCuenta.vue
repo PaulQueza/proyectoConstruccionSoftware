@@ -86,7 +86,6 @@ export default {
             min: v => v.length >= 5 || 'Minimo 5 caracteres',
         },
         usuariosCrear:{
-            edad:'',
             telefono:'',
             correo:'',
             nombreUsuario:'',
@@ -207,7 +206,6 @@ export default {
                     this.usuariosCrear.nombreUsuario=name
                     this.usuariosCrear.contrasena=password
                     this.usuariosCrear.correo=email
-                    this.usuariosCrear.edad=null
                     this.usuariosCrear.provincia=null
                     this.usuariosCrear.direccion=null
                     this.usuariosCrear.region=null

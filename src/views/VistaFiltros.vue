@@ -204,19 +204,6 @@ export default {
         if (this.TallaCheck) {
             this.TallaFiltro = this.$store.state.tallaFiltrar
         }
-        if (!this.TagsCheck && !this.PrecioCheck && !this.TagsCheck) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'No seleccionaste ningun filtro...',
-                text: 'Selecciona filtros para ver tus productos!',
-            })
-        } else if (this.TagsCheck && (!this.Urbana && !this.Casual && !this.Deportiva)) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Seleccionaste el filtro de tags, sin filtrar por ningun tag...',
-                text: 'Selecciona filtros por Tipo Urbana, Tipo Casual, Tipo Deportiva!',
-            })
-        }
         this.filtroZapatilllas();
     },
     components: {
@@ -240,128 +227,123 @@ export default {
             var zapatillaTalla = []
             var zapatillasBD = []
             this.zapatillas = []
-            if (!this.TagsCheck && !this.PrecioCheck && !this.TagsCheck) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'No seleccionaste ningun filtro...',
-                    text: 'Selecciona filtros para ver tus productos!',
-                })
-            } else if (this.TagsCheck && (!this.Urbana && !this.Casual && !this.Deportiva)) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Seleccionaste el filtro de tags, sin filtrar por ningun tag...',
-                    text: 'Selecciona filtros por Tipo Urbana, Tipo Casual, Tipo Deportiva!',
-                })
-            }else{
-                this.axios.get('Ez-Producto').then((response) => {
-                    zapatillasBD = response.data;
-                    if (this.TagsCheck) {
-                        if (this.Urbana) {
-                            zapatillasUrbana = zapatillasBD.filter(v => v.tipo === "Urbana")
-                            for (var i = 0; i < zapatillasUrbana.length; i++) {
-                                this.zapatillas.push({
-                                    nombre: zapatillasUrbana[i].nombre,
-                                    marca: zapatillasUrbana[i].marca,
-                                    tipo: zapatillasUrbana[i].tipo,
-                                    imagen: zapatillasUrbana[i].imagen,
-                                    precio: zapatillasUrbana[i].precio,
-                                    sexo: zapatillasUrbana[i].sexo,
-                                    visible: zapatillasUrbana[i].visible,
-                                    stock: zapatillasUrbana[i].stock,
-                                    color: zapatillasUrbana[i].color,
-                                })
-                            }
-                        }
-                        if (this.Casual) {
-                            zapatillasCasual = zapatillasBD.filter(v => v.tipo === "Casual")
-                            for (var i = 0; i < zapatillasCasual.length; i++) {
-                                this.zapatillas.push({
-                                    nombre: zapatillasCasual[i].nombre,
-                                    marca: zapatillasCasual[i].marca,
-                                    tipo: zapatillasCasual[i].tipo,
-                                    imagen: zapatillasCasual[i].imagen,
-                                    precio: zapatillasCasual[i].precio,
-                                    sexo: zapatillasCasual[i].sexo,
-                                    visible: zapatillasCasual[i].visible,
-                                    stock: zapatillasCasual[i].stock,
-                                    color: zapatillasCasual[i].color,
-                                })
-                            }
-                        }
-                        if (this.Deportiva) {
-                            zapatillasDeportiva = zapatillasBD.filter(v => v.tipo === "Deportiva")
-                            for (var i = 0; i < zapatillasDeportiva.length; i++) {
-                                this.zapatillas.push({
-                                    nombre: zapatillasDeportiva[i].nombre,
-                                    marca: zapatillasDeportiva[i].marca,
-                                    tipo: zapatillasDeportiva[i].tipo,
-                                    imagen: zapatillasDeportiva[i].imagen,
-                                    precio: zapatillasDeportiva[i].precio,
-                                    sexo: zapatillasDeportiva[i].sexo,
-                                    visible: zapatillasDeportiva[i].visible,
-                                    stock: zapatillasDeportiva[i].stock,
-                                    color: zapatillasDeportiva[i].color,
-                                })
-                            }
-                        }
-                    }
-                    if (this.PrecioCheck) {
-                        if (this.TagsCheck) {
-                            this.zapatillas = this.zapatillas.filter(v => v.precio >= this.range[0] && v.precio <= this.range[1])
-                        } else {
-                            this.zapatillas = this.zapatillasBD.filter(v => v.precio >= this.range[0] && v.precio <= this.range[1])
-                        }
-                    }
-                    if (this.TallaCheck) {
-                        var stock = []
-                        if (this.TagsCheck) {
-                            for (var i = 0; i < this.zapatillas.length; i++) {
-                                stock = this.zapatillas[i].stock
-                                for (var j = 0; j < stock.length; j++) {
-                                    if (stock[j].talla === this.TallaFiltro) {
-                                        zapatillaTalla.push({
-                                            nombre: this.zapatillas[i].nombre,
-                                            marca: this.zapatillas[i].marca,
-                                            tipo: this.zapatillas[i].tipo,
-                                            imagen: this.zapatillas[i].imagen,
-                                            precio: this.zapatillas[i].precio,
-                                            sexo: this.zapatillas[i].sexo,
-                                            visible: this.zapatillas[i].visible,
-                                            stock: this.zapatillas[i].stock,
-                                            color: this.zapatillas[i].color,
-                                        })
-                                    }
-                                }
-                            }
-                            this.zapatillas = zapatillaTalla
-                        } else {
-                            for (var i = 0; i < zapatillasBD.length; i++) {
-                                stock = zapatillasBD[i].stock
-                                for (var j = 0; j < stock.length; j++) {
-                                    if (stock[j].talla === this.TallaFiltro) {
-                                        zapatillaTalla.push({
-                                            nombre: zapatillasBD[i].nombre,
-                                            marca: zapatillasBD[i].marca,
-                                            tipo: zapatillasBD[i].tipo,
-                                            imagen: zapatillasBD[i].imagen,
-                                            precio: zapatillasBD[i].precio,
-                                            sexo: zapatillasBD[i].sexo,
-                                            visible: zapatillasBD[i].visible,
-                                            stock: zapatillasBD[i].stock,
-                                            color: zapatillasBD[i].color,
-                                        })
-                                    }
-                                }
-                            }
-                            this.zapatillas = zapatillaTalla
-                        }
-                    }
-                    this.cargado = true
-                })
-                    .catch((e) => {
-                        console.log(e)
-                    })
+            if(!this.TagsCheck){
+                this.Urbana=false
+                this.Casual=false
+                this.Deportiva=false
             }
+            if(!this.TallaCheck){
+                this.TallaFiltro=null
+            }
+            this.axios.get('Ez-Producto').then((response) => {
+                zapatillasBD = response.data;
+                if (this.TagsCheck) {
+                    if (this.Urbana) {
+                        zapatillasUrbana = zapatillasBD.filter(v => v.tipo === "Urbana")
+                        for (var i = 0; i < zapatillasUrbana.length; i++) {
+                            this.zapatillas.push({
+                                nombre: zapatillasUrbana[i].nombre,
+                                marca: zapatillasUrbana[i].marca,
+                                tipo: zapatillasUrbana[i].tipo,
+                                imagen: zapatillasUrbana[i].imagen,
+                                precio: zapatillasUrbana[i].precio,
+                                sexo: zapatillasUrbana[i].sexo,
+                                visible: zapatillasUrbana[i].visible,
+                                stock: zapatillasUrbana[i].stock,
+                                color: zapatillasUrbana[i].color,
+                            })
+                        }
+                    }
+                    if (this.Casual) {
+                        zapatillasCasual = zapatillasBD.filter(v => v.tipo === "Casual")
+                        for (var i = 0; i < zapatillasCasual.length; i++) {
+                            this.zapatillas.push({
+                                nombre: zapatillasCasual[i].nombre,
+                                marca: zapatillasCasual[i].marca,
+                                tipo: zapatillasCasual[i].tipo,
+                                imagen: zapatillasCasual[i].imagen,
+                                precio: zapatillasCasual[i].precio,
+                                sexo: zapatillasCasual[i].sexo,
+                                visible: zapatillasCasual[i].visible,
+                                stock: zapatillasCasual[i].stock,
+                                color: zapatillasCasual[i].color,
+                            })
+                        }
+                    }
+                    if (this.Deportiva) {
+                        zapatillasDeportiva = zapatillasBD.filter(v => v.tipo === "Deportiva")
+                        for (var i = 0; i < zapatillasDeportiva.length; i++) {
+                            this.zapatillas.push({
+                                nombre: zapatillasDeportiva[i].nombre,
+                                marca: zapatillasDeportiva[i].marca,
+                                tipo: zapatillasDeportiva[i].tipo,
+                                imagen: zapatillasDeportiva[i].imagen,
+                                precio: zapatillasDeportiva[i].precio,
+                                sexo: zapatillasDeportiva[i].sexo,
+                                visible: zapatillasDeportiva[i].visible,
+                                stock: zapatillasDeportiva[i].stock,
+                                color: zapatillasDeportiva[i].color,
+                            })
+                        }
+                    }
+                }
+                if (this.PrecioCheck) {
+                    if (this.TagsCheck) {
+                        this.zapatillas = this.zapatillas.filter(v => v.precio >= this.range[0] && v.precio <= this.range[1])
+                    } else {
+                        this.zapatillas = zapatillasBD.filter(v => v.precio >= this.range[0] && v.precio <= this.range[1])
+                    }
+                }
+                if (this.TallaCheck) {
+                    var stock = []
+                    if (this.TagsCheck) {
+                        for (var i = 0; i < this.zapatillas.length; i++) {
+                            stock = this.zapatillas[i].stock
+                            for (var j = 0; j < stock.length; j++) {
+                                if (stock[j].talla === this.TallaFiltro) {
+                                    zapatillaTalla.push({
+                                        nombre: this.zapatillas[i].nombre,
+                                        marca: this.zapatillas[i].marca,
+                                        tipo: this.zapatillas[i].tipo,
+                                        imagen: this.zapatillas[i].imagen,
+                                        precio: this.zapatillas[i].precio,
+                                        sexo: this.zapatillas[i].sexo,
+                                        visible: this.zapatillas[i].visible,
+                                        stock: this.zapatillas[i].stock,
+                                        color: this.zapatillas[i].color,
+                                    })
+                                }
+                            }
+                        }
+                        this.zapatillas = zapatillaTalla
+                    } else {
+                        for (var i = 0; i < zapatillasBD.length; i++) {
+                            stock = zapatillasBD[i].stock
+                            for (var j = 0; j < stock.length; j++) {
+                                if (stock[j].talla === this.TallaFiltro) {
+                                    zapatillaTalla.push({
+                                        nombre: zapatillasBD[i].nombre,
+                                        marca: zapatillasBD[i].marca,
+                                        tipo: zapatillasBD[i].tipo,
+                                        imagen: zapatillasBD[i].imagen,
+                                        precio: zapatillasBD[i].precio,
+                                        sexo: zapatillasBD[i].sexo,
+                                        visible: zapatillasBD[i].visible,
+                                        stock: zapatillasBD[i].stock,
+                                        color: zapatillasBD[i].color,
+                                    })
+                                }
+                            }
+                        }
+                        this.zapatillas = zapatillaTalla
+                    }
+                }
+                this.cargado = true
+            })
+                .catch((e) => {
+                    console.log(e)
+                })
+
 
         },
         agregarCarroCompra(consulta, nombre, imagen, tallas, precio, tipo, marca) {
