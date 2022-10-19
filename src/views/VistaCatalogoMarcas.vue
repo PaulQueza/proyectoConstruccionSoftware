@@ -1,71 +1,5 @@
-<<<<<<< HEAD
-<script setup>
-import { ref } from 'vue'
-const cambiarNombre = ref('')
-const zapatillas = [
-    {
-        nombre: 'Jordan 1',
-        tipo: 'Anashe',
-        imagen: require("../assets/zapatillaDefault.png"),
-        precio: '125.000',
-        descripcion: 'Ta wena la jordan oe',
-    },
-    {
-        nombre: 'Jordan 2',
-        tipo: 'Anashe',
-        imagen: require("../assets/zapatillaDefault.png"),
-        precio: '200.000',
-        descripcion: 'Si el 1 es weno, el 2 es mejor',
-    },
-    {
-        nombre: 'Jordan 3',
-        tipo: 'Anashe',
-        imagen: require("../assets/zapatillaDefault.png"),
-        precio: '250.000',
-        descripcion: 'Es una breve descripcion de la zapatilla 3',
-    },
-    {
-        nombre: 'Jordan 4',
-        tipo: 'Anashe',
-        imagen: require("../assets/zapatillaDefault.png"),
-        precio: '1.000.000',
-        descripcion: 'Descripcion zapatilla 4',
-    },
-]
-</script>
 <template>
-    <v-main>
-        <v-container>
-            <v-row>
-
-                <v-col v-for="ArrayZapatillas in zapatillas" :key="ArrayZapatillas.nombre" cols="3">
-                    <v-card height="500" width="500" outlined center>
-                        <v-img height="200" width="300" :src="ArrayZapatillas.imagen">
-                        </v-img>
-                        <h3>
-                            Nombre: {{ArrayZapatillas.nombre}}
-                        </h3>
-                        <p>
-                            descripcion: {{ArrayZapatillas.descripcion}}
-                        </p>
-                        <span>
-                            Precio: ${{ArrayZapatillas.precio}} CLP
-                        </span>                
-                    </v-card>
-                </v-col>
-            </v-row>
-        </v-container>
-       
-        <v-container>
-            <div class="text-center">
-                <v-pagination :length="4" prev-icon="mdi-menu-left" next-icon="mdi-menu-right" circle></v-pagination>
-            </div>
-        </v-container>
-    </v-main>
-</template>
-=======
-<template>
-    <v-app>
+    <v-app> 
         <v-container>
             <v-dialog v-model="drawerCarrito" max-width="1000px">
                 <v-card>
@@ -86,8 +20,7 @@ const zapatillas = [
                                 </v-row>
                                 <v-row>
                                     <v-card-subtitle>Tallas:</v-card-subtitle>
-                                    <v-select v-model="cmbxCarrito" :items="itemsCarro" @change="eleccionTalla()">
-                                    </v-select>
+                                    <v-select v-model="cmbxCarrito" :items="itemsCarro" @change="eleccionTalla()"></v-select>
                                 </v-row>
                                 <v-row>
                                     <v-card-subtitle>Cantidad:</v-card-subtitle>
@@ -109,10 +42,10 @@ const zapatillas = [
         </v-container>
         <v-container>
             <v-btn @click="drawer = true" rounded fab color="teal lighten-2">
-                <Icon icon="bi:filter" color="white" width="40" height="40" />
+                <Icon icon="bi:filter" color="white" width="40" height="40"/>
             </v-btn>
         </v-container>
-        <div align="center">
+        <div align="center" >
             <v-navigation-drawer v-model="drawer" absolute temporary>
                 <v-container centered justify="center">
                     <h1>Filtros</h1>
@@ -165,7 +98,8 @@ const zapatillas = [
                         <v-card height="350" width="500" outlined center
                             @mouseover="mostrarBotonCompra(ArrayZapatillas.nombre)"
                             @mouseleave="ocultarBotonCompra(ArrayZapatillas.nombre)"
-                            @click="agregarCarroCompra(true,ArrayZapatillas.nombre, ArrayZapatillas.imagen, ArrayZapatillas.stock, ArrayZapatillas.precio, ArrayZapatillas.tipo, ArrayZapatillas.marca)">
+                            @click="agregarCarroCompra(true,ArrayZapatillas.nombre, ArrayZapatillas.imagen, ArrayZapatillas.stock, ArrayZapatillas.precio, ArrayZapatillas.tipo, ArrayZapatillas.marca)"
+                            >
                             <v-container>
                                 <v-row>
                                     <v-spacer></v-spacer>
@@ -176,7 +110,8 @@ const zapatillas = [
                                     </v-fab-transition>
                                 </v-row>
                             </v-container>
-                            <v-img height="150" width="250" :src="ArrayZapatillas.imagen">
+                            <v-img height="150" width="250"
+                                :src="ArrayZapatillas.imagen">
                                 <template v-slot:placeholder>
                                     <v-row class="fill-height ma-0" align="center" justify="center">
                                         <v-progress-circular indeterminate color="teal lighten-2"></v-progress-circular>
@@ -200,44 +135,44 @@ const zapatillas = [
                     </v-col>
                 </v-row>
             </v-container>
-        </div>
+        </div>    
     </v-app>
 </template>
 <script>
 import { Icon } from "@iconify/vue2";
-import VistaMarca from '../views/VistaMarca.vue'
 import Swal from 'sweetalert2'
+import VistaMarca from '../views/VistaMarca.vue'
 export default {
-    props: {
+    props:{
+
     },
     data() {
         return {
             hidden: null,
             nombre: null,
             zapatillas: [],
-            zapatillasFinal: [],
             drawer: false,
             group: null,
-            Deportiva: null,
-            Casual: null,
-            Urbana: null,
-            drawerCarrito: null,
-            imagenCarro: null,
+            Deportiva:null,
+            Casual:null,
+            Urbana:null,
             PrecioCheck: null,
             TagsCheck:null,
             TallaCheck:null,
             TallaFiltro:null,
 
+            drawerCarrito: null,
+            imagenCarro: null,
             tallasCarro: [],
             nombreCarro: null,
             precioCarro: null,
-            tipoCarro: null,
-            marcaCarro: null,
+            tipoCarro:null,
+            marcaCarro:null,
             cmbxCarrito: null,
             cmbxCantidad: null,
             itemsCarro: [],
             itemsCantidad: [],
-            cantidadMaximaCarro: null,
+            cantidadMaximaCarro:null,
             min: 0,
             max: 500,
             range: [0, 500],
@@ -245,7 +180,22 @@ export default {
     },
     created() {
         this.$store.state.visibleBusqueda=true
-        this.listarZapatillas();
+        if(this.$store.state.vistaMarcaAdidas===true){
+            console.log("ADIDAS")
+            this.listarZapatillasAdidas();
+        }else if(this.$store.state.vistaMarcaFila===true){
+            console.log("FILA")
+            this.listarZapatillasFila();
+        }else if(this.$store.state.vistaMarcaPuma===true){
+            console.log("PUMA")
+            this.listarZapatillasPuma();
+        }else if(this.$store.state.vistaMarcaNike===true){
+            console.log("NIKE")
+            this.listarZapatillasNike();
+        }else{
+            console.log("NO FILTER MARCA")
+            this.listarZapatillas();
+        }
     },
     components: {
         Icon,
@@ -261,6 +211,43 @@ export default {
                     console.log('error' + e);
                 })
         },
+        listarZapatillasNike() {
+            this.axios.get('Productos-Nike')
+                .then((response) => {
+                    this.zapatillas = response.data;
+                    console.log(this.zapatillas)
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                })
+        },
+        listarZapatillasPuma() {
+            this.axios.get('Productos-Puma')
+                .then((response) => {
+                    this.zapatillas = response.data;
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                })
+        },
+        listarZapatillasAdidas() {
+            this.axios.get('Productos-Adidas')
+                .then((response) => {
+                    this.zapatillas = response.data;
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                })
+        },
+        listarZapatillasFila() {
+            this.axios.get('Productos-Fila')
+                .then((response) => {
+                    this.zapatillas = response.data;
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                })
+        },
         mostrarBotonCompra(nombre) {
             this.hidden = true
             this.nombre = nombre
@@ -268,24 +255,6 @@ export default {
         ocultarBotonCompra(nombre) {
             this.hidden = false
             this.nombre = nombre
-        },
-        filtroZapatilllas() {
-            this.$store.state.tags= this.TagsCheck
-            if(this.TagsCheck){
-                this.$store.state.Urbana = this.Urbana
-                this.$store.state.Casual = this.Casual
-                this.$store.state.Deportiva = this.Deportiva
-                this.$store.state.Preciocheck = this.Preciocheck
-            }
-            if(this.PrecioCheck){
-                this.$store.state.precioMin = this.range[0]
-                this.$store.state.precioMax = this.range[1] 
-            }
-            this.$store.state.talla=this.TallaCheck
-            if(this.TallaCheck){
-                this.$store.state.tallaFiltrar= this.TallaFiltro
-            }
-            this.$router.push({ path: `/filtros/${this.Urbana}Urb?%${this.Casual}Cas?%${this.Deportiva}Dep?${this.Preciocheck}Prec?=` })
         },
         agregarCarroCompra(consulta, nombre, imagen, tallas, precio, tipo, marca) {
             if (consulta) {
@@ -306,7 +275,7 @@ export default {
                     this.itemsCarro.push(this.tallasCarro[i].talla)
                 }
             } else {
-                if (this.$store.state.ingresoUsuario) {
+                if(this.$store.state.ingresoUsuario){
                     var estadoTalla = true
                     var estadoElementos = true
                     for (var i = 0; i < this.$store.state.carroCompras.length; i++) {
@@ -352,8 +321,7 @@ export default {
                             })
                         }
                     }
-
-                } else {
+                }else{
                     Swal.fire({
                         icon: 'error',
                         title: 'Error al ingresar productos al carro...',
@@ -369,7 +337,7 @@ export default {
             for (var i = 0; i < this.tallasCarro.length; i++) {
                 if (this.cmbxCarrito === this.tallasCarro[i].talla) {
                     cantidad = this.tallasCarro[i].cantidad
-                    this.cantidadMaximaCarro = this.tallasCarro[i].cantidad
+                    this.cantidadMaximaCarro=this.tallasCarro[i].cantidad
                     estado = true
                     break
                 }
@@ -389,8 +357,25 @@ export default {
                 })
 
             }
-        }
+        },
+        filtroZapatilllas() {
+            this.$store.state.tags= this.TagsCheck
+            if(this.TagsCheck){
+                this.$store.state.Urbana = this.Urbana
+                this.$store.state.Casual = this.Casual
+                this.$store.state.Deportiva = this.Deportiva
+                this.$store.state.Preciocheck = this.Preciocheck
+            }
+            if(this.PrecioCheck){
+                this.$store.state.precioMin = this.range[0]
+                this.$store.state.precioMax = this.range[1] 
+            }
+            this.$store.state.talla=this.TallaCheck
+            if(this.TallaCheck){
+                this.$store.state.tallaFiltrar= this.TallaFiltro
+            }
+            this.$router.push({ path: `/filtros/${this.Urbana}Urb?%${this.Casual}Cas?%${this.Deportiva}Dep?${this.Preciocheck}Prec?=` })
+        },
     }
 };
 </script>
->>>>>>> PaulQuezada

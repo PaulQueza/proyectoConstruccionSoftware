@@ -1,69 +1,3 @@
-<<<<<<< HEAD
-<script setup>
-import { ref } from 'vue'
-const cambiarNombre = ref('')
-const zapatillas = [
-    {
-        nombre: 'Jordan 1',
-        tipo: 'Anashe',
-        imagen: require("../assets/zapatillaDefault.png"),
-        precio: '125.000',
-        descripcion: 'Ta wena la jordan oe',
-    },
-    {
-        nombre: 'Jordan 2',
-        tipo: 'Anashe',
-        imagen: require("../assets/zapatillaDefault.png"),
-        precio: '200.000',
-        descripcion: 'Si el 1 es weno, el 2 es mejor',
-    },
-    {
-        nombre: 'Jordan 3',
-        tipo: 'Anashe',
-        imagen: require("../assets/zapatillaDefault.png"),
-        precio: '250.000',
-        descripcion: 'Es una breve descripcion de la zapatilla 3',
-    },
-    {
-        nombre: 'Jordan 4',
-        tipo: 'Anashe',
-        imagen: require("../assets/zapatillaDefault.png"),
-        precio: '1.000.000',
-        descripcion: 'Descripcion zapatilla 4',
-    },
-]
-</script>
-<template>
-    <v-main>
-        <v-container>
-            <v-row>
-
-                <v-col v-for="ArrayZapatillas in zapatillas" :key="ArrayZapatillas.nombre" cols="3">
-                    <v-card height="500" width="500" outlined center>
-                        <v-img height="200" width="300" :src="ArrayZapatillas.imagen">
-                        </v-img>
-                        <h3>
-                            Nombre: {{ArrayZapatillas.nombre}}
-                        </h3>
-                        <p>
-                            descripcion: {{ArrayZapatillas.descripcion}}
-                        </p>
-                        <span>
-                            Precio: ${{ArrayZapatillas.precio}} CLP
-                        </span>                
-                    </v-card>
-                </v-col>
-            </v-row>
-        </v-container>
-       
-        <v-container>
-            <div class="text-center">
-                <v-pagination :length="4" prev-icon="mdi-menu-left" next-icon="mdi-menu-right" circle></v-pagination>
-            </div>
-        </v-container>
-    </v-main>
-</template>
-=======
 <template>
     <v-app>
         <v-container>
@@ -107,65 +41,22 @@ const zapatillas = [
                 </v-card>
             </v-dialog>
         </v-container>
+
         <v-container>
-            <v-btn @click="drawer = true" rounded fab color="teal lighten-2">
-                <Icon icon="bi:filter" color="white" width="40" height="40" />
-            </v-btn>
+            <h2> Resultado busqueda: {{this.$store.state.busqueda}}</h2>
+            <v-text-field outlined v-model="buscar" prepend-inner-icon="mdi-magnify" dense flat hide-details solo
+                label="Buscar" @keyup.enter="busqueda">
+            </v-text-field>
         </v-container>
-        <div align="center">
-            <v-navigation-drawer v-model="drawer" absolute temporary>
-                <v-container centered justify="center">
-                    <h1>Filtros</h1>
-                    <v-row>
-                        <v-checkbox v-model="TagsCheck" hide-details class="ml-4"></v-checkbox>
-                        <h3 align="left" class="mt-5">Tags</h3>
-                    </v-row>
-                    <v-container class="center">
-                        <v-checkbox v-model="Deportiva" label="Deportiva" hide-details class="ml-2"></v-checkbox>
-                        <v-checkbox v-model="Casual" label="Casual" hide-details class="ml-2"></v-checkbox>
-                        <v-checkbox v-model="Urbana" label="Urbana" hide-details class="ml-2"></v-checkbox>
-                    </v-container>
-                    <v-row>
-                        <v-checkbox v-model="PrecioCheck" hide-details class="ml-4"></v-checkbox>
-                        <h3 align="left" class="mt-5">Precio</h3>
-                    </v-row>
-                    <v-row>
-                        <v-col class="px-4">
-                            <v-range-slider v-model="range" :max="max" :min="min" hide-details class="align-center">
-                                <template v-slot:prepend>
-                                    <v-text-field :value="range[0]" class="mt-0 pt-0" hide-details single-line
-                                        type="number" style="width: 60px" @change="$set(range, 0, $event)">
-                                    </v-text-field>
-                                </template>
-                                <template v-slot:append>
-                                    <v-text-field :value="range[1]" class="mt-0 pt-0" hide-details single-line
-                                        type="number" style="width: 60px" @change="$set(range, 1, $event)">
-                                    </v-text-field>
-                                </template>
-                            </v-range-slider>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-checkbox v-model="TallaCheck" hide-details class="ml-4"></v-checkbox>
-                        <h3 align="left" class="mt-5">Talla</h3>
-                    </v-row>
-                    <v-row>
-                        <v-spacer></v-spacer>
-                        <v-text-field v-model="TallaFiltro" label="Ingresa la talla"></v-text-field>
-                        <v-spacer></v-spacer>
-                    </v-row>
-                    <div align="center">
-                        <v-btn @click="filtroZapatilllas()" color="teal lighten-2" class="white--text"> Filtrar</v-btn>
-                    </div>
-                </v-container>
-            </v-navigation-drawer>
+        <div>
             <v-container>
                 <v-row>
-                    <v-col v-for="ArrayZapatillas in zapatillas" :key="ArrayZapatillas._id" cols="3">
-                        <v-card height="350" width="500" outlined center
+                    <v-col v-for="ArrayZapatillas in zapatillasFinal" :key="ArrayZapatillas._id" cols="10">
+                        <v-card height="300" width="700" outlined center class="mx-12"
                             @mouseover="mostrarBotonCompra(ArrayZapatillas.nombre)"
                             @mouseleave="ocultarBotonCompra(ArrayZapatillas.nombre)"
-                            @click="agregarCarroCompra(true,ArrayZapatillas.nombre, ArrayZapatillas.imagen, ArrayZapatillas.stock, ArrayZapatillas.precio, ArrayZapatillas.tipo, ArrayZapatillas.marca)">
+                            @click="agregarCarroCompra(true,ArrayZapatillas.nombre, ArrayZapatillas.imagen, ArrayZapatillas.stock, ArrayZapatillas.precio, ArrayZapatillas.tipo, ArrayZapatillas.marca)"
+                            >
                             <v-container>
                                 <v-row>
                                     <v-spacer></v-spacer>
@@ -176,25 +67,31 @@ const zapatillas = [
                                     </v-fab-transition>
                                 </v-row>
                             </v-container>
-                            <v-img height="150" width="250" :src="ArrayZapatillas.imagen">
-                                <template v-slot:placeholder>
-                                    <v-row class="fill-height ma-0" align="center" justify="center">
-                                        <v-progress-circular indeterminate color="teal lighten-2"></v-progress-circular>
-                                    </v-row>
-                                </template>
-                            </v-img>
-                            <h3>
-                                {{ArrayZapatillas.nombre}}
-                            </h3>
-                            <p>
-                                Marca: {{ArrayZapatillas.marca}}
-                            </p>
-                            <p>
-                                Tipo: {{ArrayZapatillas.tipo}}
-                            </p>
-                            <span>
-                                Precio: ${{ArrayZapatillas.precio}} USD
-                            </span>
+                            <v-row>
+                                <v-img height="250px" width="250px" :src="ArrayZapatillas.imagen">
+                                    <template v-slot:placeholder>
+                                        <v-row class="fill-height ma-0" align="center" justify="center">
+                                            <v-progress-circular indeterminate color="teal lighten-2">
+                                            </v-progress-circular>
+                                        </v-row>
+                                    </template>
+                                </v-img>
+                                <v-col>
+                                    <h2>
+                                        Nombre: {{ArrayZapatillas.nombre}}
+                                    </h2>
+                                    <p>
+                                        Marca: {{ArrayZapatillas.marca}}
+                                    </p>
+                                    <p>
+                                        Tipo: {{ArrayZapatillas.tipo}}
+                                    </p>
+                                    <span>
+                                        Precio: ${{ArrayZapatillas.precio}} USD
+                                    </span>
+                                </v-col>
+                            </v-row>
+
                             <v-spacer></v-spacer>
                         </v-card>
                     </v-col>
@@ -208,44 +105,34 @@ import { Icon } from "@iconify/vue2";
 import VistaMarca from '../views/VistaMarca.vue'
 import Swal from 'sweetalert2'
 export default {
-    props: {
-    },
-    data() {
-        return {
-            hidden: null,
-            nombre: null,
-            zapatillas: [],
-            zapatillasFinal: [],
-            drawer: false,
-            group: null,
-            Deportiva: null,
-            Casual: null,
-            Urbana: null,
-            drawerCarrito: null,
-            imagenCarro: null,
-            PrecioCheck: null,
-            TagsCheck:null,
-            TallaCheck:null,
-            TallaFiltro:null,
+    data: () => ({
+        hidden: null,
+        nombre: null,
+        zapatillas: [],
+        zapatillasFinal: [],
+        drawer: false,
+        group: null,
+        buscar: null,
+        drawerCarrito: null,
 
-            tallasCarro: [],
-            nombreCarro: null,
-            precioCarro: null,
-            tipoCarro: null,
-            marcaCarro: null,
-            cmbxCarrito: null,
-            cmbxCantidad: null,
-            itemsCarro: [],
-            itemsCantidad: [],
-            cantidadMaximaCarro: null,
-            min: 0,
-            max: 500,
-            range: [0, 500],
-        };
-    },
+        drawerCarrito: null,
+        imagenCarro: null,
+        tallasCarro: [],
+        nombreCarro: null,
+        precioCarro: null,
+        tipoCarro: null,
+        marcaCarro: null,
+        cmbxCarrito: null,
+        cmbxCantidad: null,
+        itemsCarro: [],
+        itemsCantidad: [],
+        cantidadMaximaCarro: null,
+        min: 0,
+        max: 500,
+        range: [0, 500],
+    }),
     created() {
-        this.$store.state.visibleBusqueda=true
-        this.listarZapatillas();
+        this.listarZapatillas()
     },
     components: {
         Icon,
@@ -256,9 +143,16 @@ export default {
             this.axios.get('EZ-Producto')
                 .then((response) => {
                     this.zapatillas = response.data;
+                    this.$store.state.busqueda = this.$store.state.busqueda.toLowerCase()
+                    this.zapatillasFinal = this.zapatillas.filter(zapatilla => zapatilla.nombre.toLowerCase().indexOf(this.$store.state.busqueda) !== -1)
                 })
                 .catch((e) => {
                     console.log('error' + e);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error en la busqueda...',
+                        text: 'Error conexion con la red!',
+                    })
                 })
         },
         mostrarBotonCompra(nombre) {
@@ -269,23 +163,35 @@ export default {
             this.hidden = false
             this.nombre = nombre
         },
-        filtroZapatilllas() {
-            this.$store.state.tags= this.TagsCheck
-            if(this.TagsCheck){
-                this.$store.state.Urbana = this.Urbana
-                this.$store.state.Casual = this.Casual
-                this.$store.state.Deportiva = this.Deportiva
-                this.$store.state.Preciocheck = this.Preciocheck
+        limpiarVentana() {
+            this.hidden = null
+            this.nombre = null
+            this.zapatillas = []
+            this.zapatillasFinal = []
+            this.drawer = false
+            this.group = null
+        },
+        busqueda() {
+            var algo = []
+            this.$store.state.busqueda = this.buscar
+            if (this.$route.path !== `/busqueda/${this.buscar}`) {
+                this.$router.push({ path: `/busqueda/${this.buscar}` })
             }
-            if(this.PrecioCheck){
-                this.$store.state.precioMin = this.range[0]
-                this.$store.state.precioMax = this.range[1] 
-            }
-            this.$store.state.talla=this.TallaCheck
-            if(this.TallaCheck){
-                this.$store.state.tallaFiltrar= this.TallaFiltro
-            }
-            this.$router.push({ path: `/filtros/${this.Urbana}Urb?%${this.Casual}Cas?%${this.Deportiva}Dep?${this.Preciocheck}Prec?=` })
+            this.limpiarVentana()
+            this.axios.get('EZ-Producto')
+                .then((response) => {
+                    this.zapatillas = response.data;
+                    this.buscar = this.buscar.toLowerCase()
+                    this.zapatillasFinal = this.zapatillas.filter(zapatilla => zapatilla.nombre.toLowerCase().indexOf(this.buscar) !== -1)
+                })
+                .catch((e) => {
+                    console.log('error' + e);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error en la busqueda...',
+                        text: 'Error conexion con la red!',
+                    })
+                })
         },
         agregarCarroCompra(consulta, nombre, imagen, tallas, precio, tipo, marca) {
             if (consulta) {
@@ -352,13 +258,15 @@ export default {
                             })
                         }
                     }
-
                 } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error al ingresar productos al carro...',
                         text: 'Debes logearte para poder añadir productos a tu carro de compras!',
                     })
+                    this.$store.state.visibleBusqueda=true
+                    this.$router.push({ path: "/login" })
+                    
                 }
                 this.drawerCarrito = false
             }
@@ -393,4 +301,3 @@ export default {
     }
 };
 </script>
->>>>>>> PaulQuezada
