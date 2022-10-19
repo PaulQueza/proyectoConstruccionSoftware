@@ -329,10 +329,6 @@ export default {
         accionRealizar:null,
         nombreUsuarioVerificar:null,
         contrasenaVerificar:null,
-        selectedRegion : null,
-        selectedProvincia: null,
-        selectedComuna: null,
-
         regiones:['Región Metropolitana de Santiago','Región de O Higgins','Región del Maule'],
         
         provinciaMetropolitana:['Chacabuco','Cordillera','Maipo','Melipilla','Santiago','Talagante'],

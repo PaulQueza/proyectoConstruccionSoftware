@@ -304,6 +304,9 @@ export default {
             'Morado',
             'Rojo',
             'Verde',
+            'Blanco',
+            'Azul',
+            'Amarillo',
             'Otro'
         ]
     }),
