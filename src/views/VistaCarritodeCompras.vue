@@ -103,7 +103,7 @@
         </div>
         <v-container align="center" v-else>
             <v-spacer></v-spacer>
-            <h1> Inicia sesion ctm</h1>
+            <h1> Inicia Sesión</h1>
             <v-spacer></v-spacer>
         </v-container>
     </v-app>
@@ -203,30 +203,25 @@ export default {
                 })
         },
         comprar(){
-            if(this.sumaTotal===0 || this.direccionEnvio.length===0){
+            if(this.sumaTotal===0){
                 Swal.fire({
                     icon: 'error',
                     title: 'Error al comprar',
-                    text:'Revisa si hay productos en tu carro, tambien tu direccion de envio',
-                    showConfirmButton: false,
-                    timer: 1500
+                    text:'Revisa si hay productos en tu carro',
                 })
             }else{
-                this.$store.state.carroCompras=[]
-                this.sumaTotal=null
-                
                 if(this.direccionEnvio.length===0){
                     Swal.fire({
                         icon: 'error',
                         title: 'No hay datos de envio',
                         text:'Ingresa tu direccion para poder enviarte los productos!',
-                        showConfirmButton: false,
-                        timer: 1500
                     })
                     if (this.$route.path !== `/editarDatos`) {
                         this.$router.push({ path: "/editarDatos" })
                     }
                 }else{
+                    this.$store.state.carroCompras=[]
+                    this.sumaTotal=null
                     Swal.fire({
                         icon: 'success',
                         title: 'El producto ha sido comprado',

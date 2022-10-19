@@ -24,7 +24,7 @@
                                     </v-select>
                                 </v-row>
                                 <v-row>
-                                    <v-card-subtitle>cantidad:</v-card-subtitle>
+                                    <v-card-subtitle>Cantidad:</v-card-subtitle>
                                     <v-select v-model="cmbxCantidad" :items="itemsCantidad"></v-select>
                                 </v-row>
                             </v-col>
@@ -164,7 +164,6 @@ export default {
             this.nombre = nombre
         },
         limpiarVentana() {
-            console.log("LIMPIANDO VENTANA")
             this.hidden = null
             this.nombre = null
             this.zapatillas = []
@@ -174,6 +173,7 @@ export default {
         },
         busqueda() {
             var algo = []
+            this.$store.state.busqueda = this.buscar
             if (this.$route.path !== `/busqueda/${this.buscar}`) {
                 this.$router.push({ path: `/busqueda/${this.buscar}` })
             }

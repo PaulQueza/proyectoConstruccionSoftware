@@ -179,217 +179,222 @@
             </v-dialog>
         </v-container>
 
-        <v-container>
-            <v-row justify="center">
-                <v-col cols="12" sm="10" md="8" lg="6" align="center">
-                    <v-avatar color="primary" size="72">
-                        <span class="white--text">{{this.$store.state.UsuarioMode}}</span>
-                    </v-avatar>
-                </v-col>
-            </v-row>
-        </v-container>
-        <v-container>
-            <v-row justify="center">
-                <v-col cols="12" md="8" lg="6">
-                    <div>
-                        <v-bottom-navigation color="teal" grow>
-                            <v-btn @click="cambiarHiddens('hiddenD')">
-                                <span>Datos</span>
-                            </v-btn>
-                            <v-btn @click="cambiarHiddens('hiddenF')">
-                                <span>Despacho</span>
-                            </v-btn>
-                            <v-btn @click="cambiarHiddens('hiddenH')">
-                                <span>Historial de compras</span>
-                            </v-btn>
-                        </v-bottom-navigation>
-                    </div>
-                </v-col>
-            </v-row>
-        </v-container>
-
-        <v-container v-show="hiddenD">
-            <v-row justify="center">
-                <v-col cols="12" md="10" lg="8">
-                    <v-card>
-                        <v-card-text>
-                            <v-container>
-                                <v-row class="text-center">
-                                    <v-col>
-                                        <v-row>
-                                            <v-spacer></v-spacer>
-                                            <h2> Nombre</h2>
-                                            <v-btn fab width="20px" height="20px" color="teal lighten-2"
-                                                @click="inicioSesion(true,'cambioNombre')">
-                                                <Icon icon="clarity:edit-line" color="white" />
-                                            </v-btn>
-                                        </v-row>
-                                        <v-row>
-                                            <v-spacer></v-spacer>
-                                            <h3 class="text-decoration-underline">
-                                                {{this.nombre}}</h3>
-                                        </v-row>
-                                    </v-col>
-                                    <v-col>
-                                        <v-row>
-                                            <v-spacer></v-spacer>
-                                            <h2> NombreUsuario</h2>
-                                        </v-row>
-                                        <v-row>
-                                            <v-spacer></v-spacer>
-                                            <h3 class="text-decoration-underline">
-                                                {{this.$store.state.UsuarioConectadoNombre}}</h3>
-                                        </v-row>
-                                    </v-col>
-                                    <v-col>
-                                        <v-row>
-                                            <v-spacer></v-spacer>
-                                            <h2> Contraseña</h2>
-                                            <v-btn fab width="20px" height="20px" color="teal lighten-2"
-                                                @click="inicioSesion(true,'cambioContraseña')">
-                                                <Icon icon="clarity:edit-line" color="white" />
-                                            </v-btn>
-                                        </v-row>
-                                        <v-row>
-                                            <v-spacer></v-spacer>
-                                            <h3 class="text-decoration-underline" v-if="!vContrasena">XXXXXXXXXX</h3>
-                                            <h3 class="text-decoration-underline" v-else>{{this.contrasenaUsuario}}</h3>
-                                            <v-btn fab width="20px" height="20px" color="teal lighten-2"
-                                                @click="inicioSesion(true,'visibilidadContraseña')">
-                                                <Icon icon="akar-icons:eye-closed" color="white" v-if="!vContrasena" />
-                                                <Icon icon="akar-icons:eye" color="white" v-else />
-                                            </v-btn>
-                                        </v-row>
-                                    </v-col>
-                                    <v-col>
-                                        <v-row>
-                                            <v-spacer></v-spacer>
-                                            <h2> Correo</h2>
-                                            <v-btn fab width="20px" height="20px" color="teal lighten-2"
-                                                @click="inicioSesion(true,'cambioCorreo')">
-                                                <Icon icon="clarity:edit-line" color="white" />
-                                            </v-btn>
-                                        </v-row>
-                                        <v-row>
-                                            <v-spacer></v-spacer>
-                                            <h3 class="text-decoration-underline">
-                                                {{this.$store.state.UsuarioConectadoMail}}</h3>
-                                        </v-row>
-                                    </v-col>
-                                    <v-col>
-                                        <v-row>
-                                            <v-spacer></v-spacer>
-                                            <h2> Telefono</h2>
-                                            <v-btn fab width="20px" height="20px" color="teal lighten-2"
-                                                @click="inicioSesion(true,'cambioTelefono')">
-                                                <Icon icon="clarity:edit-line" color="white" />
-                                            </v-btn>
-                                        </v-row>
-                                        <v-row>
-                                            <v-spacer></v-spacer>
-                                            <h3 class="text-decoration-underline">
-                                                {{this.telefono}}</h3>
-                                        </v-row>
-                                    </v-col>
-                                </v-row>
-                            </v-container>
-                        </v-card-text>
-                    </v-card>
-                </v-col>
-            </v-row>
-        </v-container>
-
-        <v-container v-show="hiddenF">
-            <v-row justify="center">
-                <v-col cols="12" md="8" lg="6">
-                    <v-card>
-                        <v-card-text>
-                            <v-container>
-                                <v-row class="text-center">
-                                    <v-col>
-                                        <h2> Región</h2>
-                                    </v-col>
-                                    <v-col>
-                                        <h2> Provincia</h2>
-                                    </v-col>
-                                    <v-col>
-                                        <h2> Comuna</h2>
-                                    </v-col>
-                                    <v-col>
-                                        <h2> Direccion</h2>
-                                    </v-col>
-                                    <v-col>
-                                        <h2> Codigo Postal</h2>
-                                    </v-col>
-                                </v-row>
-                            </v-container>
-
-                            <v-container>
-                                <v-row class="text-center">
-                                    <v-col>
-                                        <h3 class="text-decoration-underline" v-if="this.regionDespacho===null">No
-                                            Ingresado</h3>
-                                        <h3 class="text-decoration-underline" v-else>{{this.regionDespacho}}</h3>
-                                    </v-col>
-                                    <v-col>
-                                        <h3 class="text-decoration-underline" v-if="this.provinciaDespacho===null">No
-                                            Ingresado</h3>
-                                        <h3 class="text-decoration-underline" v-else>{{this.provinciaDespacho}}</h3>
-                                    </v-col>
-                                    <v-col>
-                                        <h3 class="text-decoration-underline" v-if="this.comunaDespacho===null">No
-                                            Ingresado</h3>
-                                        <h3 class="text-decoration-underline" v-else>{{this.comunaDespacho}}</h3>
-                                    </v-col>
-                                    <v-col>
-                                        <h3 class="text-decoration-underline" v-if="this.direccionDespacho===null">No
-                                            Ingresado</h3>
-                                        <h3 class="text-decoration-underline">{{this.direccionDespacho}}</h3>
-                                    </v-col>
-                                    <v-col>
-                                        <h3 class="text-decoration-underline" v-if="this.codigopostalDespacho===null">No
-                                            Ingresado</h3>
-                                        <h3 class="text-decoration-underline">{{this.codigopostalDespacho}}</h3>
-                                    </v-col>
-                                </v-row>
-                            </v-container>
-
-                            <v-row class="mt-6">
-                                <v-spacer></v-spacer>
-                                <v-btn color="teal lighten-2" class="white--text" @click="editarDatosCliente(true)">
-                                    Editar datos
+        <div v-if="this.$store.state.ingresoUsuario">
+            <v-container>
+                <v-row justify="center">
+                    <v-col cols="12" sm="10" md="8" lg="6" align="center">
+                        <v-avatar color="primary" size="72">
+                            <span class="white--text">{{this.$store.state.UsuarioMode}}</span>
+                        </v-avatar>
+                    </v-col>
+                </v-row>
+            </v-container>
+            <v-container>
+                <v-row justify="center">
+                    <v-col cols="12" md="8" lg="6">
+                        <div>
+                            <v-bottom-navigation color="teal" grow>
+                                <v-btn @click="cambiarHiddens('hiddenD')">
+                                    <span>Datos</span>
                                 </v-btn>
-                                <v-spacer></v-spacer>
+                                <v-btn @click="cambiarHiddens('hiddenF')">
+                                    <span>Despacho</span>
+                                </v-btn>
+                                <v-btn @click="cambiarHiddens('hiddenH')">
+                                    <span>Historial de compras</span>
+                                </v-btn>
+                            </v-bottom-navigation>
+                        </div>
+                    </v-col>
+                </v-row>
+            </v-container>
+    
+            <v-container v-show="hiddenD">
+                <v-row justify="center">
+                    <v-col cols="12" md="10" lg="8">
+                        <v-card>
+                            <v-card-text>
+                                <v-container>
+                                    <v-row class="text-center">
+                                        <v-col>
+                                            <v-row>
+                                                <v-spacer></v-spacer>
+                                                <h2> Nombre</h2>
+                                                <v-btn fab width="20px" height="20px" color="teal lighten-2"
+                                                    @click="inicioSesion(true,'cambioNombre')">
+                                                    <Icon icon="clarity:edit-line" color="white" />
+                                                </v-btn>
+                                            </v-row>
+                                            <v-row>
+                                                <v-spacer></v-spacer>
+                                                <h3 class="text-decoration-underline">
+                                                    {{this.nombre}}</h3>
+                                            </v-row>
+                                        </v-col>
+                                        <v-col>
+                                            <v-row>
+                                                <v-spacer></v-spacer>
+                                                <h2> NombreUsuario</h2>
+                                            </v-row>
+                                            <v-row>
+                                                <v-spacer></v-spacer>
+                                                <h3 class="text-decoration-underline">
+                                                    {{this.$store.state.UsuarioConectadoNombre}}</h3>
+                                            </v-row>
+                                        </v-col>
+                                        <v-col>
+                                            <v-row>
+                                                <v-spacer></v-spacer>
+                                                <h2> Contraseña</h2>
+                                                <v-btn fab width="20px" height="20px" color="teal lighten-2"
+                                                    @click="inicioSesion(true,'cambioContraseña')">
+                                                    <Icon icon="clarity:edit-line" color="white" />
+                                                </v-btn>
+                                            </v-row>
+                                            <v-row>
+                                                <v-spacer></v-spacer>
+                                                <h3 class="text-decoration-underline" v-if="!vContrasena">XXXXXXXXXX</h3>
+                                                <h3 class="text-decoration-underline" v-else>{{this.contrasenaUsuario}}</h3>
+                                                <v-btn fab width="20px" height="20px" color="teal lighten-2"
+                                                    @click="inicioSesion(true,'visibilidadContraseña')">
+                                                    <Icon icon="akar-icons:eye-closed" color="white" v-if="!vContrasena" />
+                                                    <Icon icon="akar-icons:eye" color="white" v-else />
+                                                </v-btn>
+                                            </v-row>
+                                        </v-col>
+                                        <v-col>
+                                            <v-row>
+                                                <v-spacer></v-spacer>
+                                                <h2> Correo</h2>
+                                                <v-btn fab width="20px" height="20px" color="teal lighten-2"
+                                                    @click="inicioSesion(true,'cambioCorreo')">
+                                                    <Icon icon="clarity:edit-line" color="white" />
+                                                </v-btn>
+                                            </v-row>
+                                            <v-row>
+                                                <v-spacer></v-spacer>
+                                                <h3 class="text-decoration-underline">
+                                                    {{this.$store.state.UsuarioConectadoMail}}</h3>
+                                            </v-row>
+                                        </v-col>
+                                        <v-col>
+                                            <v-row>
+                                                <v-spacer></v-spacer>
+                                                <h2> Telefono</h2>
+                                                <v-btn fab width="20px" height="20px" color="teal lighten-2"
+                                                    @click="inicioSesion(true,'cambioTelefono')">
+                                                    <Icon icon="clarity:edit-line" color="white" />
+                                                </v-btn>
+                                            </v-row>
+                                            <v-row>
+                                                <v-spacer></v-spacer>
+                                                <h3 class="text-decoration-underline">
+                                                    {{this.telefono}}</h3>
+                                            </v-row>
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-container>
+    
+            <v-container v-show="hiddenF">
+                <v-row justify="center">
+                    <v-col cols="12" md="8" lg="6">
+                        <v-card>
+                            <v-card-text>
+                                <v-container>
+                                    <v-row class="text-center">
+                                        <v-col>
+                                            <h2> Región</h2>
+                                        </v-col>
+                                        <v-col>
+                                            <h2> Provincia</h2>
+                                        </v-col>
+                                        <v-col>
+                                            <h2> Comuna</h2>
+                                        </v-col>
+                                        <v-col>
+                                            <h2> Direccion</h2>
+                                        </v-col>
+                                        <v-col>
+                                            <h2> Codigo Postal</h2>
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+    
+                                <v-container>
+                                    <v-row class="text-center">
+                                        <v-col>
+                                            <h3 class="text-decoration-underline" v-if="this.regionDespacho===null">No
+                                                Ingresado</h3>
+                                            <h3 class="text-decoration-underline" v-else>{{this.regionDespacho}}</h3>
+                                        </v-col>
+                                        <v-col>
+                                            <h3 class="text-decoration-underline" v-if="this.provinciaDespacho===null">No
+                                                Ingresado</h3>
+                                            <h3 class="text-decoration-underline" v-else>{{this.provinciaDespacho}}</h3>
+                                        </v-col>
+                                        <v-col>
+                                            <h3 class="text-decoration-underline" v-if="this.comunaDespacho===null">No
+                                                Ingresado</h3>
+                                            <h3 class="text-decoration-underline" v-else>{{this.comunaDespacho}}</h3>
+                                        </v-col>
+                                        <v-col>
+                                            <h3 class="text-decoration-underline" v-if="this.direccionDespacho===null">No
+                                                Ingresado</h3>
+                                            <h3 class="text-decoration-underline">{{this.direccionDespacho}}</h3>
+                                        </v-col>
+                                        <v-col>
+                                            <h3 class="text-decoration-underline" v-if="this.codigopostalDespacho===null">No
+                                                Ingresado</h3>
+                                            <h3 class="text-decoration-underline">{{this.codigopostalDespacho}}</h3>
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+    
+                                <v-row class="mt-6">
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="teal lighten-2" class="white--text" @click="editarDatosCliente(true)">
+                                        Editar datos
+                                    </v-btn>
+                                    <v-spacer></v-spacer>
+                                </v-row>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-container>
+    
+            <v-container v-show="hiddenH">
+                <v-row justify="center">
+                    <v-col cols="12" md="8" lg="6">
+                        <v-card align="end">
+                            <v-row>
+                                <v-col>
+    
+                                </v-col>
+                                <v-col>
+    
+                                </v-col>
+                                <v-col align="end">
+                                    <v-slider vertical></v-slider>
+                                </v-col>
                             </v-row>
-                        </v-card-text>
-                    </v-card>
-                </v-col>
-            </v-row>
-        </v-container>
-
-        <v-container v-show="hiddenH">
-            <v-row justify="center">
-                <v-col cols="12" md="8" lg="6">
-                    <v-card align="end">
-                        <v-row>
-                            <v-col>
-
-                            </v-col>
-                            <v-col>
-
-                            </v-col>
-                            <v-col align="end">
-                                <v-slider vertical></v-slider>
-                            </v-col>
-                        </v-row>
-
-                    </v-card>
-                </v-col>
-            </v-row>
+    
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </div>
+        <v-container align="center" v-else>
+            <v-spacer></v-spacer>
+            <h1> No se encontró la página</h1>
+            <v-spacer></v-spacer>
         </v-container>
     </v-app>
-
-
 </template>
 
 <script>

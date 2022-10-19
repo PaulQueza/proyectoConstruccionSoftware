@@ -23,7 +23,7 @@
                                     <v-select v-model="cmbxCarrito" :items="itemsCarro" @change="eleccionTalla()"></v-select>
                                 </v-row>
                                 <v-row>
-                                    <v-card-subtitle>cantidad:</v-card-subtitle>
+                                    <v-card-subtitle>Cantidad:</v-card-subtitle>
                                     <v-select v-model="cmbxCantidad" :items="itemsCantidad"></v-select>
                                 </v-row>
                             </v-col>
@@ -95,7 +95,7 @@
             <v-container>
                 <v-row>
                     <v-col v-for="ArrayZapatillas in zapatillas" :key="ArrayZapatillas.__id" cols="3">
-                        <v-card height="400" width="500" outlined center
+                        <v-card height="350" width="500" outlined center
                             @mouseover="mostrarBotonCompra(ArrayZapatillas.nombre)"
                             @mouseleave="ocultarBotonCompra(ArrayZapatillas.nombre)"
                             @click="agregarCarroCompra(true,ArrayZapatillas.nombre, ArrayZapatillas.imagen, ArrayZapatillas.stock, ArrayZapatillas.precio, ArrayZapatillas.tipo, ArrayZapatillas.marca)">
@@ -126,9 +126,6 @@
                             </p>
                             <p>
                                 Tipo: {{ArrayZapatillas.tipo}}
-                            </p>
-                            <p>
-                                Sexo: {{ArrayZapatillas.sexo}}
                             </p>
                             <span>
                                 Precio: ${{ArrayZapatillas.precio}} USD
