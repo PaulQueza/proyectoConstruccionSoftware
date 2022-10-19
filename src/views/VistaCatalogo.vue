@@ -241,39 +241,52 @@ export default {
                 }
             } else {
                 if (this.$store.state.ingresoUsuario) {
-                    var estado = true
+                    var estadoTalla = true
+                    var estadoElementos = true
                     for (var i = 0; i < this.$store.state.carroCompras.length; i++) {
                         if (this.nombreCarro === this.$store.state.carroCompras[i].nombre && this.$store.state.carroCompras[i].talla === this.cmbxCarrito) {
-                            estado = false
+                            estadoTalla = false
                             break
                         }
                     }
-                    if (estado) {
-                        this.$store.state.carroCompras.push({
-                            nombre: this.nombreCarro,
-                            marca: this.marcaCarro,
-                            tipo: this.tipoCarro,
-                            precio: this.precioCarro,
-                            imagen: this.imagenCarro,
-                            talla: this.cmbxCarrito,
-                            count: this.cmbxCantidad,
-                            maxCantidad: this.cantidadMaximaCarro,
-                            id: Date.now()
-                        })
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'El producto se añadido al carro',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                    } else {
+                    if(this.cmbxCarrito===null || this.cmbxCantidad===null){
+                        estadoElementos=false
+                    }
+                    if(!estadoElementos){
                         Swal.fire({
                             icon: 'error',
-                            title: 'Talla duplicada en el carro...',
-                            text: 'Modifique la talla para poder ingresarlo al carro!',
+                            title: 'No se ingresaron las cantidades y/o talla...',
+                            text: 'Ingrese la talla y las cantidades para agregar productos a su carro de compras!',
                         })
+                    }else{
+                        if (estadoTalla) {
+                            this.$store.state.carroCompras.push({
+                                nombre: this.nombreCarro,
+                                marca: this.marcaCarro,
+                                tipo: this.tipoCarro,
+                                precio: this.precioCarro,
+                                imagen: this.imagenCarro,
+                                talla: this.cmbxCarrito,
+                                count: this.cmbxCantidad,
+                                maxCantidad: this.cantidadMaximaCarro,
+                                id: Date.now()
+                            })
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'El producto se añadido al carro',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Talla duplicada en el carro...',
+                                text: 'Modifique la talla para poder ingresarlo al carro!',
+                            })
+                        }
                     }
+
                 } else {
                     Swal.fire({
                         icon: 'error',

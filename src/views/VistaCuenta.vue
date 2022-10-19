@@ -95,6 +95,52 @@
             </v-dialog>
         </v-container>
 
+        <!-- Modificar nombre -->
+        <v-container>
+            <v-dialog v-model="drawerNombreCliente" max-width="700px">
+                <v-card>
+                    <v-card-title>
+                        <span class="text-h5">Nombre del usuario</span>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-col>
+                            <v-text-field v-model="nombreCambio" class="ml-12 mr-12" label="Nombre completo">
+                            </v-text-field>
+                            <v-row>
+                                <v-spacer></v-spacer>
+                                <v-btn class="white--text" color="teal lighten-2" @click="cambioNombre(false)">
+                                    Guardar Cambios</v-btn>
+                                <v-spacer></v-spacer>
+                            </v-row>
+                        </v-col>
+                    </v-card-text>
+                </v-card>
+            </v-dialog>
+        </v-container>
+
+        <!-- Modificar Telefono -->
+        <v-container>
+            <v-dialog v-model="drawerTelefono" max-width="700px">
+                <v-card>
+                    <v-card-title>
+                        <span class="text-h5">Telefono</span>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-col>
+                            <v-text-field v-model="telefonoCambio" class="ml-12 mr-12" label="Nombre completo">
+                            </v-text-field>
+                            <v-row>
+                                <v-spacer></v-spacer>
+                                <v-btn class="white--text" color="teal lighten-2" @click="cambioTelefono(false)">
+                                    Guardar Cambios</v-btn>
+                                <v-spacer></v-spacer>
+                            </v-row>
+                        </v-col>
+                    </v-card-text>
+                </v-card>
+            </v-dialog>
+        </v-container>
+
         <v-container>
             <v-row justify="center">
                 <v-col cols="12" sm="10" md="8" lg="6" align="center">
@@ -126,23 +172,38 @@
 
         <v-container v-show="hiddenD">
             <v-row justify="center">
-                <v-col cols="12" md="8" lg="6">
+                <v-col cols="12" md="10" lg="8">
                     <v-card>
                         <v-card-text>
                             <v-container>
-                                <v-row>
-                                    <v-col class="mr-12">
+                                <v-row class="text-center">
+                                    <v-col>
                                         <v-row>
                                             <v-spacer></v-spacer>
                                             <h2> Nombre</h2>
+                                            <v-btn fab width="20px" height="20px" color="teal lighten-2"
+                                                @click="inicioSesion(true,'cambioNombre')">
+                                                <Icon icon="clarity:edit-line" color="white" />
+                                            </v-btn>
                                         </v-row>
-                                        <v-row class="mt-8">
+                                        <v-row>
+                                            <v-spacer></v-spacer>
+                                            <h3 class="text-decoration-underline">
+                                                {{this.nombre}}</h3>
+                                        </v-row>
+                                    </v-col>
+                                    <v-col>
+                                        <v-row>
+                                            <v-spacer></v-spacer>
+                                            <h2> NombreUsuario</h2>
+                                        </v-row>
+                                        <v-row>
                                             <v-spacer></v-spacer>
                                             <h3 class="text-decoration-underline">
                                                 {{this.$store.state.UsuarioConectadoNombre}}</h3>
                                         </v-row>
                                     </v-col>
-                                    <v-col class="mr-12">
+                                    <v-col>
                                         <v-row>
                                             <v-spacer></v-spacer>
                                             <h2> Contraseña</h2>
@@ -151,7 +212,7 @@
                                                 <Icon icon="clarity:edit-line" color="white" />
                                             </v-btn>
                                         </v-row>
-                                        <v-row class="mt-8">
+                                        <v-row>
                                             <v-spacer></v-spacer>
                                             <h3 class="text-decoration-underline" v-if="!vContrasena">XXXXXXXXXX</h3>
                                             <h3 class="text-decoration-underline" v-else>{{this.contrasenaUsuario}}</h3>
@@ -162,7 +223,7 @@
                                             </v-btn>
                                         </v-row>
                                     </v-col>
-                                    <v-col class="mx-12">
+                                    <v-col>
                                         <v-row>
                                             <v-spacer></v-spacer>
                                             <h2> Correo</h2>
@@ -171,10 +232,25 @@
                                                 <Icon icon="clarity:edit-line" color="white" />
                                             </v-btn>
                                         </v-row>
-                                        <v-row class="mt-8">
+                                        <v-row>
                                             <v-spacer></v-spacer>
                                             <h3 class="text-decoration-underline">
                                                 {{this.$store.state.UsuarioConectadoMail}}</h3>
+                                        </v-row>
+                                    </v-col>
+                                    <v-col>
+                                        <v-row>
+                                            <v-spacer></v-spacer>
+                                            <h2> Telefono</h2>
+                                            <v-btn fab width="20px" height="20px" color="teal lighten-2"
+                                                @click="inicioSesion(true,'cambioTelefono')">
+                                                <Icon icon="clarity:edit-line" color="white" />
+                                            </v-btn>
+                                        </v-row>
+                                        <v-row>
+                                            <v-spacer></v-spacer>
+                                            <h3 class="text-decoration-underline">
+                                                {{this.telefono}}</h3>
                                         </v-row>
                                     </v-col>
                                 </v-row>
@@ -301,6 +377,8 @@ export default {
         drawerContrasena: null,
         drawerCorreo: null,
         drawerEditarDatosCliente: null,
+        drawerTelefono: null,
+        drawerNombreCliente: null,
         vContrasena: null,
         accionRealizar: null,
         nombreUsuarioVerificar: null,
@@ -309,6 +387,10 @@ export default {
         verificarCorreoNuevamente: null,
         verificarContrasenaNueva: null,
         verificarContrasenaNuevaNuevamente: null,
+        nombre: null,
+        telefono: null,
+        nombreCambio: null,
+        telefonoCambio: null,
     }),
     components: {
         Icon,
@@ -352,6 +434,8 @@ export default {
                             this.direccionDespacho = this.usuarios[i].direccion
                             this.codigopostalDespacho = this.usuarios[i].codigopostal
                             this.contrasenaUsuario = this.usuarios[i].contrasena
+                            this.nombre = this.usuarios[i].nombre
+                            this.telefono = this.usuarios[i].telefono
                             break
                         }
                     }
@@ -370,14 +454,14 @@ export default {
         },
         cambiarContrasena(consulta) {
             if (consulta) {
-                this.verificarContrasenaNueva=null
-                this.verificarContrasenaNuevaNuevamente=null
+                this.verificarContrasenaNueva = null
+                this.verificarContrasenaNuevaNuevamente = null
                 this.drawerContrasena = true
-                
+
             } else {
                 // Cambiar contraseña
                 var estado = false
-                if (this.verificarContrasenaNueva.length>=6 && this.verificarContrasenaNuevaNuevamente.length>=6 && this.verificarContrasenaNueva===this.verificarContrasenaNuevaNuevamente) {
+                if (this.verificarContrasenaNueva.length >= 6 && this.verificarContrasenaNuevaNuevamente.length >= 6 && this.verificarContrasenaNueva === this.verificarContrasenaNuevaNuevamente) {
                     estado = true
                 }
                 if (estado) {
@@ -386,30 +470,30 @@ export default {
                             this.usuarios = response.data;
                             for (var i = 0; i < this.usuarios.length; i++) {
                                 if (this.usuarios[i].nombreUsuario === this.$store.state.UsuarioConectadoNombre) {
-                                    this.usuarios[i].contrasena=this.verificarContrasenaNueva
+                                    this.usuarios[i].contrasena = this.verificarContrasenaNueva
                                     this.axios.put(`Usuario-ac/${this.usuarios[i]._id}`, this.usuarios[i])
                                         .then(res => {
                                             const index = this.usuarios.findIndex(user => user._id === this.user._id);
-                                            this.usuarios[index].contrasena=this.verificarContrasenaNueva
+                                            this.usuarios[index].contrasena = this.verificarContrasenaNueva
                                         })
                                         .catch(e => {
                                             console.log(e);
                                         })
-                                        
-                                    }
-                                }
-                            })
-                            .catch((e) => {
-                                console.log('error' + e);
-                            })
-                            this.contrasenaUsuario = this.verificarContrasenaNueva
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Se cambio la contraseña correctamente...',
-                                text: 'Contraseña  Cambiado!',
-                            })
 
-                    } else {
+                                }
+                            }
+                        })
+                        .catch((e) => {
+                            console.log('error' + e);
+                        })
+                    this.contrasenaUsuario = this.verificarContrasenaNueva
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Se cambio la contraseña correctamente...',
+                        text: 'Contraseña  Cambiado!',
+                    })
+
+                } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Datos incorrectos...',
@@ -421,8 +505,8 @@ export default {
         },
         cambiarCorreo(consulta) {
             if (consulta) {
-                this.verificarCorreo=null
-                this.verificarCorreoNuevamente=null
+                this.verificarCorreo = null
+                this.verificarCorreoNuevamente = null
                 this.drawerCorreo = true
             } else {
                 // Cambiar correo
@@ -437,30 +521,30 @@ export default {
                             this.usuarios = response.data;
                             for (var i = 0; i < this.usuarios.length; i++) {
                                 if (this.usuarios[i].nombreUsuario === this.$store.state.UsuarioConectadoNombre) {
-                                    this.usuarios[i].correo=this.verificarCorreo
+                                    this.usuarios[i].correo = this.verificarCorreo
                                     this.axios.put(`Usuario-ac/${this.usuarios[i]._id}`, this.usuarios[i])
                                         .then(res => {
                                             const index = this.usuarios.findIndex(user => user._id === this.user._id);
-                                            this.usuarios[index].correo=this.verificarCorreo
+                                            this.usuarios[index].correo = this.verificarCorreo
                                         })
                                         .catch(e => {
                                             console.log(e);
                                         })
-                                        
-                                    }
-                                }
-                            })
-                            .catch((e) => {
-                                console.log('error' + e);
-                            })
-                            this.$store.state.UsuarioConectadoMail=this.verificarCorreo
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Se cambio el correo correctamente...',
-                                text: 'Correo Cambiado!',
-                            })
 
-                    } else {
+                                }
+                            }
+                        })
+                        .catch((e) => {
+                            console.log('error' + e);
+                        })
+                    this.$store.state.UsuarioConectadoMail = this.verificarCorreo
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Se cambio el correo correctamente...',
+                        text: 'Correo Cambiado!',
+                    })
+
+                } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Datos incorrectos...',
@@ -499,6 +583,12 @@ export default {
                     } else if (this.accionRealizar === "cambioCorreo") {
                         this.drawerVerificarUsuario = false
                         this.cambiarCorreo(true)
+                    } else if(this.accionRealizar === "cambioTelefono"){
+                        this.drawerVerificarUsuario = false
+                        this.cambioTelefono(true)
+                    } else if(this.accionRealizar === "cambioNombre"){
+                        this.drawerVerificarUsuario = false
+                        this.cambioNombre(true)
                     }
                 }
             }
@@ -511,13 +601,13 @@ export default {
             } else {
                 this.visivilidadBton = false
                 for (var i = 0; i < this.usuarios.length; i++) {
-                    if (name == this.usuarios[i].nombreUsuario && password == this.usuarios[i].contrasena && this.usuarios[i].nombreUsuario===this.$store.state.UsuarioConectadoNombre) {
+                    if (name == this.usuarios[i].nombreUsuario && password == this.usuarios[i].contrasena && this.usuarios[i].nombreUsuario === this.$store.state.UsuarioConectadoNombre) {
                         estadoUsuario = true
                         estadoAdmin = false
                     }
                 }
                 for (var i = 0; i < this.admins.length; i++) {
-                    if (name == this.admins[i].nombreUsuario && password == this.admins[i].contrasena && this.usuarios[i].nombreUsuario===this.$store.state.UsuarioConectadoNombre) {
+                    if (name == this.admins[i].nombreUsuario && password == this.admins[i].contrasena && this.usuarios[i].nombreUsuario === this.$store.state.UsuarioConectadoNombre) {
                         estadoAdmin = true
                         estadoUsuario = false
                     }
@@ -553,7 +643,99 @@ export default {
                 this.drawerEditarDatosCliente = false
             }
         },
-
+        cambioTelefono(consulta) {
+            if (consulta) {
+                this.telefonoCambio=null
+                this.drawerTelefono = true
+            } else {
+                var ErTelefono=/^\x2b569[0-9]{8}$/i
+                var estado=false
+                if(ErTelefono.test(this.telefonoCambio)){
+                    estado=true
+                }
+                if(estado){
+                    this.axios.get("EZ-Usuario")
+                    .then((response) => {
+                        this.usuarios = response.data;
+                        for (var i = 0; i < this.usuarios.length; i++) {
+                            if (this.usuarios[i].nombreUsuario === this.$store.state.UsuarioConectadoNombre) {
+                                this.usuarios[i].telefono = this.telefonoCambio
+                                this.axios.put(`Usuario-ac/${this.usuarios[i]._id}`, this.usuarios[i])
+                                .then(res => {
+                                    const index = this.usuarios.findIndex(user => user._id === this.user._id);
+                                    this.usuarios[index].telefono = this.telefonoCambio
+                                })
+                                .catch(e => {
+                                    console.log(e);
+                                })
+                            }
+                        }
+                    })
+                    .catch((e) => {
+                        console.log('error' + e);
+                    })
+                    this.telefono = this.telefonoCambio
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Se cambio el telefono correctamente...',
+                        text: 'Telefono Cambiado!',
+                    })
+                }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Telefono invalido...',
+                        text: 'El telefono no pudo ser cambiado!',
+                    })
+                }
+                this.drawerTelefono = false
+            }
+        },
+        cambioNombre(consulta) {
+            if (consulta) {
+                this.nombreCambio=null
+                this.drawerNombreCliente = true
+            } else {
+                this.drawerNombreCliente = false
+                var estado=false
+                if(this.nombreCambio.length>=3){
+                    estado=true
+                }
+                if(estado){
+                    this.axios.get("EZ-Usuario")
+                            .then((response) => {
+                                this.usuarios = response.data;
+                                for (var i = 0; i < this.usuarios.length; i++) {
+                                    if (this.usuarios[i].nombreUsuario === this.$store.state.UsuarioConectadoNombre) {
+                                        this.usuarios[i].nombre = this.nombreCambio
+                                        this.axios.put(`Usuario-ac/${this.usuarios[i]._id}`, this.usuarios[i])
+                                            .then(res => {
+                                                const index = this.usuarios.findIndex(user => user._id === this.user._id);
+                                                this.usuarios[index].nombre = this.nombreCambio
+                                            })
+                                            .catch(e => {
+                                                console.log(e);
+                                        })
+                                    }
+                                }
+                            })
+                            .catch((e) => {
+                                console.log('error' + e);
+                            })
+                        this.nombre= this.nombreCambio
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Se cambio el nombre correctamente...',
+                            text: 'Nombre Cambiado!',
+                        })
+                }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Nombre invalido...',
+                        text: 'El nombre no pudo ser cambiado!',
+                    })
+                }
+            }
+        }
     },
 }
 </script>

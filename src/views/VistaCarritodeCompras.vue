@@ -84,7 +84,7 @@
                                 Información de envio
                             </H3>
                             <p>
-                                Nombre: {{this.nombreUsuario}}
+                                Nombre: {{this.nombre}}
                             </p>
                             <p> Telefono: {{this.telefonoUsuario}}</p>
                             <p>
@@ -127,6 +127,7 @@ export default {
             tallas: [],
             usuarios:[],
             nombreUsuario:null,
+            nombre:null,
             telefonoUsuario:null,
             direccionEnvio:null,
             sumaTotal:null,
@@ -186,9 +187,14 @@ export default {
                     this.usuarios = response.data;
                     for (var i = 0; i < this.usuarios.length; i++) {
                         if (this.usuarios[i].nombreUsuario===this.$store.state.UsuarioConectadoNombre) {
-                            this.nombreUsuario=this.usuarios[i].nombre
+                            this.nombreUsuario=this.usuarios[i].nombreUsuario
+                            this.nombre= this.usuarios[i].nombre
                             this.telefonoUsuario=this.usuarios[i].telefono
-                            this.direccionEnvio=this.usuarios[i].region+", "+this.usuarios[i].ciudad+", "+this.usuarios[i].direccion
+                            if(this.usuarios[i].region===null && this.usuarios[i].provincia===null && this.usuarios[i].comuna===null && this.usuarios[i].direccion===null && this.usuarios[i].codigopostal===null){
+                                this.direccionEnvio=""
+                            }else{
+                                this.direccionEnvio=this.usuarios[i].region+", "+this.usuarios[i].provincia+", "+this.usuarios[i].comuna+", "+this.usuarios[i].direccion+", "+this.usuarios[i].codigopostal
+                            }
                         }
                     }
                 })
@@ -208,15 +214,29 @@ export default {
             }else{
                 this.$store.state.carroCompras=[]
                 this.sumaTotal=null
-                Swal.fire({
-                    icon: 'success',
-                    title: 'El producto ha sido comprado',
-                    text:'Gracias por tu compra!',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-                if (this.$route.path !== `/`) {
-                    this.$router.push({ path: "/" })
+                
+                if(this.direccionEnvio.length===0){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'No hay datos de envio',
+                        text:'Ingresa tu direccion para poder enviarte los productos!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    if (this.$route.path !== `/editarDatos`) {
+                        this.$router.push({ path: "/editarDatos" })
+                    }
+                }else{
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'El producto ha sido comprado',
+                        text:'Gracias por tu compra!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    if (this.$route.path !== `/`) {
+                        this.$router.push({ path: "/" })
+                    }
                 }
             }
         },
